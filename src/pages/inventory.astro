@@ -80,13 +80,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </div>`
         : `<div style="width:100%;height:180px;background:var(--surface3);display:flex;align-items:center;justify-content:center;font-size:48px;">🖥️</div>`;
 
-      const parts = b.parts || {};
-      const cpu = parts.CPU?.name || parts.cpu?.name || '';
-      const gpu = parts.GPU?.name || parts.gpu?.name || '';
-      const ram = parts.RAM?.name || parts.ram?.name || '';
-      const storage = parts.Storage?.name || parts.storage?.name || '';
+      const partsArr = Array.isArray(b.parts) ? b.parts : [];
+      const findPart = (...keys) => partsArr.find(p => keys.some(k => p.item?.toLowerCase().includes(k)))?.part || '';
+      const cpu = findPart('cpu');
+      const gpu = findPart('gpu', 'graphics');
+      const ram = findPart('ram', 'memory');
+      const storage = findPart('storage', 'ssd', 'hdd', 'nvme');
       const name = b.name || 'Custom Build';
-      const price = b.listingPrice || b.salePrice || '';
+      const price = b.listPrice || b.listingPrice || b.salePrice || '';
 
       return `<div class="inv-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;">
         ${imgSection}
@@ -117,10 +118,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         grid.innerHTML = '<div style="text-align:center;padding:80px;color:var(--text3);grid-column:1/-1;"><div style="font-size:40px;margin-bottom:16px;">🖥️</div>No PCs in stock right now.<br/>Check back soon or <a href="/custom-build" style="color:var(--gold);">order a custom build</a>.</div>';
         return;
       }
-      const listed = [];
-      Object.values(data).forEach(user => {
-        Object.values(user?.builds || {}).forEach(b => { if (b.status === 'listed') listed.push(b); });
-      });
+      const listed = (data.builds || []).filter(b => b && b.status === 'listed');
       if (!listed.length) {
         grid.innerHTML = '<div style="text-align:center;padding:80px;color:var(--text3);grid-column:1/-1;"><div style="font-size:40px;margin-bottom:16px;">🖥️</div>No PCs in stock right now.<br/><a href="/custom-build" style="color:var(--gold);">Order a custom build</a> instead.</div>';
         return;

@@ -183,7 +183,7 @@ const diamondBuilds = [
       const img = b.photos?.length
         ? `<img src="${b.photos[0]}" alt="${b.name||''}" style="width:100%;height:200px;object-fit:cover;" />`
         : `<div style="width:100%;height:160px;background:var(--surface3);display:flex;align-items:center;justify-content:center;font-size:36px;">🖥️</div>`;
-      const price = b.listingPrice || b.salePrice || '';
+      const price = b.listPrice || b.listingPrice || b.salePrice || '';
       const name = b.name || 'Custom Build';
       return `<div class="build-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;">
         ${img}
@@ -205,13 +205,12 @@ const diamondBuilds = [
 
       // Count stats from all builds
       let sold = 0, built = 0, inStock = 0;
-      if (data) {
-        Object.values(data).forEach(user => {
-          Object.values(user?.builds || {}).forEach(b => {
-            if (b.status === 'sold') { sold++; built++; }
-            if (b.status === 'listed') { inStock++; built++; }
-            if (b.status === 'in_progress') built++;
-          });
+      if (data && data.builds) {
+        data.builds.forEach(b => {
+          if (!b) return;
+          if (b.status === 'sold') { sold++; built++; }
+          if (b.status === 'listed') { inStock++; built++; }
+          if (b.status === 'in-progress') built++;
         });
       }
 
@@ -234,12 +233,7 @@ const diamondBuilds = [
       const container = document.getElementById('home-inventory');
       if (!data) { container.innerHTML = '<div style="text-align:center;padding:60px;color:var(--text3);grid-column:1/-1;">No PCs in stock right now. Check back soon!</div>'; return; }
 
-      const listed = [];
-      Object.values(data).forEach(user => {
-        Object.values(user?.builds || {}).forEach(b => {
-          if (b.status === 'listed') listed.push(b);
-        });
-      });
+      const listed = (data.builds || []).filter(b => b && b.status === 'listed');
 
       if (!listed.length) {
         container.innerHTML = '<div style="text-align:center;padding:60px;color:var(--text3);grid-column:1/-1;">No PCs in stock right now. Check back soon!</div>';
