@@ -81,24 +81,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         : `<div style="width:100%;height:180px;background:var(--surface3);display:flex;align-items:center;justify-content:center;font-size:48px;">🖥️</div>`;
 
       const partsArr = Array.isArray(b.parts) ? b.parts : [];
-      const findPart = (...keys) => partsArr.find(p => keys.some(k => p.item?.toLowerCase().includes(k)))?.part || '';
-      const cpu = findPart('cpu');
-      const gpu = findPart('gpu', 'graphics');
-      const ram = findPart('ram', 'memory');
-      const storage = findPart('storage', 'ssd', 'hdd', 'nvme');
       const name = b.name || 'Custom Build';
       const price = b.listPrice || b.listingPrice || b.salePrice || '';
+      const partsHtml = partsArr.map(p => specRow(p.item || '', p.part || '')).join('');
 
       return `<div class="inv-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;">
         ${imgSection}
         <div style="padding:24px;">
           <div style="font-family:'Cinzel',serif;font-size:17px;letter-spacing:1px;margin-bottom:16px;">${name}</div>
-          <div style="margin-bottom:16px;">
-            ${specRow('CPU', cpu)}
-            ${specRow('GPU', gpu)}
-            ${specRow('RAM', ram)}
-            ${specRow('Storage', storage)}
-          </div>
+          ${partsArr.length ? `<div style="margin-bottom:16px;">${partsHtml}</div>` : ''}
           ${b.description ? `<p style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:16px;">${b.description}</p>` : ''}
           <div class="gold-line" style="margin-bottom:16px;"></div>
           <div style="display:flex;justify-content:space-between;align-items:center;">
