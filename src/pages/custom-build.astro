@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Custom Build" description="Tell us your budget and use case — we'll build the perfect gaming PC for you.">
+
+  <div style="padding:60px 24px 80px;max-width:760px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:56px;">
+      <div class="section-label">Tell Us What You Need</div>
+      <h1 class="section-title">Custom Build Request</h1>
+      <p style="font-size:15px;color:var(--text2);max-width:520px;margin:0 auto;line-height:1.8;">
+        Fill out the form below and we'll get back to you within 24 hours with a spec sheet and pricing tailored to your exact needs.
+      </p>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid rgba(201,168,76,0.15);border-radius:16px;padding:48px;">
+      <form id="custom-build-form">
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+          <div class="form-group">
+            <label class="form-label">First & Last Name *</label>
+            <input type="text" class="form-input" id="cb-name" required placeholder="Marcus Chen" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone</label>
+            <input type="tel" class="form-input" id="cb-phone" placeholder="226-555-0374" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Email Address *</label>
+          <input type="email" class="form-input" id="cb-email" required placeholder="you@email.com" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Primary Use Case *</label>
+          <select class="form-select" id="cb-usecase" required>
+            <option value="">Select your use case...</option>
+            <option value="Gaming">Gaming</option>
+            <option value="Streaming + Gaming">Streaming + Gaming</option>
+            <option value="Video Editing">Video Editing</option>
+            <option value="3D Rendering / Animation">3D Rendering / Animation</option>
+            <option value="General Use">General Use</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Budget Range *</label>
+          <select class="form-select" id="cb-budget" required>
+            <option value="">Select your budget...</option>
+            <option value="Under $800">Under $800 CAD</option>
+            <option value="$800 - $1,200">$800 – $1,200 CAD</option>
+            <option value="$1,200 - $1,800">$1,200 – $1,800 CAD</option>
+            <option value="$1,800 - $2,500">$1,800 – $2,500 CAD</option>
+            <option value="$2,500 - $3,500">$2,500 – $3,500 CAD</option>
+            <option value="$3,500+">$3,500+ CAD</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Priorities (select all that apply)</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px;">
+            {["High FPS Gaming","Quiet Operation","RGB Aesthetics","Compact / Small Form Factor","Upgradability","Budget-Friendly","Fast Boot Times","Future-Proof Build"].map(p=>(
+              <label style="display:flex;align-items:center;gap:10px;background:var(--surface2);border-radius:8px;padding:12px;cursor:pointer;border:1px solid #2a2a2a;transition:border-color 0.2s;" class="priority-label">
+                <input type="checkbox" name="priorities" value={p} style="accent-color:var(--gold);width:14px;height:14px;" />
+                <span style="font-size:13px;color:var(--text2);">{p}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Additional Notes</label>
+          <textarea class="form-textarea" id="cb-notes" rows="4" placeholder="E.g. mainly play Warzone at high FPS, want good cooling, no rush on the build..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;padding:16px;" id="cb-submit">
+          Submit Build Request
+        </button>
+
+        <p style="text-align:center;font-size:12px;color:var(--text3);margin-top:16px;">
+          We'll reply to your email within 24 hours with specs + pricing.
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <style>
+    .priority-label:hover { border-color: rgba(201,168,76,0.35) !important; }
+    .priority-label:has(input:checked) { border-color: rgba(201,168,76,0.5) !important; background: rgba(201,168,76,0.05) !important; }
+    @media (max-width: 600px) {
+      .form-group > div { grid-template-columns: 1fr !important; }
+      div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+    }
+  </style>
+
+  <script>
+    document.getElementById('custom-build-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('cb-submit');
+      const priorities = [...document.querySelectorAll('input[name="priorities"]:checked')].map(el => el.value).join(', ');
+      const params = {
+        name: document.getElementById('cb-name').value,
+        email: document.getElementById('cb-email').value,
+        phone: document.getElementById('cb-phone').value,
+        use_case: document.getElementById('cb-usecase').value,
+        budget: document.getElementById('cb-budget').value,
+        priorities: priorities || 'None specified',
+        notes: document.getElementById('cb-notes').value || 'None',
+      };
+      btn.textContent = 'Sending...'; btn.disabled = true;
+      try {
+        await emailjs.send('service_auritech', 'template_custom_build', params);
+        window.showToast('Request sent! We\'ll email you within 24 hours.', 'success');
+        e.target.reset();
+      } catch {
+        window.showToast('Failed to send. Email us at AuritechPcs@gmail.com', 'error');
+      } finally { btn.textContent = 'Submit Build Request'; btn.disabled = false; }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>window.addEventListener('load', () => emailjs.init({ publicKey: "YOUR_EMAILJS_PUBLIC_KEY" }));</script>
+</BaseLayout>

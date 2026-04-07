@@ -1,0 +1,288 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const diamondBuilds = [
+  { name: "Diamond Core", specs: "Ryzen 5 5500 / RTX 5060 / 16GB RAM", price: 1299, sale: 1499 },
+  { name: "Diamond Apex Plus", specs: "Ryzen 7 7800X3D / RTX 5070 / 32GB DDR5", price: 2539, sale: 2899 },
+  { name: "Diamond Elite RTX", specs: "Ryzen 7 9800X3D / RTX 5080 / 32GB DDR5", price: 3799, sale: 4299 },
+];
+---
+<BaseLayout title="Home" description="The Gold Standard in Custom PCs. Windsor, Ontario.">
+
+  <!-- Hero -->
+  <section style="min-height:92vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 24px;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 30%,rgba(201,168,76,0.06) 0%,transparent 70%);pointer-events:none;"></div>
+    <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.3;"></div>
+    <div class="fade-up" style="max-width:800px;position:relative;z-index:1;">
+      <div class="section-label">Windsor, Ontario · Est. 2024</div>
+      <h1 style="font-size:clamp(2.5rem,7vw,5rem);line-height:1.1;margin-bottom:24px;">
+        The Gold Standard<br/><span style="color:var(--gold);">in Custom PCs</span>
+      </h1>
+      <p style="font-size:clamp(15px,2vw,18px);color:var(--text2);max-width:560px;margin:0 auto 40px;line-height:1.8;">
+        Every build crafted to dominate. We spec, build, and deliver performance machines — custom or pre-built — shipped across Canada or ready for local pickup.
+      </p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+        <a href="/custom-build" class="btn btn-gold">Build Your PC</a>
+        <a href="/preconfigured" class="btn btn-outline">Browse Builds</a>
+      </div>
+      <div style="display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-top:72px;padding-top:40px;border-top:1px solid rgba(201,168,76,0.12);">
+        <div style="text-align:center;">
+          <div id="stat-sold" style="font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);font-weight:700;">—</div>
+          <div style="font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:4px;">PCs Sold</div>
+        </div>
+        <div style="text-align:center;">
+          <div id="stat-built" style="font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);font-weight:700;">—</div>
+          <div style="font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:4px;">Builds Completed</div>
+        </div>
+        <div style="text-align:center;">
+          <div id="stat-stock" style="font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);font-weight:700;">—</div>
+          <div style="font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:4px;">In Stock Now</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);font-weight:700;">Windsor</div>
+          <div style="font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:4px;">Ontario Based</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Auritech -->
+  <section style="padding:80px 24px;max-width:1100px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:60px;">
+      <div class="section-label">Why Choose Us</div>
+      <h2 class="section-title">Built Different</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px;">
+      {[
+        {icon:"⚡",title:"Performance First",desc:"Every component chosen for max FPS, thermals, and longevity. No filler parts, no shortcuts."},
+        {icon:"🔧",title:"Custom or Pre-Built",desc:"Tell us your use case and budget — we'll build it. Or grab one of our ready-to-ship machines."},
+        {icon:"📍",title:"Local to Windsor",desc:"Come pick it up same day. No waiting weeks for shipping. Real people, real builds."},
+        {icon:"💰",title:"Transparent Pricing",desc:"You see every part, every cost. No mystery margins or bloatware bundled in."},
+      ].map(f=>(
+        <div class="feature-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.1);border-radius:var(--radius);padding:32px;transition:border-color 0.2s,transform 0.2s;">
+          <div style="font-size:28px;margin-bottom:16px;">{f.icon}</div>
+          <h3 style="font-size:16px;letter-spacing:1px;margin-bottom:10px;">{f.title}</h3>
+          <p style="font-size:14px;color:var(--text2);line-height:1.7;">{f.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Featured Diamond Builds -->
+  <section style="padding:80px 24px;background:var(--surface);border-top:1px solid rgba(201,168,76,0.08);border-bottom:1px solid rgba(201,168,76,0.08);">
+    <div style="max-width:1100px;margin:0 auto;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;flex-wrap:wrap;gap:16px;">
+        <div>
+          <div class="section-label">Diamond PC Partner</div>
+          <h2 class="section-title">Featured Builds</h2>
+        </div>
+        <a href="/preconfigured" class="btn btn-outline" style="font-size:11px;">View All →</a>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;">
+        {diamondBuilds.map(b=>(
+          <div class="build-card" style="background:var(--surface2);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);padding:28px;transition:all 0.2s;">
+            <div style="font-family:'Cinzel',serif;font-size:16px;letter-spacing:1px;margin-bottom:8px;">{b.name}</div>
+            <div style="font-size:13px;color:var(--text2);margin-bottom:20px;">{b.specs}</div>
+            <div class="gold-line" style="margin-bottom:20px;"></div>
+            <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+              <div>
+                <div style="font-size:11px;color:var(--text3);text-decoration:line-through;">${b.sale.toLocaleString()} CAD</div>
+                <div style="font-family:'Cinzel',serif;font-size:22px;color:var(--gold);">${b.price.toLocaleString()} CAD</div>
+              </div>
+              <button class="btn btn-outline" style="font-size:10px;padding:8px 16px;"
+                data-name={b.name} data-price={`$${b.price.toLocaleString()} CAD`} data-type="preconfigured" onclick="handleInquireClick(this)">
+                Inquire
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- In Stock Preview -->
+  <section style="padding:80px 24px;max-width:1100px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:48px;">
+      <div class="section-label">Ready to Ship</div>
+      <h2 class="section-title">In-Stock PCs</h2>
+      <p style="font-size:15px;color:var(--text2);margin-top:12px;">Built and ready. Take it home today.</p>
+    </div>
+    <div id="home-inventory" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;">
+      <div style="text-align:center;padding:60px;color:var(--text3);font-size:14px;grid-column:1/-1;">Loading in-stock PCs...</div>
+    </div>
+    <div style="text-align:center;margin-top:40px;">
+      <a href="/inventory" class="btn btn-outline">View All In-Stock →</a>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="padding:80px 24px;text-align:center;background:linear-gradient(135deg,var(--surface) 0%,rgba(201,168,76,0.05) 50%,var(--surface) 100%);border-top:1px solid rgba(201,168,76,0.1);">
+    <div class="section-label">Ready to Build?</div>
+    <h2 style="font-size:clamp(1.8rem,4vw,3rem);margin-bottom:16px;">Your Dream PC Starts Here</h2>
+    <p style="font-size:15px;color:var(--text2);max-width:480px;margin:0 auto 36px;">Tell us your budget, use case, and priorities — we'll build the perfect machine.</p>
+    <a href="/custom-build" class="btn btn-gold">Start Your Custom Build</a>
+  </section>
+
+  <!-- Inquiry Modal -->
+  <div id="modal-overlay" class="modal-overlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;">
+        <h3 style="font-size:18px;letter-spacing:1px;">Inquire About Build</h3>
+        <button onclick="closeModal()" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:24px;line-height:1;">×</button>
+      </div>
+      <div style="background:var(--surface2);border-radius:8px;padding:16px;margin-bottom:24px;border:1px solid rgba(201,168,76,0.15);">
+        <div style="font-size:10px;letter-spacing:2px;color:var(--gold);opacity:0.7;margin-bottom:4px;">SELECTED BUILD</div>
+        <div id="modal-product-name" style="font-family:'Cinzel',serif;font-size:16px;"></div>
+        <div id="modal-product-price" style="font-size:14px;color:var(--gold);margin-top:4px;"></div>
+      </div>
+      <form id="modal-form">
+        <input type="hidden" id="modal-type" />
+        <div class="form-group">
+          <label class="form-label">Your Name *</label>
+          <input type="text" class="form-input" id="modal-name" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email *</label>
+          <input type="email" class="form-input" id="modal-email" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone</label>
+          <input type="tel" class="form-input" id="modal-phone" placeholder="Optional" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea class="form-textarea" id="modal-message" placeholder="Any questions or notes..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;" id="modal-submit">Send Inquiry</button>
+      </form>
+    </div>
+  </div>
+
+  <style>
+    .feature-card:hover { border-color: rgba(201,168,76,0.35) !important; transform: translateY(-2px); }
+    .build-card:hover { border-color: rgba(201,168,76,0.4) !important; transform: translateY(-2px); }
+  </style>
+
+  <script type="module">
+    import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDA5XLxDqjzQb3toHkKpSxEVH9NW1GeD68",
+      authDomain: "open-claw-b7e92.firebaseapp.com",
+      databaseURL: "https://open-claw-b7e92-default-rtdb.firebaseio.com",
+      projectId: "open-claw-b7e92",
+      storageBucket: "open-claw-b7e92.firebasestorage.app",
+      messagingSenderId: "733756283803",
+      appId: "1:733756283803:web:0e9c75cd1c0afe94bb1f3e"
+    };
+
+    const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    function buildCard(b) {
+      const img = b.photos?.length
+        ? `<img src="${b.photos[0]}" alt="${b.name||''}" style="width:100%;height:200px;object-fit:cover;" />`
+        : `<div style="width:100%;height:160px;background:var(--surface3);display:flex;align-items:center;justify-content:center;font-size:36px;">🖥️</div>`;
+      const price = b.listingPrice || b.salePrice || '';
+      const name = b.name || 'Custom Build';
+      return `<div class="build-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;">
+        ${img}
+        <div style="padding:24px;">
+          <div style="font-family:'Cinzel',serif;font-size:16px;letter-spacing:1px;margin-bottom:16px;">${name}</div>
+          <div class="gold-line" style="margin-bottom:16px;"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-family:'Cinzel',serif;font-size:20px;color:var(--gold);">${price ? '$'+Number(price).toLocaleString()+' CAD' : 'Contact Us'}</div>
+            <button class="btn btn-outline" style="font-size:10px;padding:8px 16px;"
+              data-name="${name.replace(/"/g,'&quot;')}" data-price="${price ? '$'+Number(price).toLocaleString()+' CAD' : ''}" data-type="product"
+              onclick="handleInquireClick(this)">Inquire</button>
+          </div>
+        </div>
+      </div>`;
+    }
+
+    onValue(ref(db, 'auritech_inventory_v2'), (snap) => {
+      const data = snap.val();
+
+      // Count stats from all builds
+      let sold = 0, built = 0, inStock = 0;
+      if (data) {
+        Object.values(data).forEach(user => {
+          Object.values(user?.builds || {}).forEach(b => {
+            if (b.status === 'sold') { sold++; built++; }
+            if (b.status === 'listed') { inStock++; built++; }
+            if (b.status === 'in_progress') built++;
+          });
+        });
+      }
+
+      // Animate count up
+      function countUp(el, target) {
+        if (!el || target === 0) { if(el) el.textContent = target; return; }
+        let current = 0;
+        const step = Math.ceil(target / 30);
+        const timer = setInterval(() => {
+          current = Math.min(current + step, target);
+          el.textContent = current;
+          if (current >= target) clearInterval(timer);
+        }, 40);
+      }
+
+      countUp(document.getElementById('stat-sold'), sold);
+      countUp(document.getElementById('stat-built'), built);
+      countUp(document.getElementById('stat-stock'), inStock);
+
+      const container = document.getElementById('home-inventory');
+      if (!data) { container.innerHTML = '<div style="text-align:center;padding:60px;color:var(--text3);grid-column:1/-1;">No PCs in stock right now. Check back soon!</div>'; return; }
+
+      const listed = [];
+      Object.values(data).forEach(user => {
+        Object.values(user?.builds || {}).forEach(b => {
+          if (b.status === 'listed') listed.push(b);
+        });
+      });
+
+      if (!listed.length) {
+        container.innerHTML = '<div style="text-align:center;padding:60px;color:var(--text3);grid-column:1/-1;">No PCs in stock right now. Check back soon!</div>';
+        return;
+      }
+      container.innerHTML = listed.slice(0,3).map(buildCard).join('');
+    });
+
+    // Modal
+    window.handleInquireClick = (btn) => {
+      document.getElementById('modal-product-name').textContent = btn.dataset.name;
+      document.getElementById('modal-product-price').textContent = btn.dataset.price;
+      document.getElementById('modal-type').value = btn.dataset.type;
+      document.getElementById('modal-overlay').classList.add('open');
+      setTimeout(() => document.getElementById('modal-name').focus(), 100);
+    };
+    window.closeModal = () => document.getElementById('modal-overlay').classList.remove('open');
+    document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+
+    document.getElementById('modal-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('modal-submit');
+      const type = document.getElementById('modal-type').value;
+      const params = {
+        name: document.getElementById('modal-name').value,
+        email: document.getElementById('modal-email').value,
+        phone: document.getElementById('modal-phone').value,
+        message: document.getElementById('modal-message').value,
+        build_name: document.getElementById('modal-product-name').textContent,
+        product_name: document.getElementById('modal-product-name').textContent,
+        price: document.getElementById('modal-product-price').textContent,
+      };
+      btn.textContent = 'Sending...'; btn.disabled = true;
+      const templateId = type === 'preconfigured' ? 'template_preconfigured' : 'template_product_inquiry';
+      try {
+        await emailjs.send('service_auritech', templateId, params);
+        closeModal(); e.target.reset();
+        window.showToast('Inquiry sent! We\'ll be in touch soon.', 'success');
+      } catch {
+        window.showToast('Failed to send. Email us at AuritechPcs@gmail.com', 'error');
+      } finally { btn.textContent = 'Send Inquiry'; btn.disabled = false; }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>window.addEventListener('load', () => emailjs.init({ publicKey: "YOUR_EMAILJS_PUBLIC_KEY" }));</script>
+</BaseLayout>

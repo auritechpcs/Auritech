@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Contact" description="Get in touch with Auritech PCs — Windsor, Ontario.">
+  <div style="padding:60px 24px 80px;max-width:1000px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:64px;">
+      <div class="section-label">Get In Touch</div>
+      <h1 class="section-title">Contact Us</h1>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1.3fr;gap:48px;align-items:start;">
+      <!-- Info -->
+      <div>
+        <div style="margin-bottom:40px;">
+          <div class="section-label" style="margin-bottom:20px;">Contact Info</div>
+          {[
+            {icon:"📧",label:"Email",val:"AuritechPcs@gmail.com",href:"mailto:AuritechPcs@gmail.com"},
+            {icon:"📞",label:"Motasem",val:"(519) 999-4609",href:"tel:+15199994609"},
+            {icon:"📞",label:"Ahmed",val:"(506) 312-2991",href:"tel:+15063122991"},
+            {icon:"📍",label:"Location",val:"Windsor, Ontario, Canada",href:null},
+          ].map(c=>(
+            <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:24px;">
+              <div style="font-size:20px;margin-top:2px;">{c.icon}</div>
+              <div>
+                <div style="font-size:11px;letter-spacing:2px;color:var(--gold);opacity:0.7;text-transform:uppercase;margin-bottom:4px;">{c.label}</div>
+                {c.href
+                  ? <a href={c.href} style="font-size:15px;color:var(--text);">{c.val}</a>
+                  : <div style="font-size:15px;color:var(--text);">{c.val}</div>
+                }
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="gold-line" style="margin-bottom:32px;"></div>
+
+        <div class="section-label" style="margin-bottom:16px;">Follow Us</div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          {[
+            {label:"Instagram",handle:"@auritechpc",url:"https://instagram.com/auritechpc"},
+            {label:"TikTok",handle:"@auritech_pcs",url:"https://tiktok.com/@auritech_pcs"},
+            {label:"YouTube",handle:"AuritechPcs",url:"https://youtube.com/@AuritechPcs"},
+          ].map(s=>(
+            <a href={s.url} target="_blank" style="display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid rgba(201,168,76,0.1);border-radius:10px;padding:14px 18px;transition:border-color 0.2s;" class="social-link">
+              <span style="font-size:13px;color:var(--text2);">{s.label}</span>
+              <span style="font-size:13px;color:var(--gold);">{s.handle}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div style="background:var(--surface);border:1px solid rgba(201,168,76,0.15);border-radius:16px;padding:40px;">
+        <div style="font-family:'Cinzel',serif;font-size:16px;letter-spacing:1px;margin-bottom:28px;">Send a Message</div>
+        <form id="contact-form">
+          <div class="form-group"><label class="form-label">Name *</label><input type="text" class="form-input" id="c-name" required /></div>
+          <div class="form-group"><label class="form-label">Email *</label><input type="email" class="form-input" id="c-email" required /></div>
+          <div class="form-group"><label class="form-label">Phone</label><input type="tel" class="form-input" id="c-phone" placeholder="Optional" /></div>
+          <div class="form-group"><label class="form-label">Message *</label><textarea class="form-textarea" id="c-message" rows="5" required placeholder="What can we help you with?"></textarea></div>
+          <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;" id="c-submit">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .social-link:hover { border-color: rgba(201,168,76,0.4) !important; }
+    @media (max-width:768px) {
+      div[style*="grid-template-columns:1fr 1.3fr"] { grid-template-columns: 1fr !important; }
+    }
+  </style>
+
+  <script>
+    document.getElementById('contact-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('c-submit');
+      const params = {
+        name: document.getElementById('c-name').value,
+        email: document.getElementById('c-email').value,
+        phone: document.getElementById('c-phone').value,
+        product_name: 'General Inquiry',
+        price: '',
+        message: document.getElementById('c-message').value,
+      };
+      btn.textContent = 'Sending...'; btn.disabled = true;
+      try {
+        await emailjs.send('service_auritech', 'template_product_inquiry', params);
+        window.showToast('Message sent! We\'ll get back to you soon.', 'success');
+        e.target.reset();
+      } catch {
+        window.showToast('Failed. Email us at AuritechPcs@gmail.com', 'error');
+      } finally { btn.textContent = 'Send Message'; btn.disabled = false; }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>window.addEventListener('load', () => emailjs.init({ publicKey: "YOUR_EMAILJS_PUBLIC_KEY" }));</script>
+</BaseLayout>

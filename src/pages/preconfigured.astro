@@ -1,0 +1,156 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const builds = [
+  { id:"diamond-core", name:"Diamond Core", price:1299, sale:1499, savings:13, specs:{cpu:"AMD Ryzen 5 5500",gpu:"NVIDIA RTX 5060",ram:"16GB DDR4",storage:"500GB NVMe SSD"}, tag:"Best Value", tagColor:"#4ade80",
+    photos:["https://diamondpcs.ca/cdn/shop/files/core_1.png?v=1768243275","https://diamondpcs.ca/cdn/shop/files/core_2.png?v=1768243287"] },
+  { id:"diamond-edge", name:"Diamond Edge", price:1649, sale:1899, savings:13, specs:{cpu:"AMD Ryzen 5 7600X",gpu:"NVIDIA RTX 5060",ram:"32GB DDR5",storage:"1TB NVMe SSD"}, tag:"", tagColor:"",
+    photos:["https://diamondpcs.ca/cdn/shop/files/diamond_edge.png?v=1768249980","https://diamondpcs.ca/cdn/shop/files/diamond_edge_2.png?v=1768249986"] },
+  { id:"diamond-edge-plus", name:"Diamond Edge Plus", price:1749, sale:2099, savings:16, specs:{cpu:"AMD Ryzen 5 7600X",gpu:"AMD RX 9060 XT 16GB",ram:"32GB DDR5",storage:"1TB NVMe SSD"}, tag:"On Sale", tagColor:"var(--gold)",
+    photos:["https://diamondpcs.ca/cdn/shop/files/9060xt_white_sp_case.png?v=1768322923","https://diamondpcs.ca/cdn/shop/files/906xtwhite.png?v=1768322923"] },
+  { id:"diamond-edge-max", name:"Diamond Edge Max", price:1999, sale:2249, savings:11, specs:{cpu:"AMD Ryzen 7 7700X",gpu:"AMD RX 9060 XT 16GB",ram:"32GB DDR5",storage:"1TB NVMe SSD"}, tag:"", tagColor:"",
+    photos:["https://diamondpcs.ca/cdn/shop/files/MONTECH1_5848025c-6a85-4892-9f42-1534965d6ef3.png?v=1768252459","https://diamondpcs.ca/cdn/shop/files/MIONTCK_2.png?v=1767988090"] },
+  { id:"diamond-apex", name:"Diamond Apex", price:2439, sale:2559, savings:4, specs:{cpu:"AMD Ryzen 7 9700X",gpu:"NVIDIA RTX 5070",ram:"32GB DDR5",storage:"1TB NVMe SSD"}, tag:"Popular", tagColor:"#60a5fa",
+    photos:["https://diamondpcs.ca/cdn/shop/files/50709700x.png?v=1768332281","https://diamondpcs.ca/cdn/shop/files/9700x_5070.png?v=1768332238"] },
+  { id:"diamond-apex-plus", name:"Diamond Apex Plus", price:2539, sale:2899, savings:12, specs:{cpu:"AMD Ryzen 7 7800X3D",gpu:"NVIDIA RTX 5070",ram:"32GB DDR5",storage:"1TB NVMe SSD"}, tag:"Best for Gaming", tagColor:"var(--gold)",
+    photos:["https://diamondpcs.ca/cdn/shop/files/infinit3.0.png?v=1768411876","https://diamondpcs.ca/cdn/shop/files/infiniti2.0.png?v=1768411876"] },
+  { id:"diamond-elite", name:"Diamond Elite", price:2999, sale:3499, savings:14, specs:{cpu:"AMD Ryzen 7 9800X3D",gpu:"AMD RX 9070 XT",ram:"32GB DDR5",storage:"2TB NVMe SSD"}, tag:"", tagColor:"",
+    photos:["https://diamondpcs.ca/cdn/shop/files/corsair_9070clr.png?v=1769716062","https://diamondpcs.ca/cdn/shop/files/3500x_9070_Clr.png?v=1769716025"] },
+  { id:"diamond-elite-rtx", name:"Diamond Elite RTX", price:3799, sale:4299, savings:11, specs:{cpu:"AMD Ryzen 7 9800X3D",gpu:"NVIDIA RTX 5080",ram:"32GB DDR5",storage:"2TB NVMe SSD"}, tag:"Top Pick", tagColor:"#c084fc",
+    photos:["https://diamondpcs.ca/cdn/shop/files/whte_corsair_3500x_d379b833-cf0a-43b0-ad4a-849fb54e45d6.png?v=1769716735","https://diamondpcs.ca/cdn/shop/files/updates_white_3500x_05691067-4a19-4111-a08c-0cd57c1f44fb.png?v=1769716719"] },
+  { id:"diamond-pro-workstation", name:"Diamond Pro Workstation RTX", price:3999, sale:4499, savings:11, specs:{cpu:"AMD Ryzen 9 9900X",gpu:"NVIDIA RTX 5080",ram:"64GB DDR5",storage:"2TB NVMe SSD"}, tag:"Workstation", tagColor:"#fb923c",
+    photos:["https://diamondpcs.ca/cdn/shop/files/blackbiz3500x.png?v=1769718127","https://diamondpcs.ca/cdn/shop/files/black_bizz_2.png?v=1769717842"] },
+];
+---
+<BaseLayout title="Preconfigured Builds" description="Shop Diamond PC builds — shipped across Canada or local pickup in Windsor.">
+
+  <div style="padding:60px 24px 80px;max-width:1200px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:64px;">
+      <div class="section-label">Diamond PC Partnership</div>
+      <h1 class="section-title">Preconfigured Builds</h1>
+      <p style="font-size:15px;color:var(--text2);max-width:560px;margin:0 auto;line-height:1.8;">
+        Hand-picked builds from our Diamond PC partner. Every machine ships anywhere in Canada for $99 flat, or pick up same-day in Windsor.
+      </p>
+      <div style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-top:32px;">
+        {[{icon:"🚚",text:"$99 Flat Rate Shipping"},{icon:"⚡",text:"Same Day Local Pickup"},{icon:"🛡️",text:"Quality Guaranteed"},{icon:"📍",text:"Windsor, Ontario"}].map(b=>(
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);background:var(--surface);padding:10px 20px;border-radius:100px;border:1px solid rgba(201,168,76,0.1);">
+            <span>{b.icon}</span><span>{b.text}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:28px;">
+      {builds.map(b => (
+        <div class="build-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;position:relative;">
+          <!-- Photo switcher -->
+          <div class="photo-wrap" style="position:relative;height:220px;overflow:hidden;background:var(--surface2);">
+            <img src={b.photos[0]} alt={b.name} class="photo-main"
+              style="width:100%;height:100%;object-fit:cover;transition:opacity 0.3s;" />
+            {b.photos[1] && <img src={b.photos[1]} alt={b.name} class="photo-alt"
+              style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.3s;" />}
+            {b.tag && <div style={`position:absolute;top:12px;right:12px;background:rgba(8,8,8,0.85);color:${b.tagColor};border:1px solid ${b.tagColor}60;border-radius:100px;font-size:10px;letter-spacing:1px;padding:4px 12px;font-weight:600;text-transform:uppercase;backdrop-filter:blur(8px);`}>{b.tag}</div>}
+            {b.photos[1] && <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:5px;">
+              <div class="dot dot-0" style="width:6px;height:6px;border-radius:50%;background:var(--gold);transition:opacity 0.2s;"></div>
+              <div class="dot dot-1" style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.3);transition:opacity 0.2s;"></div>
+            </div>}
+          </div>
+
+          <div style="padding:28px;">
+          <div style="font-family:'Cinzel',serif;font-size:18px;letter-spacing:1px;margin-bottom:8px;">{b.name}</div>
+          <div style="font-size:11px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:24px;">Save {b.savings}%</div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;">
+            {Object.entries(b.specs).map(([k,v]) => (
+              <div style="background:var(--surface2);border-radius:8px;padding:12px;">
+                <div style="font-size:9px;letter-spacing:2px;color:var(--gold);opacity:0.6;text-transform:uppercase;margin-bottom:4px;">{k}</div>
+                <div style="font-size:12px;color:var(--text);font-weight:500;">{v}</div>
+              </div>
+            ))}
+          </div>
+
+          <div class="gold-line" style="margin-bottom:20px;"></div>
+
+          <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+            <div>
+              <div style="font-size:12px;color:var(--text3);text-decoration:line-through;">${b.sale.toLocaleString()} CAD</div>
+              <div style="font-family:'Cinzel',serif;font-size:24px;color:var(--gold);">${b.price.toLocaleString()} CAD</div>
+            </div>
+            <button class="btn btn-gold" style="font-size:10px;padding:10px 20px;"
+              data-name={b.name} data-price={`$${b.price.toLocaleString()} CAD`} data-type="preconfigured"
+              onclick="handleInquireClick(this)">
+              Inquire
+            </button>
+          </div>
+          </div><!-- close padding div -->
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Modal (reused from index) -->
+  <div id="modal-overlay" class="modal-overlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;">
+        <h3 style="font-size:18px;letter-spacing:1px;">Inquire About Build</h3>
+        <button onclick="closeModal()" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:24px;line-height:1;">×</button>
+      </div>
+      <div style="background:var(--surface2);border-radius:8px;padding:16px;margin-bottom:24px;border:1px solid rgba(201,168,76,0.15);">
+        <div style="font-size:10px;letter-spacing:2px;color:var(--gold);opacity:0.7;margin-bottom:4px;">SELECTED BUILD</div>
+        <div id="modal-product-name" style="font-family:'Cinzel',serif;font-size:16px;"></div>
+        <div id="modal-product-price" style="font-size:14px;color:var(--gold);margin-top:4px;"></div>
+      </div>
+      <form id="modal-form">
+        <input type="hidden" id="modal-type" />
+        <div class="form-group"><label class="form-label">Your Name *</label><input type="text" class="form-input" id="modal-name" required /></div>
+        <div class="form-group"><label class="form-label">Email *</label><input type="email" class="form-input" id="modal-email" required /></div>
+        <div class="form-group"><label class="form-label">Phone</label><input type="tel" class="form-input" id="modal-phone" placeholder="Optional" /></div>
+        <div class="form-group"><label class="form-label">Message</label><textarea class="form-textarea" id="modal-message" placeholder="Any questions?"></textarea></div>
+        <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;" id="modal-submit">Send Inquiry</button>
+      </form>
+    </div>
+  </div>
+
+  <style>
+    .build-card:hover { border-color: rgba(201,168,76,0.4) !important; transform: translateY(-3px); box-shadow: 0 12px 40px rgba(201,168,76,0.08); }
+    .build-card:hover .photo-main { opacity: 0; }
+    .build-card:hover .photo-alt { opacity: 1 !important; }
+    .build-card:hover .dot-0 { opacity: 0.3; }
+    .build-card:hover .dot-1 { opacity: 1 !important; background: var(--gold) !important; }
+    .photo-wrap img { image-rendering: auto; }
+  </style>
+
+  <script>
+    window.handleInquireClick = (btn) => {
+      document.getElementById('modal-product-name').textContent = btn.dataset.name;
+      document.getElementById('modal-product-price').textContent = btn.dataset.price;
+      document.getElementById('modal-type').value = btn.dataset.type;
+      document.getElementById('modal-overlay').classList.add('open');
+      setTimeout(() => document.getElementById('modal-name').focus(), 100);
+    };
+    window.closeModal = () => document.getElementById('modal-overlay').classList.remove('open');
+    document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+
+    document.getElementById('modal-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('modal-submit');
+      const params = {
+        name: document.getElementById('modal-name').value,
+        email: document.getElementById('modal-email').value,
+        phone: document.getElementById('modal-phone').value,
+        build_name: document.getElementById('modal-product-name').textContent,
+        price: document.getElementById('modal-product-price').textContent,
+        message: document.getElementById('modal-message').value,
+      };
+      btn.textContent = 'Sending...'; btn.disabled = true;
+      try {
+        await emailjs.send('service_auritech', 'template_preconfigured', params);
+        closeModal(); e.target.reset();
+        window.showToast('Inquiry sent! We\'ll be in touch soon.', 'success');
+      } catch {
+        window.showToast('Failed. Email us at AuritechPcs@gmail.com', 'error');
+      } finally { btn.textContent = 'Send Inquiry'; btn.disabled = false; }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>window.addEventListener('load', () => emailjs.init({ publicKey: "YOUR_EMAILJS_PUBLIC_KEY" }));</script>
+</BaseLayout>

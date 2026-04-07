@@ -1,0 +1,337 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+}
+const { title = "Auritech PCs", description = "The Gold Standard in Custom PCs. Windsor, Ontario." } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} | Auritech PCs</title>
+  <meta name="description" content={description} />
+  <meta property="og:title" content={`${title} | Auritech PCs`} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style is:global>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --black: #080808;
+      --surface: #111111;
+      --surface2: #161616;
+      --surface3: #1e1e1e;
+      --gold: #C9A84C;
+      --gold-dim: #8a6a1f;
+      --gold-light: #e8d48a;
+      --gold-glow: rgba(201,168,76,0.15);
+      --text: #ede8de;
+      --text2: #999;
+      --text3: #555;
+      --green: #4ade80;
+      --red: #ef4444;
+      --radius: 12px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    h1, h2, h3 { font-family: 'Cinzel', serif; }
+    a { color: var(--gold); text-decoration: none; }
+    ::selection { background: var(--gold); color: #000; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+      color: #000;
+      font-weight: 700;
+    }
+    .btn-gold:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(201,168,76,0.3); }
+    .btn-outline {
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.4);
+    }
+    .btn-outline:hover { background: var(--gold-glow); border-color: var(--gold); }
+
+    .gold-line {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold) 30%, var(--gold) 70%, transparent);
+      opacity: 0.3;
+    }
+
+    .section-label {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 5px;
+      color: var(--gold);
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      padding: 16px 24px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 9999;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      max-width: 360px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { background: #0f2a1a; border: 1px solid #4ade80; color: #4ade80; }
+    .toast.error { background: #2a0f0f; border: 1px solid #ef4444; color: #ef4444; }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--surface);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 16px;
+      padding: 40px;
+      width: 100%;
+      max-width: 520px;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: scale(0.95);
+      transition: transform 0.2s;
+    }
+    .modal-overlay.open .modal { transform: scale(1); }
+
+    /* Forms */
+    .form-group { margin-bottom: 20px; }
+    .form-label {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      opacity: 0.8;
+    }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: rgba(201,168,76,0.5);
+    }
+    .form-textarea { resize: vertical; min-height: 100px; }
+    .form-select option { background: var(--surface2); }
+
+    /* Fade in animation */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.6s ease forwards; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav style="
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(8,8,8,0.92);
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+    backdrop-filter: blur(20px);
+    padding: 0 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 70px;
+  ">
+    <a href="/" style="font-family:'Cinzel',serif; font-size:18px; letter-spacing:3px; color:var(--gold); font-weight:700;">
+      AURITECH
+    </a>
+
+    <div class="nav-links" style="display:flex; gap:36px; align-items:center;">
+      <a href="/" class={currentPath === "/" ? "nav-active" : "nav-link"}>Home</a>
+      <a href="/preconfigured" class={currentPath === "/preconfigured" ? "nav-active" : "nav-link"}>Builds</a>
+      <a href="/inventory" class={currentPath === "/inventory" ? "nav-active" : "nav-link"}>In Stock</a>
+      <a href="/custom-build" class={currentPath === "/custom-build" ? "nav-active" : "nav-link"}>Custom Build</a>
+      <a href="/contact" class={currentPath === "/contact" ? "nav-active" : "nav-link"}>Contact</a>
+    </div>
+
+    <button class="ham-btn" aria-label="Menu" style="display:none; background:none; border:none; cursor:pointer; padding:8px;">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="var(--gold)">
+        <rect y="4" width="22" height="2" rx="1"/>
+        <rect y="10" width="22" height="2" rx="1"/>
+        <rect y="16" width="22" height="2" rx="1"/>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" style="
+    display:none; flex-direction:column; gap:0;
+    background: var(--surface);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    position: sticky; top: 70px; z-index: 99;
+  ">
+    <a href="/" class="mob-link">Home</a>
+    <a href="/preconfigured" class="mob-link">Builds</a>
+    <a href="/inventory" class="mob-link">In Stock</a>
+    <a href="/custom-build" class="mob-link">Custom Build</a>
+    <a href="/contact" class="mob-link">Contact</a>
+  </div>
+
+  <style>
+    .nav-link {
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text2);
+      font-family: 'Cinzel', serif;
+      transition: color 0.2s;
+    }
+    .nav-link:hover, .nav-active {
+      color: var(--gold);
+    }
+    .nav-active {
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .mob-link {
+      display: block;
+      padding: 16px 24px;
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text2);
+      border-bottom: 1px solid #1a1a1a;
+    }
+    .mob-link:hover { color: var(--gold); background: var(--gold-glow); }
+    @media (max-width: 768px) {
+      nav { padding: 0 20px !important; }
+      .nav-links { display: none !important; }
+      .ham-btn { display: block !important; }
+    }
+  </style>
+
+  <slot />
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Footer -->
+  <footer style="
+    background: var(--surface);
+    border-top: 1px solid rgba(201,168,76,0.1);
+    padding: 60px 40px 40px;
+    margin-top: 100px;
+  ">
+    <div style="max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr 1fr; gap:40px;">
+      <div>
+        <div style="font-family:'Cinzel',serif; font-size:20px; letter-spacing:3px; color:var(--gold); margin-bottom:12px;">AURITECH</div>
+        <div style="font-size:13px; color:var(--text2); line-height:1.7;">The Gold Standard in Custom PCs.<br/>Windsor, Ontario, Canada.</div>
+      </div>
+      <div>
+        <div style="font-family:'Cinzel',serif; font-size:10px; letter-spacing:3px; color:var(--gold); opacity:0.6; margin-bottom:16px;">QUICK LINKS</div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <a href="/preconfigured" style="font-size:13px; color:var(--text2);">Preconfigured Builds</a>
+          <a href="/inventory" style="font-size:13px; color:var(--text2);">In-Stock PCs</a>
+          <a href="/custom-build" style="font-size:13px; color:var(--text2);">Custom Build</a>
+          <a href="/contact" style="font-size:13px; color:var(--text2);">Contact Us</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'Cinzel',serif; font-size:10px; letter-spacing:3px; color:var(--gold); opacity:0.6; margin-bottom:16px;">CONTACT</div>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:13px; color:var(--text2);">
+          <span>AuritechPcs@gmail.com</span>
+          <span>(519) 999-4609</span>
+          <div style="display:flex; gap:16px; margin-top:8px;">
+            <a href="https://instagram.com/auritechpc" target="_blank" style="color:var(--text2);">Instagram</a>
+            <a href="https://tiktok.com/@auritech_pcs" target="_blank" style="color:var(--text2);">TikTok</a>
+            <a href="https://youtube.com/@AuritechPcs" target="_blank" style="color:var(--text2);">YouTube</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="gold-line" style="margin:40px 0 20px;"></div>
+    <div style="text-align:center; font-size:12px; color:var(--text3);">
+      © {new Date().getFullYear()} Auritech PCs. Windsor, Ontario. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const hamBtn = document.querySelector('.ham-btn');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    hamBtn?.addEventListener('click', () => {
+      const open = mobileMenu.style.display === 'flex';
+      mobileMenu.style.display = open ? 'none' : 'flex';
+    });
+
+    // Toast utility
+    window.showToast = (msg, type = 'success') => {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = `toast ${type} show`;
+      setTimeout(() => t.classList.remove('show'), 4000);
+    };
+  </script>
+</body>
+</html>
