@@ -146,7 +146,7 @@ const builds = [
         const res = await fetch('/.netlify/functions/send-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ type: 'preconfigured', ...params }),
+          body: JSON.stringify({ type: 'preconfigured', honeypot: document.getElementById("_hp_")?.value || "", ...params }),
         });
         if (!res.ok) throw new Error();
         closeModal(); e.target.reset();
