@@ -273,9 +273,14 @@ const diamondBuilds = [
         price: document.getElementById('modal-product-price').textContent,
       };
       btn.textContent = 'Sending...'; btn.disabled = true;
-      const templateId = type === 'preconfigured' ? 'template_preconfigured' : 'template_product_inquiry';
+      const emailType = type === 'preconfigured' ? 'preconfigured' : 'product_inquiry';
       try {
-        await emailjs.send('service_auritech', templateId, params);
+        const res = await fetch('/.netlify/functions/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type: emailType, ...params }),
+        });
+        if (!res.ok) throw new Error();
         closeModal(); e.target.reset();
         window.showToast('Inquiry sent! We\'ll be in touch soon.', 'success');
       } catch {
@@ -283,6 +288,4 @@ const diamondBuilds = [
       } finally { btn.textContent = 'Send Inquiry'; btn.disabled = false; }
     });
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script>window.addEventListener('load', () => emailjs.init({ publicKey: "YOUR_EMAILJS_PUBLIC_KEY" }));</script>
 </BaseLayout>

@@ -110,7 +110,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       };
       btn.textContent = 'Sending...'; btn.disabled = true;
       try {
-        await emailjs.send('service_auritech', 'template_custom_build', params);
+        const res = await fetch('/.netlify/functions/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type: 'custom_build', ...params }),
+        });
+        if (!res.ok) throw new Error();
         window.showToast('Request sent! We\'ll email you within 24 hours.', 'success');
         e.target.reset();
       } catch {
@@ -118,6 +123,4 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       } finally { btn.textContent = 'Submit Build Request'; btn.disabled = false; }
     });
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script>window.addEventListener('load', () => emailjs.init({ publicKey: "YOUR_EMAILJS_PUBLIC_KEY" }));</script>
 </BaseLayout>
