@@ -1,23 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 const builds = [
-  { id:"diamond-core", name:"Diamond Core", price:1299, sale:1499, savings:13, specs:{cpu:"AMD Ryzen 5 5500",gpu:"NVIDIA RTX 5060",ram:"16GB DDR4",storage:"500GB NVMe SSD"}, tag:"Best Value", tagColor:"#4ade80",
+  { id:"auritech-core", name:"Auritech Core", price:1299, sale:1499, savings:13, specs:{cpu:"AMD Ryzen 5 5500",gpu:"NVIDIA RTX 5060",ram:"16GB DDR4",storage:"500GB NVMe SSD"}, tag:"Best Value", tagColor:"#4ade80",
     photos:["https://diamondpcs.ca/cdn/shop/files/core_1.png?v=1768243275","https://diamondpcs.ca/cdn/shop/files/core_2.png?v=1768243287"] },
-  { id:"diamond-edge", name:"Diamond Edge", price:1649, sale:1899, savings:13, specs:{cpu:"AMD Ryzen 5 7600X",gpu:"NVIDIA RTX 5060",ram:"32GB DDR5",storage:"1TB NVMe SSD"}, tag:"", tagColor:"",
+  { id:"auritech-edge", name:"Auritech Edge", price:1649, sale:1899, savings:13, specs:{cpu:"AMD Ryzen 5 7600X",gpu:"NVIDIA RTX 5060",ram:"32GB DDR5",storage:"1TB NVMe SSD"}, tag:"", tagColor:"",
     photos:["https://diamondpcs.ca/cdn/shop/files/diamond_edge.png?v=1768249980","https://diamondpcs.ca/cdn/shop/files/diamond_edge_2.png?v=1768249986"] },
-  { id:"diamond-edge-plus", name:"Diamond Edge Plus", price:1749, sale:2099, savings:16, specs:{cpu:"AMD Ryzen 5 7600X",gpu:"AMD RX 9060 XT 16GB",ram:"32GB DDR5",storage:"1TB NVMe SSD"}, tag:"On Sale", tagColor:"var(--gold)",
+  { id:"auritech-edge-pro", name:"Auritech Edge Pro", price:1749, sale:2099, savings:16, specs:{cpu:"AMD Ryzen 5 7600X",gpu:"AMD RX 9060 XT 16GB",ram:"32GB DDR5",storage:"1TB NVMe SSD"}, tag:"On Sale", tagColor:"var(--gold)",
     photos:["https://diamondpcs.ca/cdn/shop/files/9060xt_white_sp_case.png?v=1768322923","https://diamondpcs.ca/cdn/shop/files/906xtwhite.png?v=1768322923"] },
-  { id:"diamond-edge-max", name:"Diamond Edge Max", price:1999, sale:2249, savings:11, specs:{cpu:"AMD Ryzen 7 7700X",gpu:"AMD RX 9060 XT 16GB",ram:"32GB DDR5",storage:"1TB NVMe SSD"}, tag:"", tagColor:"",
+  { id:"auritech-edge-max", name:"Auritech Edge Max", price:1999, sale:2249, savings:11, specs:{cpu:"AMD Ryzen 7 7700X",gpu:"AMD RX 9060 XT 16GB",ram:"32GB DDR5",storage:"1TB NVMe SSD"}, tag:"", tagColor:"",
     photos:["https://diamondpcs.ca/cdn/shop/files/MONTECH1_5848025c-6a85-4892-9f42-1534965d6ef3.png?v=1768252459","https://diamondpcs.ca/cdn/shop/files/MIONTCK_2.png?v=1767988090"] },
-  { id:"diamond-apex", name:"Diamond Apex", price:2439, sale:2559, savings:4, specs:{cpu:"AMD Ryzen 7 9700X",gpu:"NVIDIA RTX 5070",ram:"32GB DDR5",storage:"1TB NVMe SSD"}, tag:"Popular", tagColor:"#60a5fa",
+  { id:"auritech-apex", name:"Auritech Apex", price:2439, sale:2559, savings:4, specs:{cpu:"AMD Ryzen 7 9700X",gpu:"NVIDIA RTX 5070",ram:"32GB DDR5",storage:"1TB NVMe SSD"}, tag:"Popular", tagColor:"#60a5fa",
     photos:["https://diamondpcs.ca/cdn/shop/files/50709700x.png?v=1768332281","https://diamondpcs.ca/cdn/shop/files/9700x_5070.png?v=1768332238"] },
-  { id:"diamond-apex-plus", name:"Diamond Apex Plus", price:2539, sale:2899, savings:12, specs:{cpu:"AMD Ryzen 7 7800X3D",gpu:"NVIDIA RTX 5070",ram:"32GB DDR5",storage:"1TB NVMe SSD"}, tag:"Best for Gaming", tagColor:"var(--gold)",
+  { id:"auritech-apex-pro", name:"Auritech Apex Pro", price:2539, sale:2899, savings:12, specs:{cpu:"AMD Ryzen 7 7800X3D",gpu:"NVIDIA RTX 5070",ram:"32GB DDR5",storage:"1TB NVMe SSD"}, tag:"Best for Gaming", tagColor:"var(--gold)",
     photos:["https://diamondpcs.ca/cdn/shop/files/infinit3.0.png?v=1768411876","https://diamondpcs.ca/cdn/shop/files/infiniti2.0.png?v=1768411876"] },
-  { id:"diamond-elite", name:"Diamond Elite", price:2999, sale:3499, savings:14, specs:{cpu:"AMD Ryzen 7 9800X3D",gpu:"AMD RX 9070 XT",ram:"32GB DDR5",storage:"2TB NVMe SSD"}, tag:"", tagColor:"",
+  { id:"auritech-elite", name:"Auritech Elite", price:2999, sale:3499, savings:14, specs:{cpu:"AMD Ryzen 7 9800X3D",gpu:"AMD RX 9070 XT",ram:"32GB DDR5",storage:"2TB NVMe SSD"}, tag:"", tagColor:"",
     photos:["https://diamondpcs.ca/cdn/shop/files/corsair_9070clr.png?v=1769716062","https://diamondpcs.ca/cdn/shop/files/3500x_9070_Clr.png?v=1769716025"] },
-  { id:"diamond-elite-rtx", name:"Diamond Elite RTX", price:3799, sale:4299, savings:11, specs:{cpu:"AMD Ryzen 7 9800X3D",gpu:"NVIDIA RTX 5080",ram:"32GB DDR5",storage:"2TB NVMe SSD"}, tag:"Top Pick", tagColor:"#c084fc",
+  { id:"auritech-elite-pro", name:"Auritech Elite Pro", price:3799, sale:4299, savings:11, specs:{cpu:"AMD Ryzen 7 9800X3D",gpu:"NVIDIA RTX 5080",ram:"32GB DDR5",storage:"2TB NVMe SSD"}, tag:"Top Pick", tagColor:"#c084fc",
     photos:["https://diamondpcs.ca/cdn/shop/files/whte_corsair_3500x_d379b833-cf0a-43b0-ad4a-849fb54e45d6.png?v=1769716735","https://diamondpcs.ca/cdn/shop/files/updates_white_3500x_05691067-4a19-4111-a08c-0cd57c1f44fb.png?v=1769716719"] },
-  { id:"diamond-pro-workstation", name:"Diamond Pro Workstation RTX", price:3999, sale:4499, savings:11, specs:{cpu:"AMD Ryzen 9 9900X",gpu:"NVIDIA RTX 5080",ram:"64GB DDR5",storage:"2TB NVMe SSD"}, tag:"Workstation", tagColor:"#fb923c",
+  { id:"auritech-workstation", name:"Auritech Workstation Pro", price:3999, sale:4499, savings:11, specs:{cpu:"AMD Ryzen 9 9900X",gpu:"NVIDIA RTX 5080",ram:"64GB DDR5",storage:"2TB NVMe SSD"}, tag:"Workstation", tagColor:"#fb923c",
     photos:["https://diamondpcs.ca/cdn/shop/files/blackbiz3500x.png?v=1769718127","https://diamondpcs.ca/cdn/shop/files/black_bizz_2.png?v=1769717842"] },
 ];
 ---
@@ -25,10 +25,10 @@ const builds = [
 
   <div style="padding:60px 24px 80px;max-width:1200px;margin:0 auto;">
     <div style="text-align:center;margin-bottom:64px;">
-      <div class="section-label">Diamond PC Partnership</div>
-      <h1 class="section-title">Preconfigured Builds</h1>
+      <div class="section-label">Auritech Collection</div>
+      <h1 class="section-title">Auritech Builds</h1>
       <p style="font-size:15px;color:var(--text2);max-width:560px;margin:0 auto;line-height:1.8;">
-        Hand-picked builds from our Diamond PC partner. Every machine ships anywhere in Canada for $99 flat, or pick up same-day in Windsor.
+        Every machine is assembled and tested by Auritech. Ships anywhere in Canada for $99 flat, or pick up same-day in Windsor.
       </p>
       <div style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-top:32px;">
         {[{icon:"🚚",text:"$99 Flat Rate Shipping"},{icon:"⚡",text:"Same Day Local Pickup"},{icon:"🛡️",text:"Quality Guaranteed"},{icon:"📍",text:"Windsor, Ontario"}].map(b=>(
@@ -45,9 +45,9 @@ const builds = [
           <!-- Photo switcher -->
           <div class="photo-wrap" style="position:relative;height:260px;overflow:hidden;background:var(--surface2);">
             <img src={b.photos[0]} alt={b.name} class="photo-main"
-              style="width:100%;height:100%;object-fit:contain;object-position:center;padding:16px;transition:opacity 0.3s;mix-blend-mode:multiply;filter:contrast(1.05);" />
+              style="width:100%;height:100%;object-fit:contain;object-position:center;padding:16px;transition:opacity 0.3s;" />
             {b.photos[1] && <img src={b.photos[1]} alt={b.name} class="photo-alt"
-              style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:16px;opacity:0;transition:opacity 0.3s;mix-blend-mode:multiply;filter:contrast(1.05);" />}
+              style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:16px;opacity:0;transition:opacity 0.3s;" />}
             {b.tag && <div style={`position:absolute;top:12px;right:12px;background:rgba(8,8,8,0.85);color:${b.tagColor};border:1px solid ${b.tagColor}60;border-radius:100px;font-size:10px;letter-spacing:1px;padding:4px 12px;font-weight:600;text-transform:uppercase;backdrop-filter:blur(8px);`}>{b.tag}</div>}
             {b.photos[1] && <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:5px;">
               <div class="dot dot-0" style="width:6px;height:6px;border-radius:50%;background:var(--gold);transition:opacity 0.2s;"></div>
