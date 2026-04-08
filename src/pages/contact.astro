@@ -84,7 +84,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       };
       btn.textContent = 'Sending...'; btn.disabled = true;
       try {
-        const res = await fetch('/.netlify/functions/send-email', {
+        const res = await fetch('/send-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ type: 'product_inquiry', honeypot: document.getElementById("_hp_")?.value || "", ...params }),
