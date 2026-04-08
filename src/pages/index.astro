@@ -1,9 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 const diamondBuilds = [
-  { name: "Diamond Core", specs: "Ryzen 5 5500 / RTX 5060 / 16GB RAM", price: 1299, sale: 1499 },
-  { name: "Diamond Apex Plus", specs: "Ryzen 7 7800X3D / RTX 5070 / 32GB DDR5", price: 2539, sale: 2899 },
-  { name: "Diamond Elite RTX", specs: "Ryzen 7 9800X3D / RTX 5080 / 32GB DDR5", price: 3799, sale: 4299 },
+  { name: "Diamond Core", tier: "Entry", specs: "Ryzen 5 5500 · RTX 5060 · 16GB RAM", price: 1299, sale: 1499, color: "#a0a0a0" },
+  { name: "Diamond Apex Plus", tier: "Mid-Range", specs: "Ryzen 7 7800X3D · RTX 5070 · 32GB DDR5", price: 2539, sale: 2899, color: "#C9A84C" },
+  { name: "Diamond Elite RTX", tier: "Flagship", specs: "Ryzen 7 9800X3D · RTX 5080 · 32GB DDR5", price: 3799, sale: 4299, color: "#e8d48a" },
 ];
 ---
 <BaseLayout title="Home" description="The Gold Standard in Custom PCs. Windsor, Ontario.">
@@ -24,7 +24,7 @@ const diamondBuilds = [
         <span id="hero-line2" style="display:block;color:var(--gold);opacity:0;">in Custom PCs</span>
       </h1>
       <p id="hero-desc" style="font-size:clamp(15px,2vw,18px);color:var(--text2);max-width:560px;margin:0 auto 40px;line-height:1.8;opacity:0;">
-        Every build crafted to dominate. We spec, build, and deliver performance machines — custom or pre-built — shipped across Canada or ready for local pickup.
+        Every build crafted to dominate. We spec, build, and deliver performance machines, custom or pre-built, shipped across Canada or ready for local pickup.
       </p>
       <div id="hero-btns" style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;opacity:0;">
         <a href="/custom-build" class="btn btn-gold">Build Your PC</a>
@@ -32,15 +32,15 @@ const diamondBuilds = [
       </div>
       <div id="hero-stats" style="display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-top:72px;padding-top:40px;border-top:1px solid rgba(201,168,76,0.12);opacity:0;">
         <div style="text-align:center;">
-          <div id="stat-sold" style="font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);font-weight:700;">—</div>
+          <div id="stat-sold" style="font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);font-weight:700;">0</div>
           <div style="font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:4px;">PCs Sold</div>
         </div>
         <div style="text-align:center;">
-          <div id="stat-built" style="font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);font-weight:700;">—</div>
+          <div id="stat-built" style="font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);font-weight:700;">0</div>
           <div style="font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:4px;">Builds Completed</div>
         </div>
         <div style="text-align:center;">
-          <div id="stat-stock" style="font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);font-weight:700;">—</div>
+          <div id="stat-stock" style="font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);font-weight:700;">0</div>
           <div style="font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:4px;">In Stock Now</div>
         </div>
         <div style="text-align:center;">
@@ -58,18 +58,34 @@ const diamondBuilds = [
       <h2 class="section-title">Built Different</h2>
     </div>
     <div class="stagger-children" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px;">
-      {[
-        {icon:"⚡",title:"Performance First",desc:"Every component chosen for max FPS, thermals, and longevity. No filler parts, no shortcuts."},
-        {icon:"🔧",title:"Custom or Pre-Built",desc:"Tell us your use case and budget — we'll build it. Or grab one of our ready-to-ship machines."},
-        {icon:"📍",title:"Local to Windsor",desc:"Come pick it up same day. No waiting weeks for shipping. Real people, real builds."},
-        {icon:"💰",title:"Transparent Pricing",desc:"You see every part, every cost. No mystery margins or bloatware bundled in."},
-      ].map(f=>(
-        <div class="feature-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.1);border-radius:var(--radius);padding:32px;transition:border-color 0.2s,transform 0.2s;">
-          <div style="font-size:28px;margin-bottom:16px;">{f.icon}</div>
-          <h3 style="font-size:16px;letter-spacing:1px;margin-bottom:10px;">{f.title}</h3>
-          <p style="font-size:14px;color:var(--text2);line-height:1.7;">{f.desc}</p>
+      <div class="feature-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.1);border-radius:var(--radius);padding:32px;transition:border-color 0.2s,transform 0.2s;">
+        <div style="width:48px;height:48px;background:rgba(201,168,76,0.08);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
         </div>
-      ))}
+        <h3 style="font-size:16px;letter-spacing:1px;margin-bottom:10px;">Performance First</h3>
+        <p style="font-size:14px;color:var(--text2);line-height:1.7;">Every component chosen for max FPS, thermals, and longevity. No filler parts, no shortcuts.</p>
+      </div>
+      <div class="feature-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.1);border-radius:var(--radius);padding:32px;transition:border-color 0.2s,transform 0.2s;">
+        <div style="width:48px;height:48px;background:rgba(201,168,76,0.08);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <h3 style="font-size:16px;letter-spacing:1px;margin-bottom:10px;">Custom or Pre-Built</h3>
+        <p style="font-size:14px;color:var(--text2);line-height:1.7;">Tell us your use case and budget and we build it. Or grab one of our ready-to-ship machines.</p>
+      </div>
+      <div class="feature-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.1);border-radius:var(--radius);padding:32px;transition:border-color 0.2s,transform 0.2s;">
+        <div style="width:48px;height:48px;background:rgba(201,168,76,0.08);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <h3 style="font-size:16px;letter-spacing:1px;margin-bottom:10px;">Local to Windsor</h3>
+        <p style="font-size:14px;color:var(--text2);line-height:1.7;">Come pick it up same day. No waiting weeks for shipping. Real people, real builds.</p>
+      </div>
+      <div class="feature-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.1);border-radius:var(--radius);padding:32px;transition:border-color 0.2s,transform 0.2s;">
+        <div style="width:48px;height:48px;background:rgba(201,168,76,0.08);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div>
+        <h3 style="font-size:16px;letter-spacing:1px;margin-bottom:10px;">Transparent Pricing</h3>
+        <p style="font-size:14px;color:var(--text2);line-height:1.7;">You see every part, every cost. No mystery margins or bloatware bundled in.</p>
+      </div>
     </div>
   </section>
 
@@ -85,19 +101,25 @@ const diamondBuilds = [
       </div>
       <div class="stagger-children" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;">
         {diamondBuilds.map(b=>(
-          <div class="build-card" style="background:var(--surface2);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);padding:28px;transition:all 0.2s;">
-            <div style="font-family:'Cinzel',serif;font-size:16px;letter-spacing:1px;margin-bottom:8px;">{b.name}</div>
-            <div style="font-size:13px;color:var(--text2);margin-bottom:20px;">{b.specs}</div>
-            <div class="gold-line" style="margin-bottom:20px;"></div>
-            <div style="display:flex;justify-content:space-between;align-items:flex-end;">
-              <div>
-                <div style="font-size:11px;color:var(--text3);text-decoration:line-through;">${b.sale.toLocaleString()} CAD</div>
-                <div style="font-family:'Cinzel',serif;font-size:22px;color:var(--gold);">${b.price.toLocaleString()} CAD</div>
+          <div class="build-card" style="background:var(--surface2);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;">
+            <div style={`padding:16px 28px 12px;background:linear-gradient(135deg,rgba(${b.color === '#e8d48a' ? '232,212,138' : b.color === '#C9A84C' ? '201,168,76' : '160,160,160'},0.06),transparent);border-bottom:1px solid rgba(201,168,76,0.06);display:flex;align-items:center;gap:12px;`}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={b.color} stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span style={`font-size:9px;letter-spacing:2px;text-transform:uppercase;color:${b.color};opacity:0.8;`}>{b.tier}</span>
+            </div>
+            <div style="padding:24px 28px 28px;">
+              <div style="font-family:'Cinzel',serif;font-size:17px;letter-spacing:1px;margin-bottom:10px;">{b.name}</div>
+              <div style="font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.6;">{b.specs}</div>
+              <div class="gold-line" style="margin-bottom:20px;"></div>
+              <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+                <div>
+                  <div style="font-size:11px;color:var(--text3);text-decoration:line-through;">${b.sale.toLocaleString()} CAD</div>
+                  <div style="font-family:'Cinzel',serif;font-size:22px;color:var(--gold);">${b.price.toLocaleString()} CAD</div>
+                </div>
+                <button class="btn btn-outline" style="font-size:10px;padding:8px 16px;"
+                  data-name={b.name} data-price={`$${b.price.toLocaleString()} CAD`} data-type="preconfigured" onclick="handleInquireClick(this)">
+                  Inquire
+                </button>
               </div>
-              <button class="btn btn-outline" style="font-size:10px;padding:8px 16px;"
-                data-name={b.name} data-price={`$${b.price.toLocaleString()} CAD`} data-type="preconfigured" onclick="handleInquireClick(this)">
-                Inquire
-              </button>
             </div>
           </div>
         ))}
@@ -112,7 +134,7 @@ const diamondBuilds = [
       <h2 class="section-title">In-Stock PCs</h2>
       <p style="font-size:15px;color:var(--text2);margin-top:12px;">Built and ready. Take it home today.</p>
     </div>
-    <div id="home-inventory" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;">
+    <div id="home-inventory" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,380px));gap:24px;justify-content:center;">
       <div style="text-align:center;padding:60px;color:var(--text3);font-size:14px;grid-column:1/-1;">Loading in-stock PCs...</div>
     </div>
     <div style="text-align:center;margin-top:40px;">
@@ -121,11 +143,35 @@ const diamondBuilds = [
   </section>
 
   <!-- CTA -->
-  <section style="padding:80px 24px;text-align:center;background:linear-gradient(135deg,var(--surface) 0%,rgba(201,168,76,0.05) 50%,var(--surface) 100%);border-top:1px solid rgba(201,168,76,0.1);">
-    <div class="section-label">Ready to Build?</div>
-    <h2 style="font-size:clamp(1.8rem,4vw,3rem);margin-bottom:16px;">Your Dream PC Starts Here</h2>
-    <p style="font-size:15px;color:var(--text2);max-width:480px;margin:0 auto 36px;">Tell us your budget, use case, and priorities — we'll build the perfect machine.</p>
-    <a href="/custom-build" class="btn btn-gold">Start Your Custom Build</a>
+  <section style="padding:100px 24px;text-align:center;position:relative;overflow:hidden;border-top:1px solid rgba(201,168,76,0.1);">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(201,168,76,0.06) 0%,transparent 70%);pointer-events:none;"></div>
+    <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.2;"></div>
+    <div style="position:relative;z-index:1;max-width:600px;margin:0 auto;">
+      <div style="width:64px;height:64px;background:rgba(201,168,76,0.08);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 28px;border:1px solid rgba(201,168,76,0.15);">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><path d="M7 8h2m2 0h2m2 0h2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="section-label">Ready to Build?</div>
+      <h2 style="font-size:clamp(1.8rem,4vw,3rem);margin-bottom:16px;">Your Dream PC Starts Here</h2>
+      <p style="font-size:15px;color:var(--text2);max-width:480px;margin:0 auto 36px;line-height:1.8;">Tell us your budget, use case, and priorities. We will build the perfect machine for you.</p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+        <a href="/custom-build" class="btn btn-gold">Start Your Custom Build</a>
+        <a href="/contact" class="btn btn-outline">Contact Us</a>
+      </div>
+      <div style="display:flex;gap:32px;justify-content:center;margin-top:48px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span style="font-size:12px;color:var(--text2);">Free consultation</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span style="font-size:12px;color:var(--text2);">$99 flat shipping Canada-wide</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span style="font-size:12px;color:var(--text2);">Same-day Windsor pickup</span>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- Inquiry Modal -->
@@ -271,8 +317,12 @@ const diamondBuilds = [
 
     function buildCard(b) {
       const img = b.photos?.length
-        ? `<img src="${b.photos[0]}" alt="${b.name||''}" style="width:100%;height:200px;object-fit:cover;" />`
-        : `<div style="width:100%;height:160px;background:var(--surface3);display:flex;align-items:center;justify-content:center;font-size:36px;">🖥️</div>`;
+        ? `<div style="height:240px;background:#0a0a0a;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+            <img src="${b.photos[0]}" alt="${b.name||''}" style="max-width:100%;max-height:100%;object-fit:contain;padding:12px;" />
+          </div>`
+        : `<div style="height:200px;background:var(--surface2);display:flex;align-items:center;justify-content:center;">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>`;
       const price = b.listPrice || b.listingPrice || b.salePrice || '';
       const name = b.name || 'Custom Build';
       return `<div class="build-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;">
