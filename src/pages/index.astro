@@ -174,6 +174,22 @@ const diamondBuilds = [
     </div>
   </section>
 
+  <!-- Home Gallery Lightbox -->
+  <div id="home-gallery-overlay" onclick="if(event.target===this)closeHomeGallery()">
+    <div style="position:relative;max-width:700px;width:100%;">
+      <button onclick="closeHomeGallery()" style="position:absolute;top:-44px;right:0;background:none;border:none;color:var(--text2);cursor:pointer;font-size:28px;line-height:1;z-index:1;">×</button>
+      <div style="background:#0a0a0a;border-radius:14px;overflow:hidden;border:1px solid rgba(201,168,76,0.15);">
+        <div style="position:relative;height:480px;display:flex;align-items:center;justify-content:center;">
+          <img id="hg-main" src="" alt="" style="max-width:100%;max-height:100%;object-fit:contain;padding:20px;" />
+          <button id="hg-prev" onclick="hgNav(-1)" style="position:absolute;left:12px;background:rgba(0,0,0,0.6);border:1px solid rgba(201,168,76,0.3);color:var(--gold);border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:18px;display:none;align-items:center;justify-content:center;">‹</button>
+          <button id="hg-next" onclick="hgNav(1)" style="position:absolute;right:12px;background:rgba(0,0,0,0.6);border:1px solid rgba(201,168,76,0.3);color:var(--gold);border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:18px;display:none;align-items:center;justify-content:center;">›</button>
+          <div id="hg-counter" style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--text3);background:rgba(0,0,0,0.5);padding:2px 12px;border-radius:100px;"></div>
+        </div>
+        <div id="hg-thumbs" style="display:flex;gap:8px;padding:12px 16px;background:#111;flex-wrap:wrap;"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Inquiry Modal -->
   <div id="modal-overlay" class="modal-overlay" onclick="if(event.target===this)closeModal()">
     <div class="modal" role="dialog" aria-modal="true">
@@ -239,6 +255,15 @@ const diamondBuilds = [
 
     /* Enhanced CTA section */
     section:last-of-type { position: relative; }
+
+    /* In-stock card image hover */
+    .build-card [data-photos]:hover img { transform: scale(1.03); }
+    .build-card [data-photos]:hover .img-hover-overlay { background: rgba(0,0,0,0.35) !important; }
+    .build-card [data-photos]:hover .view-label { opacity: 1 !important; }
+
+    /* Home gallery overlay */
+    #home-gallery-overlay { position:fixed;inset:0;background:rgba(0,0,0,0.92);backdrop-filter:blur(12px);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px; }
+    #home-gallery-overlay.open { display:flex; }
   </style>
 
   <script type="module">
@@ -316,15 +341,22 @@ const diamondBuilds = [
     const db = getDatabase(app);
 
     function buildCard(b) {
-      const img = b.photos?.length
-        ? `<div style="height:240px;background:#0a0a0a;display:flex;align-items:center;justify-content:center;overflow:hidden;">
-            <img src="${b.photos[0]}" alt="${b.name||''}" style="max-width:100%;max-height:100%;object-fit:contain;padding:12px;" />
+      const photos = b.photos || [];
+      const photoCount = photos.length;
+      const img = photoCount
+        ? `<div style="height:240px;background:#0a0a0a;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;position:relative;" onclick="openHomeGallery(this)" data-photos='${JSON.stringify(photos).replace(/'/g,"&#39;")}'>
+            <img src="${photos[0]}" alt="${b.name||''}" style="max-width:100%;max-height:100%;object-fit:contain;padding:12px;transition:transform 0.3s;" />
+            ${photoCount > 1 ? `<div style="position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.7);border-radius:100px;font-size:11px;padding:3px 10px;color:var(--text2);backdrop-filter:blur(4px);">+${photoCount-1} photos</div>` : ''}
+            <div style="position:absolute;inset:0;background:rgba(201,168,76,0);transition:background 0.2s;display:flex;align-items:center;justify-content:center;" class="img-hover-overlay">
+              <span style="opacity:0;transition:opacity 0.2s;font-size:11px;letter-spacing:2px;color:var(--gold);font-family:'Cinzel',serif;text-transform:uppercase;" class="view-label">View Photos</span>
+            </div>
           </div>`
         : `<div style="height:200px;background:var(--surface2);display:flex;align-items:center;justify-content:center;">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
           </div>`;
       const price = b.listPrice || b.listingPrice || b.salePrice || '';
       const name = b.name || 'Custom Build';
+      const partsArr = Array.isArray(b.parts) ? b.parts : [];
       return `<div class="build-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;">
         ${img}
         <div style="padding:24px;">
@@ -382,6 +414,36 @@ const diamondBuilds = [
         return;
       }
       container.innerHTML = listed.slice(0,3).map(buildCard).join('');
+    });
+
+    // ── HOME GALLERY ──
+    let hgPhotos = [], hgIdx = 0;
+    window.openHomeGallery = (el) => {
+      try { hgPhotos = JSON.parse(el.dataset.photos.replace(/&#39;/g,"'")); } catch { return; }
+      if (!hgPhotos.length) return;
+      hgIdx = 0;
+      renderHG();
+      document.getElementById('home-gallery-overlay').classList.add('open');
+    };
+    function renderHG() {
+      document.getElementById('hg-main').src = hgPhotos[hgIdx];
+      const show = hgPhotos.length > 1;
+      document.getElementById('hg-prev').style.display = show ? 'flex' : 'none';
+      document.getElementById('hg-next').style.display = show ? 'flex' : 'none';
+      document.getElementById('hg-counter').textContent = show ? `${hgIdx+1} / ${hgPhotos.length}` : '';
+      document.getElementById('hg-thumbs').innerHTML = hgPhotos.map((p,i) =>
+        `<img src="${p}" onclick="hgSet(${i})" style="width:64px;height:64px;object-fit:contain;padding:4px;border-radius:6px;cursor:pointer;border:2px solid ${i===hgIdx?'var(--gold)':'rgba(255,255,255,0.08)'};background:#0a0a0a;transition:border 0.15s;">`
+      ).join('');
+    }
+    window.hgNav = (d) => { hgIdx = (hgIdx + d + hgPhotos.length) % hgPhotos.length; renderHG(); };
+    window.hgSet = (i) => { hgIdx = i; renderHG(); };
+    window.closeHomeGallery = () => document.getElementById('home-gallery-overlay').classList.remove('open');
+    document.addEventListener('keydown', e => {
+      if (document.getElementById('home-gallery-overlay').classList.contains('open')) {
+        if (e.key === 'ArrowLeft') hgNav(-1);
+        if (e.key === 'ArrowRight') hgNav(1);
+        if (e.key === 'Escape') closeHomeGallery();
+      }
     });
 
     // Modal
