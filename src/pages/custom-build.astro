@@ -42,8 +42,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               style="background:var(--surface);border:2px solid rgba(201,168,76,0.1);border-radius:14px;padding:28px 20px;cursor:pointer;text-align:left;transition:all 0.2s;display:flex;flex-direction:column;gap:14px;">
               <div style="color:var(--gold);width:48px;height:48px;" set:html={u.icon}></div>
               <div>
-                <div style="font-family:'Cinzel',serif;font-size:14px;letter-spacing:1px;margin-bottom:4px;">{u.v}</div>
-                <div style="font-size:12px;color:var(--text3);">{u.desc}</div>
+                <div style="font-family:'Cinzel',serif;font-size:15px;letter-spacing:1px;margin-bottom:6px;color:#fff;">{u.v}</div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.5);">{u.desc}</div>
               </div>
             </button>
           ))}
@@ -72,7 +72,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <button type="button" class="budget-card" data-value={b.v}
                 style="background:var(--surface);border:2px solid rgba(201,168,76,0.1);border-radius:12px;padding:18px 16px;cursor:pointer;text-align:left;transition:all 0.2s;">
                 <div style="font-family:'Cinzel',serif;font-size:15px;color:var(--gold);margin-bottom:4px;">{b.label}</div>
-                <div style="font-size:11px;color:var(--text3);">{b.sub} CAD</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.45);">{b.sub} CAD</div>
               </button>
             ))}
           </div>
@@ -84,7 +84,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             {["High FPS Gaming","Quiet Operation","RGB Aesthetics","Compact / Small Form Factor","Upgradability","Budget-Friendly","Fast Boot Times","Future-Proof Build"].map(p=>(
               <label class="priority-label" style="display:flex;align-items:center;gap:10px;background:var(--surface);border-radius:10px;padding:14px;cursor:pointer;border:2px solid rgba(201,168,76,0.08);transition:all 0.2s;">
                 <input type="checkbox" name="priorities" value={p} style="accent-color:var(--gold);width:15px;height:15px;flex-shrink:0;" />
-                <span style="font-size:13px;color:var(--text2);">{p}</span>
+                <span style="font-size:13px;color:rgba(255,255,255,0.75);">{p}</span>
               </label>
             ))}
           </div>
