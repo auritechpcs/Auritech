@@ -3,109 +3,285 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 <BaseLayout title="Custom Build" description="Tell us your budget and use case. We will build the perfect gaming PC for you.">
 
-  <div style="padding:60px 24px 80px;max-width:760px;margin:0 auto;">
-    <div style="text-align:center;margin-bottom:56px;">
-      <div class="section-label">Tell Us What You Need</div>
-      <h1 class="section-title">Custom Build Request</h1>
-      <p style="font-size:15px;color:var(--text2);max-width:520px;margin:0 auto;line-height:1.8;">
-        Fill out the form below and we'll get back to you within 24 hours with a spec sheet and pricing tailored to your exact needs.
-      </p>
+  <!-- Progress bar -->
+  <div id="wiz-progress-wrap" style="position:sticky;top:56px;z-index:50;background:var(--bg);border-bottom:1px solid rgba(255,255,255,0.04);padding:0 24px;">
+    <div style="max-width:860px;margin:0 auto;display:flex;align-items:center;gap:0;padding:16px 0;">
+      {[1,2,3].map((n,i) => (<>
+        <div class={`wiz-step-dot step-${n}`} style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:none;">
+          <div style={`width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;border:2px solid;transition:all 0.3s;`}
+            class={`dot-circle dot-${n}`}>{n}</div>
+          <span class={`dot-label dot-label-${n}`} style="font-size:10px;letter-spacing:1px;text-transform:uppercase;transition:color 0.3s;">{["Use Case","Budget","Contact"][i]}</span>
+        </div>
+        {n < 3 && <div class={`wiz-line line-${n}`} style="flex:1;height:2px;margin:0 8px;margin-bottom:16px;transition:background 0.4s;"></div>}
+      </>))}
     </div>
+  </div>
 
-    <div style="background:var(--surface);border:1px solid rgba(201,168,76,0.15);border-radius:16px;padding:48px;">
-      <form id="custom-build-form">
+  <div style="padding:48px 24px 80px;max-width:1060px;margin:0 auto;display:grid;grid-template-columns:1fr 300px;gap:40px;align-items:start;" id="wiz-outer">
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-          <div class="form-group">
-            <label class="form-label">First & Last Name *</label>
-            <input type="text" class="form-input" id="cb-name" required placeholder="Marcus Chen" />
+    <!-- Main wizard area -->
+    <div>
+
+      <!-- Step 1: Use Case -->
+      <div class="wiz-step" id="step-1">
+        <div style="margin-bottom:40px;">
+          <div class="section-label">Step 1 of 3</div>
+          <h1 class="section-title" style="font-size:clamp(28px,4vw,42px);">What are you building for?</h1>
+          <p style="font-size:15px;color:var(--text2);line-height:1.8;margin-top:8px;">Pick your primary use case and we'll tailor the build to match.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;">
+          {[
+            {v:"Gaming", icon:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="14" width="36" height="22" rx="4"/><circle cx="16" cy="25" r="3"/><line x1="24" y1="20" x2="24" y2="30"/><line x1="19" y1="25" x2="29" y2="25"/><circle cx="34" cy="22" r="1.5" fill="currentColor"/><circle cx="38" cy="25" r="1.5" fill="currentColor"/><circle cx="34" cy="28" r="1.5" fill="currentColor"/><circle cx="30" cy="25" r="1.5" fill="currentColor"/></svg>`, desc:"High FPS, low latency"},
+            {v:"Streaming + Gaming", icon:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="10" width="36" height="24" rx="3"/><circle cx="24" cy="22" r="6"/><polyline points="21,22 27,19 27,25"/><line x1="16" y1="38" x2="32" y2="38"/><line x1="24" y1="34" x2="24" y2="38"/></svg>`, desc:"Dual-task powerhouse"},
+            {v:"Video Editing", icon:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="28" height="20" rx="2"/><polyline points="32,14 44,10 44,30 32,26"/><line x1="4" y1="36" x2="44" y2="36"/><line x1="10" y1="36" x2="10" y2="40"/><line x1="38" y1="36" x2="38" y2="40"/><line x1="24" y1="36" x2="24" y2="40"/></svg>`, desc:"Fast renders, large files"},
+            {v:"3D Rendering / Animation", icon:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><polygon points="24,6 42,16 42,32 24,42 6,32 6,16"/><polygon points="24,6 24,42" /><line x1="6" y1="16" x2="42" y2="16"/><line x1="6" y1="32" x2="42" y2="32"/><line x1="6" y1="16" x2="24" y2="24"/><line x1="42" y1="16" x2="24" y2="24"/><line x1="6" y1="32" x2="24" y2="24"/><line x1="42" y1="32" x2="24" y2="24"/></svg>`, desc:"GPU + CPU heavy workloads"},
+            {v:"General Use", icon:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="8" width="32" height="24" rx="2"/><line x1="16" y1="36" x2="32" y2="36"/><line x1="24" y1="32" x2="24" y2="36"/><line x1="14" y1="18" x2="34" y2="18"/><line x1="14" y1="24" x2="26" y2="24"/></svg>`, desc:"Everyday speed + reliability"},
+            {v:"Other", icon:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><circle cx="24" cy="24" r="18"/><path d="M24 14 C24 14 30 18 30 24 C30 30 24 34 24 34"/><line x1="24" y1="38" x2="24" y2="38.5" stroke-width="3"/></svg>`, desc:"Tell us in the notes"},
+          ].map(u => (
+            <button type="button" class="use-case-card" data-value={u.v}
+              style="background:var(--surface);border:2px solid rgba(201,168,76,0.1);border-radius:14px;padding:28px 20px;cursor:pointer;text-align:left;transition:all 0.2s;display:flex;flex-direction:column;gap:14px;">
+              <div style="color:var(--gold);width:48px;height:48px;" set:html={u.icon}></div>
+              <div>
+                <div style="font-family:'Cinzel',serif;font-size:14px;letter-spacing:1px;margin-bottom:4px;">{u.v}</div>
+                <div style="font-size:12px;color:var(--text3);">{u.desc}</div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <!-- Step 2: Budget + Priorities -->
+      <div class="wiz-step" id="step-2" style="display:none;">
+        <div style="margin-bottom:40px;">
+          <div class="section-label">Step 2 of 3</div>
+          <h2 class="section-title" style="font-size:clamp(28px,4vw,42px);">Budget & priorities</h2>
+          <p style="font-size:15px;color:var(--text2);line-height:1.8;margin-top:8px;">Select your range — we'll maximize every dollar.</p>
+        </div>
+
+        <div style="margin-bottom:40px;">
+          <div style="font-size:11px;letter-spacing:2px;color:var(--gold);opacity:0.7;text-transform:uppercase;margin-bottom:16px;">Budget Range</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;">
+            {[
+              {v:"Under $800", label:"Under $800", sub:"Entry-level"},
+              {v:"$800 - $1,200", label:"$800–$1,200", sub:"Mid-range"},
+              {v:"$1,200 - $1,800", label:"$1,200–$1,800", sub:"Sweet spot"},
+              {v:"$1,800 - $2,500", label:"$1,800–$2,500", sub:"High-end"},
+              {v:"$2,500 - $3,500", label:"$2,500–$3,500", sub:"Enthusiast"},
+              {v:"$3,500+", label:"$3,500+", sub:"No limits"},
+            ].map(b => (
+              <button type="button" class="budget-card" data-value={b.v}
+                style="background:var(--surface);border:2px solid rgba(201,168,76,0.1);border-radius:12px;padding:18px 16px;cursor:pointer;text-align:left;transition:all 0.2s;">
+                <div style="font-family:'Cinzel',serif;font-size:15px;color:var(--gold);margin-bottom:4px;">{b.label}</div>
+                <div style="font-size:11px;color:var(--text3);">{b.sub} CAD</div>
+              </button>
+            ))}
           </div>
-          <div class="form-group">
-            <label class="form-label">Phone</label>
-            <input type="tel" class="form-input" id="cb-phone" placeholder="226-555-0374" />
-          </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label">Email Address *</label>
-          <input type="email" class="form-input" id="cb-email" required placeholder="you@email.com" />
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Primary Use Case *</label>
-          <select class="form-select" id="cb-usecase" required>
-            <option value="">Select your use case...</option>
-            <option value="Gaming">Gaming</option>
-            <option value="Streaming + Gaming">Streaming + Gaming</option>
-            <option value="Video Editing">Video Editing</option>
-            <option value="3D Rendering / Animation">3D Rendering / Animation</option>
-            <option value="General Use">General Use</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Budget Range *</label>
-          <select class="form-select" id="cb-budget" required>
-            <option value="">Select your budget...</option>
-            <option value="Under $800">Under $800 CAD</option>
-            <option value="$800 - $1,200">$800 – $1,200 CAD</option>
-            <option value="$1,200 - $1,800">$1,200 – $1,800 CAD</option>
-            <option value="$1,800 - $2,500">$1,800 – $2,500 CAD</option>
-            <option value="$2,500 - $3,500">$2,500 – $3,500 CAD</option>
-            <option value="$3,500+">$3,500+ CAD</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Priorities (select all that apply)</label>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px;">
+        <div style="margin-bottom:40px;">
+          <div style="font-size:11px;letter-spacing:2px;color:var(--gold);opacity:0.7;text-transform:uppercase;margin-bottom:16px;">Priorities <span style="color:var(--text3);font-size:10px;">(select all that apply)</span></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
             {["High FPS Gaming","Quiet Operation","RGB Aesthetics","Compact / Small Form Factor","Upgradability","Budget-Friendly","Fast Boot Times","Future-Proof Build"].map(p=>(
-              <label style="display:flex;align-items:center;gap:10px;background:var(--surface2);border-radius:8px;padding:12px;cursor:pointer;border:1px solid #2a2a2a;transition:border-color 0.2s;" class="priority-label">
-                <input type="checkbox" name="priorities" value={p} style="accent-color:var(--gold);width:14px;height:14px;" />
+              <label class="priority-label" style="display:flex;align-items:center;gap:10px;background:var(--surface);border-radius:10px;padding:14px;cursor:pointer;border:2px solid rgba(201,168,76,0.08);transition:all 0.2s;">
+                <input type="checkbox" name="priorities" value={p} style="accent-color:var(--gold);width:15px;height:15px;flex-shrink:0;" />
                 <span style="font-size:13px;color:var(--text2);">{p}</span>
               </label>
             ))}
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label">Additional Notes</label>
-          <textarea class="form-textarea" id="cb-notes" rows="4" placeholder="E.g. mainly play Warzone at high FPS, want good cooling, no rush on the build..."></textarea>
+        <div style="display:flex;gap:12px;">
+          <button type="button" id="back-1" class="btn" style="border:1px solid rgba(255,255,255,0.1);">← Back</button>
+          <button type="button" id="next-2" class="btn btn-gold" style="flex:1;justify-content:center;" disabled>Continue →</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Contact -->
+      <div class="wiz-step" id="step-3" style="display:none;">
+        <div style="margin-bottom:40px;">
+          <div class="section-label">Step 3 of 3</div>
+          <h2 class="section-title" style="font-size:clamp(28px,4vw,42px);">Almost there</h2>
+          <p style="font-size:15px;color:var(--text2);line-height:1.8;margin-top:8px;">We'll email you a custom spec sheet within 24 hours.</p>
         </div>
 
-        <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;padding:16px;" id="cb-submit">
-          Submit Build Request
-        </button>
+        <div style="background:var(--surface);border:1px solid rgba(201,168,76,0.12);border-radius:16px;padding:36px;">
+          <form id="custom-build-form">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+              <div class="form-group">
+                <label class="form-label">First & Last Name *</label>
+                <input type="text" class="form-input" id="cb-name" required placeholder="Marcus Chen" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Phone</label>
+                <input type="tel" class="form-input" id="cb-phone" placeholder="226-555-0374" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address *</label>
+              <input type="email" class="form-input" id="cb-email" required placeholder="you@email.com" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Additional Notes</label>
+              <textarea class="form-textarea" id="cb-notes" rows="4" placeholder="E.g. mainly play Warzone at high FPS, want quiet cooling, prefer a black case..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;padding:16px;font-size:13px;" id="cb-submit">
+              Send Build Request
+            </button>
+            <p style="text-align:center;font-size:12px;color:var(--text3);margin-top:12px;">We reply within 24 hours with specs + pricing.</p>
+          </form>
+        </div>
 
-        <p style="text-align:center;font-size:12px;color:var(--text3);margin-top:16px;">
-          We'll reply to your email within 24 hours with specs + pricing.
-        </p>
-      </form>
+        <button type="button" id="back-2" class="btn" style="border:1px solid rgba(255,255,255,0.1);margin-top:16px;">← Back</button>
+      </div>
+
     </div>
+
+    <!-- Sidebar summary -->
+    <div id="wiz-sidebar" style="position:sticky;top:130px;background:var(--surface);border:1px solid rgba(201,168,76,0.12);border-radius:16px;padding:28px;">
+      <div style="font-size:10px;letter-spacing:3px;color:var(--gold);opacity:0.6;text-transform:uppercase;margin-bottom:20px;">Your Build</div>
+
+      <div id="sb-usecase-wrap" style="margin-bottom:16px;opacity:0.3;transition:opacity 0.3s;">
+        <div style="font-size:10px;letter-spacing:1px;color:var(--text3);text-transform:uppercase;margin-bottom:4px;">Use Case</div>
+        <div id="sb-usecase" style="font-size:14px;color:var(--text);">Not selected</div>
+      </div>
+      <div class="gold-line" style="margin-bottom:16px;"></div>
+
+      <div id="sb-budget-wrap" style="margin-bottom:16px;opacity:0.3;transition:opacity 0.3s;">
+        <div style="font-size:10px;letter-spacing:1px;color:var(--text3);text-transform:uppercase;margin-bottom:4px;">Budget</div>
+        <div id="sb-budget" style="font-family:'Cinzel',serif;font-size:16px;color:var(--gold);">Not selected</div>
+      </div>
+      <div class="gold-line" style="margin-bottom:16px;"></div>
+
+      <div id="sb-priorities-wrap" style="margin-bottom:20px;opacity:0.3;transition:opacity 0.3s;">
+        <div style="font-size:10px;letter-spacing:1px;color:var(--text3);text-transform:uppercase;margin-bottom:8px;">Priorities</div>
+        <div id="sb-priorities" style="font-size:12px;color:var(--text2);line-height:1.8;">None yet</div>
+      </div>
+
+      <div style="background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.1);border-radius:10px;padding:16px;font-size:12px;color:var(--text3);line-height:1.7;">
+        Every build includes professional assembly, stress-testing, and cable management.
+      </div>
+    </div>
+
   </div>
 
   <style>
-    .priority-label:hover { border-color: rgba(201,168,76,0.35) !important; }
+    .use-case-card:hover { border-color: rgba(201,168,76,0.4) !important; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,168,76,0.07); }
+    .use-case-card.selected { border-color: var(--gold) !important; background: rgba(201,168,76,0.06) !important; }
+    .budget-card:hover { border-color: rgba(201,168,76,0.4) !important; transform: translateY(-2px); }
+    .budget-card.selected { border-color: var(--gold) !important; background: rgba(201,168,76,0.06) !important; }
+    .priority-label:hover { border-color: rgba(201,168,76,0.3) !important; }
     .priority-label:has(input:checked) { border-color: rgba(201,168,76,0.5) !important; background: rgba(201,168,76,0.05) !important; }
-    @media (max-width: 600px) {
-      .form-group > div { grid-template-columns: 1fr !important; }
-      div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+    .wiz-step { animation: fadeSlideIn 0.35s ease; }
+    @keyframes fadeSlideIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+    /* Progress dots */
+    .dot-circle { color: var(--text3); border-color: rgba(255,255,255,0.1); background: var(--surface); }
+    .dot-circle.active { color: var(--gold); border-color: var(--gold); background: rgba(201,168,76,0.1); }
+    .dot-circle.done { color: #080808; border-color: var(--gold); background: var(--gold); }
+    .dot-label { color: var(--text3); }
+    .dot-label.active { color: var(--gold); }
+    .wiz-line { background: rgba(255,255,255,0.08); }
+    .wiz-line.done { background: var(--gold); }
+    @media (max-width: 760px) {
+      #wiz-outer { grid-template-columns: 1fr !important; }
+      #wiz-sidebar { display: none !important; }
+      .use-case-card { flex-direction: row !important; align-items: center !important; gap: 16px !important; }
     }
   </style>
 
   <script>
+    let wizData = { useCase: '', budget: '', priorities: [] };
+    let currentStep = 1;
+
+    function updateProgress(step) {
+      [1,2,3].forEach(n => {
+        const circle = document.querySelector(`.dot-${n}`);
+        const label = document.querySelector(`.dot-label-${n}`);
+        circle.classList.remove('active','done');
+        label.classList.remove('active');
+        if (n < step) { circle.classList.add('done'); }
+        else if (n === step) { circle.classList.add('active'); label.classList.add('active'); }
+      });
+      [1,2].forEach(n => {
+        const line = document.querySelector(`.line-${n}`);
+        line.classList.toggle('done', n < step);
+      });
+    }
+
+    function goToStep(n) {
+      document.getElementById(`step-${currentStep}`).style.display = 'none';
+      currentStep = n;
+      const el = document.getElementById(`step-${n}`);
+      el.style.display = '';
+      el.style.animation = 'none';
+      el.offsetHeight; // reflow
+      el.style.animation = '';
+      updateProgress(n);
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    function updateSidebar() {
+      const ucWrap = document.getElementById('sb-usecase-wrap');
+      const budWrap = document.getElementById('sb-budget-wrap');
+      const priWrap = document.getElementById('sb-priorities-wrap');
+
+      document.getElementById('sb-usecase').textContent = wizData.useCase || 'Not selected';
+      ucWrap.style.opacity = wizData.useCase ? '1' : '0.3';
+
+      document.getElementById('sb-budget').textContent = wizData.budget ? wizData.budget + ' CAD' : 'Not selected';
+      budWrap.style.opacity = wizData.budget ? '1' : '0.3';
+
+      const pList = wizData.priorities;
+      document.getElementById('sb-priorities').innerHTML = pList.length
+        ? pList.map(p => `<div style="display:flex;align-items:center;gap:6px;"><span style="color:var(--gold);font-size:10px;">✓</span>${p}</div>`).join('')
+        : 'None yet';
+      priWrap.style.opacity = pList.length ? '1' : '0.3';
+    }
+
+    // Step 1: use case cards
+    document.querySelectorAll('.use-case-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.use-case-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        wizData.useCase = card.dataset.value;
+        updateSidebar();
+        setTimeout(() => goToStep(2), 240);
+      });
+    });
+
+    // Step 2: budget cards
+    document.querySelectorAll('.budget-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.budget-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        wizData.budget = card.dataset.value;
+        document.getElementById('next-2').disabled = false;
+        updateSidebar();
+      });
+    });
+
+    // Step 2: priorities
+    document.querySelectorAll('input[name="priorities"]').forEach(cb => {
+      cb.addEventListener('change', () => {
+        wizData.priorities = [...document.querySelectorAll('input[name="priorities"]:checked')].map(el => el.value);
+        updateSidebar();
+      });
+    });
+
+    document.getElementById('back-1').addEventListener('click', () => goToStep(1));
+    document.getElementById('next-2').addEventListener('click', () => goToStep(3));
+    document.getElementById('back-2').addEventListener('click', () => goToStep(2));
+
+    // Step 3: submit
     document.getElementById('custom-build-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = document.getElementById('cb-submit');
-      const priorities = [...document.querySelectorAll('input[name="priorities"]:checked')].map(el => el.value).join(', ');
       const params = {
         name: document.getElementById('cb-name').value,
         email: document.getElementById('cb-email').value,
         phone: document.getElementById('cb-phone').value,
-        use_case: document.getElementById('cb-usecase').value,
-        budget: document.getElementById('cb-budget').value,
-        priorities: priorities || 'None specified',
+        use_case: wizData.useCase,
+        budget: wizData.budget,
+        priorities: wizData.priorities.join(', ') || 'None specified',
         notes: document.getElementById('cb-notes').value || 'None',
       };
       btn.textContent = 'Sending...'; btn.disabled = true;
@@ -113,14 +289,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         const res = await fetch('/send-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ type: 'custom_build', honeypot: document.getElementById("_hp_")?.value || "", ...params }),
+          body: JSON.stringify({ type: 'custom_build', honeypot: document.getElementById('_hp_')?.value || '', ...params }),
         });
         if (!res.ok) throw new Error();
-        window.showToast('Request sent! We\'ll email you within 24 hours.', 'success');
+        window.showToast("Request sent! We'll email you within 24 hours.", 'success');
         e.target.reset();
+        wizData = { useCase: '', budget: '', priorities: [] };
+        document.querySelectorAll('.use-case-card,.budget-card').forEach(c => c.classList.remove('selected'));
+        document.querySelectorAll('input[name="priorities"]').forEach(cb => cb.checked = false);
+        updateSidebar();
+        goToStep(1);
       } catch {
         window.showToast('Failed to send. Email us at AuritechPcs@gmail.com', 'error');
-      } finally { btn.textContent = 'Submit Build Request'; btn.disabled = false; }
+      } finally { btn.textContent = 'Send Build Request'; btn.disabled = false; }
     });
+
+    // Init
+    updateProgress(1);
+    updateSidebar();
   </script>
 </BaseLayout>
