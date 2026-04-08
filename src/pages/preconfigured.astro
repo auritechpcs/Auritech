@@ -1,23 +1,50 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 const builds = [
-  { id:"diamond-core", name:"Diamond Core", price:1299, sale:1499, savings:13, specs:{cpu:"AMD Ryzen 5 5500",gpu:"NVIDIA RTX 5060",ram:"16GB DDR4",storage:"500GB NVMe SSD"}, tag:"Best Value", tagColor:"#4ade80",
+  { id:"diamond-core", name:"Diamond Core", price:1299, sale:1499, savings:13,
+    specs:{cpu:"AMD Ryzen 5 5500",gpu:"NVIDIA RTX 5060",ram:"16GB DDR4",storage:"1TB NVMe SSD"},
+    fullSpecs:{cpu:"AMD Ryzen 5 5500",gpu:"NVIDIA GeForce RTX 5060",ram:"16GB DDR4 (2×8GB)",storage:"1TB NVMe SSD",motherboard:"AMD B550",psu:"600W or better",cooling:"High-perf air cooler"},
+    tag:"Best Value", tagColor:"#4ade80",
     photos:["https://diamondpcs.ca/cdn/shop/files/core_1.png?v=1768243275","https://diamondpcs.ca/cdn/shop/files/core_2.png?v=1768243287"] },
-  { id:"diamond-edge", name:"Diamond Edge", price:1649, sale:1899, savings:13, specs:{cpu:"AMD Ryzen 5 7600X",gpu:"NVIDIA RTX 5060",ram:"32GB DDR5",storage:"1TB NVMe SSD"}, tag:"", tagColor:"",
+  { id:"diamond-edge", name:"Diamond Edge", price:1649, sale:1899, savings:13,
+    specs:{cpu:"AMD Ryzen 5 7600X",gpu:"NVIDIA RTX 5060",ram:"32GB DDR5",storage:"1TB NVMe SSD"},
+    fullSpecs:{cpu:"AMD Ryzen 5 7600X",gpu:"NVIDIA GeForce RTX 5060",ram:"32GB DDR5 (2×16GB)",storage:"1TB NVMe SSD",motherboard:"AMD B650",psu:"650W or better",cooling:"High-perf air cooler"},
+    tag:"", tagColor:"",
     photos:["https://diamondpcs.ca/cdn/shop/files/diamond_edge.png?v=1768249980","https://diamondpcs.ca/cdn/shop/files/diamond_edge_2.png?v=1768249986"] },
-  { id:"diamond-edge-plus", name:"Diamond Edge Plus", price:1749, sale:2099, savings:16, specs:{cpu:"AMD Ryzen 5 7600X",gpu:"AMD RX 9060 XT 16GB",ram:"32GB DDR5",storage:"1TB NVMe SSD"}, tag:"On Sale", tagColor:"var(--gold)",
+  { id:"diamond-edge-plus", name:"Diamond Edge Plus", price:1749, sale:2099, savings:16,
+    specs:{cpu:"AMD Ryzen 5 7600X",gpu:"AMD RX 9060 XT 16GB",ram:"32GB DDR5",storage:"1TB NVMe SSD"},
+    fullSpecs:{cpu:"AMD Ryzen 5 7600X",gpu:"AMD Radeon RX 9060 XT 16GB",ram:"32GB DDR5 (2×16GB)",storage:"1TB NVMe SSD",motherboard:"AMD B650",psu:"650W or better",cooling:"High-perf air cooler"},
+    tag:"On Sale", tagColor:"var(--gold)",
     photos:["https://diamondpcs.ca/cdn/shop/files/9060xt_white_sp_case.png?v=1768322923","https://diamondpcs.ca/cdn/shop/files/906xtwhite.png?v=1768322923"] },
-  { id:"diamond-edge-max", name:"Diamond Edge Max", price:1999, sale:2249, savings:11, specs:{cpu:"AMD Ryzen 7 7700X",gpu:"AMD RX 9060 XT 16GB",ram:"32GB DDR5",storage:"1TB NVMe SSD"}, tag:"", tagColor:"",
+  { id:"diamond-edge-max", name:"Diamond Edge Max", price:1999, sale:2249, savings:11,
+    specs:{cpu:"AMD Ryzen 7 7700X",gpu:"AMD RX 9060 XT 16GB",ram:"32GB DDR5",storage:"1TB NVMe SSD"},
+    fullSpecs:{cpu:"AMD Ryzen 7 7700X",gpu:"AMD Radeon RX 9060 XT 16GB",ram:"32GB DDR5 (2×16GB)",storage:"1TB NVMe SSD",motherboard:"AMD B650",psu:"650W or better",cooling:"High-perf air cooler"},
+    tag:"", tagColor:"",
     photos:["https://diamondpcs.ca/cdn/shop/files/MONTECH1_5848025c-6a85-4892-9f42-1534965d6ef3.png?v=1768252459","https://diamondpcs.ca/cdn/shop/files/MIONTCK_2.png?v=1767988090"] },
-  { id:"diamond-apex", name:"Diamond Apex", price:2439, sale:2559, savings:4, specs:{cpu:"AMD Ryzen 7 9700X",gpu:"NVIDIA RTX 5070",ram:"32GB DDR5",storage:"1TB NVMe SSD"}, tag:"Popular", tagColor:"#60a5fa",
+  { id:"diamond-apex", name:"Diamond Apex", price:2439, sale:2559, savings:4,
+    specs:{cpu:"AMD Ryzen 7 9700X",gpu:"NVIDIA RTX 5070",ram:"32GB DDR5",storage:"1TB NVMe SSD"},
+    fullSpecs:{cpu:"AMD Ryzen 7 9700X",gpu:"NVIDIA GeForce RTX 5070",ram:"32GB DDR5 (2×16GB)",storage:"1TB NVMe SSD",motherboard:"AMD B650",psu:"750W or better",cooling:"High-perf air cooler"},
+    tag:"Popular", tagColor:"#60a5fa",
     photos:["https://diamondpcs.ca/cdn/shop/files/50709700x.png?v=1768332281","https://diamondpcs.ca/cdn/shop/files/9700x_5070.png?v=1768332238"] },
-  { id:"diamond-apex-plus", name:"Diamond Apex Plus", price:2539, sale:2899, savings:12, specs:{cpu:"AMD Ryzen 7 7800X3D",gpu:"NVIDIA RTX 5070",ram:"32GB DDR5",storage:"1TB NVMe SSD"}, tag:"Best for Gaming", tagColor:"var(--gold)",
+  { id:"diamond-apex-plus", name:"Diamond Apex Plus", price:2539, sale:2899, savings:12,
+    specs:{cpu:"AMD Ryzen 7 7800X3D",gpu:"NVIDIA RTX 5070",ram:"32GB DDR5",storage:"1TB NVMe SSD"},
+    fullSpecs:{cpu:"AMD Ryzen 7 7800X3D",gpu:"NVIDIA GeForce RTX 5070",ram:"32GB DDR5 (2×16GB)",storage:"1TB NVMe SSD",motherboard:"AMD B650",psu:"750W or better",cooling:"High-perf air cooler"},
+    tag:"Best for Gaming", tagColor:"var(--gold)",
     photos:["https://diamondpcs.ca/cdn/shop/files/infinit3.0.png?v=1768411876","https://diamondpcs.ca/cdn/shop/files/infiniti2.0.png?v=1768411876"] },
-  { id:"diamond-elite", name:"Diamond Elite", price:2999, sale:3499, savings:14, specs:{cpu:"AMD Ryzen 7 9800X3D",gpu:"AMD RX 9070 XT",ram:"32GB DDR5",storage:"2TB NVMe SSD"}, tag:"", tagColor:"",
+  { id:"diamond-elite", name:"Diamond Elite", price:2999, sale:3499, savings:14,
+    specs:{cpu:"AMD Ryzen 7 9800X3D",gpu:"AMD RX 9070 XT",ram:"32GB DDR5",storage:"1TB NVMe SSD"},
+    fullSpecs:{cpu:"AMD Ryzen 7 9800X3D",gpu:"AMD Radeon RX 9070 XT",ram:"32GB DDR5 (2×16GB)",storage:"1TB NVMe SSD",motherboard:"ASUS B650 TUF Gaming",psu:"850W 80+ Bronze",cooling:"Thermalright 360mm AIO"},
+    tag:"", tagColor:"",
     photos:["https://diamondpcs.ca/cdn/shop/files/corsair_9070clr.png?v=1769716062","https://diamondpcs.ca/cdn/shop/files/3500x_9070_Clr.png?v=1769716025"] },
-  { id:"diamond-elite-rtx", name:"Diamond Elite RTX", price:3799, sale:4299, savings:11, specs:{cpu:"AMD Ryzen 7 9800X3D",gpu:"NVIDIA RTX 5080",ram:"32GB DDR5",storage:"2TB NVMe SSD"}, tag:"Top Pick", tagColor:"#c084fc",
+  { id:"diamond-elite-rtx", name:"Diamond Elite RTX", price:3799, sale:4299, savings:11,
+    specs:{cpu:"AMD Ryzen 9 9800X3D",gpu:"NVIDIA RTX 5080",ram:"32GB DDR5",storage:"1TB NVMe SSD"},
+    fullSpecs:{cpu:"AMD Ryzen 9 9800X3D",gpu:"NVIDIA GeForce RTX 5080",ram:"32GB DDR5 (2×16GB)",storage:"1TB NVMe SSD",motherboard:"ASUS B650 TUF Gaming",psu:"1000W 80+ Bronze",cooling:"Thermalright 360mm AIO"},
+    tag:"Top Pick", tagColor:"#c084fc",
     photos:["https://diamondpcs.ca/cdn/shop/files/whte_corsair_3500x_d379b833-cf0a-43b0-ad4a-849fb54e45d6.png?v=1769716735","https://diamondpcs.ca/cdn/shop/files/updates_white_3500x_05691067-4a19-4111-a08c-0cd57c1f44fb.png?v=1769716719"] },
-  { id:"diamond-pro-workstation", name:"Diamond Pro Workstation RTX", price:3999, sale:4499, savings:11, specs:{cpu:"AMD Ryzen 9 9900X",gpu:"NVIDIA RTX 5080",ram:"64GB DDR5",storage:"2TB NVMe SSD"}, tag:"Workstation", tagColor:"#fb923c",
+  { id:"diamond-pro-workstation", name:"Diamond Pro Workstation RTX", price:3999, sale:4499, savings:11,
+    specs:{cpu:"AMD Ryzen 9 9900X",gpu:"NVIDIA RTX 5080",ram:"64GB DDR5",storage:"2TB NVMe SSD"},
+    fullSpecs:{cpu:"AMD Ryzen 9 9900X",gpu:"NVIDIA GeForce RTX 5080",ram:"64GB DDR5 (2×32GB)",storage:"2TB NVMe SSD",motherboard:"ASUS B650 TUF Gaming",psu:"1000W 80+ Gold",cooling:"Thermalright 360mm AIO"},
+    tag:"Workstation", tagColor:"#fb923c",
     photos:["https://diamondpcs.ca/cdn/shop/files/blackbiz3500x.png?v=1769718127","https://diamondpcs.ca/cdn/shop/files/black_bizz_2.png?v=1769717842"] },
 ];
 ---
@@ -187,7 +214,7 @@ const builds = [
       }
 
       // Specs
-      const specs = b.specs || {};
+      const specs = b.fullSpecs || b.specs || {};
       const extraSpecs = [
         { k: 'Shipping', v: '$99 Flat Canada-wide' },
         { k: 'Pickup', v: 'Same-day Windsor' },
