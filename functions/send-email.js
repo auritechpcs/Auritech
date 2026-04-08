@@ -1,5 +1,5 @@
 // Cloudflare Pages Function — replaces Netlify Function
-// Uses Resend API (free: 3000 emails/month)
+// Uses Web3Forms API (free, no account needed — just an access key)
 
 const RATE_LIMIT = 5;
 const RATE_WINDOW = 60_000;
@@ -169,24 +169,21 @@ export async function onRequestPost({ request, env }) {
   const { subject, html } = templates[type](clean);
 
   try {
-    const res = await fetch('https://api.resend.com/emails', {
+    const res = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${env.RESEND_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        from: 'Auritech Website <onboarding@resend.dev>',
-        to: ['AuritechPcs@gmail.com'],
-        reply_to: clean.email,
+        access_key: env.WEB3FORMS_KEY,
         subject,
-        html,
+        from_name: `Auritech Website — ${clean.name}`,
+        email: clean.email,
+        message: html,
       }),
     });
 
-    if (!res.ok) {
-      const err = await res.text();
-      console.error('Resend error:', err);
+    const data = await res.json();
+    if (!data.success) {
+      console.error('Web3Forms error:', data);
       return new Response(JSON.stringify({ error: 'Failed to send email' }), { status: 500 });
     }
 
