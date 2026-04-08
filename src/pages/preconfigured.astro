@@ -41,7 +41,8 @@ const builds = [
 
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:28px;">
       {builds.map(b => (
-        <div class="build-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;position:relative;">
+        <div class="build-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;position:relative;cursor:pointer;"
+          onclick={`openBuildDetail(${JSON.stringify(b)})`}>
           <!-- Photo switcher -->
           <div class="photo-wrap" style="position:relative;height:260px;overflow:hidden;background:#f5f5f5;">
             <img src={b.photos[0]} alt={b.name} class="photo-main"
@@ -56,38 +57,74 @@ const builds = [
           </div>
 
           <div style="padding:28px;">
-          <div style="font-family:'Cinzel',serif;font-size:18px;letter-spacing:1px;margin-bottom:8px;">{b.name}</div>
-          <div style="font-size:11px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:24px;">Save {b.savings}%</div>
+            <div style="font-family:'Cinzel',serif;font-size:18px;letter-spacing:1px;margin-bottom:8px;">{b.name}</div>
+            <div style="font-size:11px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:24px;">Save {b.savings}%</div>
 
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;">
-            {Object.entries(b.specs).map(([k,v]) => (
-              <div style="background:var(--surface2);border-radius:8px;padding:12px;">
-                <div style="font-size:9px;letter-spacing:2px;color:var(--gold);opacity:0.6;text-transform:uppercase;margin-bottom:4px;">{k}</div>
-                <div style="font-size:12px;color:var(--text);font-weight:500;">{v}</div>
-              </div>
-            ))}
-          </div>
-
-          <div class="gold-line" style="margin-bottom:20px;"></div>
-
-          <div style="display:flex;justify-content:space-between;align-items:flex-end;">
-            <div>
-              <div style="font-size:12px;color:var(--text3);text-decoration:line-through;">${b.sale.toLocaleString()} CAD</div>
-              <div style="font-family:'Cinzel',serif;font-size:24px;color:var(--gold);">${b.price.toLocaleString()} CAD</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;">
+              {Object.entries(b.specs).map(([k,v]) => (
+                <div style="background:var(--surface2);border-radius:8px;padding:12px;">
+                  <div style="font-size:9px;letter-spacing:2px;color:var(--gold);opacity:0.6;text-transform:uppercase;margin-bottom:4px;">{k}</div>
+                  <div style="font-size:12px;color:var(--text);font-weight:500;">{v}</div>
+                </div>
+              ))}
             </div>
-            <button class="btn btn-gold" style="font-size:10px;padding:10px 20px;"
-              data-name={b.name} data-price={`$${b.price.toLocaleString()} CAD`} data-type="preconfigured"
-              onclick="handleInquireClick(this)">
-              Inquire
-            </button>
+
+            <div class="gold-line" style="margin-bottom:20px;"></div>
+
+            <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+              <div>
+                <div style="font-size:12px;color:var(--text3);text-decoration:line-through;">${b.sale.toLocaleString()} CAD</div>
+                <div style="font-family:'Cinzel',serif;font-size:24px;color:var(--gold);">${b.price.toLocaleString()} CAD</div>
+              </div>
+              <span style="font-size:11px;color:var(--text3);letter-spacing:1px;">View details →</span>
+            </div>
           </div>
-          </div><!-- close padding div -->
         </div>
       ))}
     </div>
   </div>
 
-  <!-- Modal (reused from index) -->
+  <!-- Build Detail Modal -->
+  <div id="build-detail-overlay" onclick="if(event.target===this)closeBuildDetail()" style="position:fixed;inset:0;background:rgba(0,0,0,0.88);backdrop-filter:blur(12px);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;">
+    <div style="background:var(--surface);border:1px solid rgba(201,168,76,0.15);border-radius:16px;width:min(960px,96vw);max-height:90vh;overflow:hidden;display:flex;flex-direction:column;">
+      <!-- Header -->
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:20px 28px;border-bottom:1px solid rgba(255,255,255,0.06);">
+        <div>
+          <div id="bd-name" style="font-family:'Cinzel',serif;font-size:19px;letter-spacing:1px;"></div>
+          <div style="display:flex;align-items:center;gap:12px;margin-top:4px;">
+            <div id="bd-sale-price" style="font-size:13px;color:var(--text3);text-decoration:line-through;"></div>
+            <div id="bd-price" style="font-size:16px;color:var(--gold);font-family:'Cinzel',serif;"></div>
+            <div id="bd-tag" style="font-size:9px;letter-spacing:1px;padding:3px 10px;border-radius:100px;font-weight:600;text-transform:uppercase;display:none;"></div>
+          </div>
+        </div>
+        <button onclick="closeBuildDetail()" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:28px;line-height:1;padding:4px;">×</button>
+      </div>
+      <!-- Body -->
+      <div style="display:flex;flex:1;overflow:hidden;min-height:0;">
+        <!-- Left: photos -->
+        <div style="flex:1;display:flex;flex-direction:column;padding:20px;gap:12px;min-width:0;">
+          <div style="position:relative;flex:1;background:#f5f5f5;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:300px;">
+            <img id="bd-main-img" src="" alt="" style="max-width:100%;max-height:400px;object-fit:contain;padding:20px;mix-blend-mode:multiply;" />
+            <button id="bd-prev" onclick="bdNav(-1)" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.15);border:1px solid rgba(0,0,0,0.1);color:#333;border-radius:50%;width:38px;height:38px;cursor:pointer;font-size:18px;display:none;align-items:center;justify-content:center;">‹</button>
+            <button id="bd-next" onclick="bdNav(1)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.15);border:1px solid rgba(0,0,0,0.1);color:#333;border-radius:50%;width:38px;height:38px;cursor:pointer;font-size:18px;display:none;align-items:center;justify-content:center;">›</button>
+          </div>
+          <div id="bd-thumbs" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+        </div>
+        <!-- Right: specs + CTA -->
+        <div style="width:280px;flex-shrink:0;border-left:1px solid rgba(255,255,255,0.06);padding:24px;display:flex;flex-direction:column;overflow-y:auto;">
+          <div style="font-size:10px;letter-spacing:2px;color:var(--gold);opacity:0.6;margin-bottom:14px;text-transform:uppercase;">Specifications</div>
+          <div id="bd-specs" style="flex:1;"></div>
+          <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.06);">
+            <div style="font-size:12px;color:var(--text3);text-decoration:line-through;" id="bd-modal-sale"></div>
+            <div style="font-family:'Cinzel',serif;font-size:22px;color:var(--gold);margin-bottom:16px;" id="bd-modal-price"></div>
+            <button id="bd-inquire-btn" class="btn btn-gold" style="width:100%;justify-content:center;font-size:11px;">Inquire About This Build</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inquiry Modal -->
   <div id="modal-overlay" class="modal-overlay" onclick="if(event.target===this)closeModal()">
     <div class="modal" role="dialog" aria-modal="true">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;">
@@ -100,7 +137,7 @@ const builds = [
         <div id="modal-product-price" style="font-size:14px;color:var(--gold);margin-top:4px;"></div>
       </div>
       <form id="modal-form">
-        <input type="hidden" id="modal-type" />
+        <input type="hidden" id="modal-type" value="preconfigured" />
         <div class="form-group"><label class="form-label">Your Name *</label><input type="text" class="form-input" id="modal-name" required /></div>
         <div class="form-group"><label class="form-label">Email *</label><input type="email" class="form-input" id="modal-email" required /></div>
         <div class="form-group"><label class="form-label">Phone</label><input type="tel" class="form-input" id="modal-phone" placeholder="Optional" /></div>
@@ -116,17 +153,96 @@ const builds = [
     .build-card:hover .photo-alt { opacity: 1 !important; }
     .build-card:hover .dot-0 { opacity: 0.3; }
     .build-card:hover .dot-1 { opacity: 1 !important; background: var(--gold) !important; }
-    .photo-wrap img { image-rendering: auto; }
+    #build-detail-overlay.open { display: flex !important; }
+    @media (max-width: 640px) {
+      #build-detail-overlay > div > div:last-child { flex-direction: column; }
+      #build-detail-overlay > div > div:last-child > div:last-child { width: 100%; border-left: none; border-top: 1px solid rgba(255,255,255,0.06); }
+    }
   </style>
 
   <script>
-    window.handleInquireClick = (btn) => {
-      document.getElementById('modal-product-name').textContent = btn.dataset.name;
-      document.getElementById('modal-product-price').textContent = btn.dataset.price;
-      document.getElementById('modal-type').value = btn.dataset.type;
-      document.getElementById('modal-overlay').classList.add('open');
-      setTimeout(() => document.getElementById('modal-name').focus(), 100);
+    let bdPhotos = [], bdIdx = 0, bdCurrent = {};
+
+    window.openBuildDetail = (b) => {
+      bdCurrent = b;
+      bdPhotos = b.photos || [];
+      bdIdx = 0;
+
+      document.getElementById('bd-name').textContent = b.name;
+      document.getElementById('bd-price').textContent = `$${Number(b.price).toLocaleString()} CAD`;
+      document.getElementById('bd-sale-price').textContent = `$${Number(b.sale).toLocaleString()} CAD`;
+      document.getElementById('bd-modal-price').textContent = `$${Number(b.price).toLocaleString()} CAD`;
+      document.getElementById('bd-modal-sale').textContent = `Was $${Number(b.sale).toLocaleString()} CAD`;
+
+      // Tag
+      const tagEl = document.getElementById('bd-tag');
+      if (b.tag) {
+        tagEl.textContent = b.tag;
+        tagEl.style.display = 'inline-block';
+        tagEl.style.color = b.tagColor === 'var(--gold)' ? '#C9A84C' : b.tagColor;
+        tagEl.style.border = `1px solid ${b.tagColor === 'var(--gold)' ? '#C9A84C' : b.tagColor}60`;
+        tagEl.style.background = 'rgba(8,8,8,0.85)';
+      } else {
+        tagEl.style.display = 'none';
+      }
+
+      // Specs
+      const specs = b.specs || {};
+      const extraSpecs = [
+        { k: 'Shipping', v: '$99 Flat Canada-wide' },
+        { k: 'Pickup', v: 'Same-day Windsor' },
+        { k: 'Warranty', v: 'Included' },
+      ];
+      document.getElementById('bd-specs').innerHTML = [
+        ...Object.entries(specs).map(([k, v]) =>
+          `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+            <span style="font-size:11px;letter-spacing:1px;color:var(--gold);opacity:0.7;text-transform:uppercase;">${k}</span>
+            <span style="font-size:12px;color:var(--text);text-align:right;max-width:55%;">${v}</span>
+          </div>`
+        ),
+        ...extraSpecs.map(({k, v}) =>
+          `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+            <span style="font-size:11px;letter-spacing:1px;color:var(--text3);text-transform:uppercase;">${k}</span>
+            <span style="font-size:12px;color:var(--text2);text-align:right;">${v}</span>
+          </div>`
+        ),
+      ].join('');
+
+      // Inquire button
+      document.getElementById('bd-inquire-btn').onclick = () => {
+        closeBuildDetail();
+        document.getElementById('modal-product-name').textContent = b.name;
+        document.getElementById('modal-product-price').textContent = `$${Number(b.price).toLocaleString()} CAD`;
+        document.getElementById('modal-overlay').classList.add('open');
+        setTimeout(() => document.getElementById('modal-name').focus(), 100);
+      };
+
+      renderBD();
+      document.getElementById('build-detail-overlay').classList.add('open');
     };
+
+    function renderBD() {
+      document.getElementById('bd-main-img').src = bdPhotos[bdIdx] || '';
+      const multi = bdPhotos.length > 1;
+      document.getElementById('bd-prev').style.display = multi ? 'flex' : 'none';
+      document.getElementById('bd-next').style.display = multi ? 'flex' : 'none';
+      document.getElementById('bd-thumbs').innerHTML = bdPhotos.map((p, i) =>
+        `<img src="${p}" onclick="bdSet(${i})" style="width:72px;height:72px;object-fit:contain;padding:4px;border-radius:8px;cursor:pointer;border:2px solid ${i===bdIdx?'var(--gold)':'rgba(255,255,255,0.1)'};background:#f5f5f5;mix-blend-mode:multiply;transition:border 0.15s;">`
+      ).join('');
+    }
+
+    window.bdNav = (d) => { bdIdx = (bdIdx + d + bdPhotos.length) % bdPhotos.length; renderBD(); };
+    window.bdSet = (i) => { bdIdx = i; renderBD(); };
+    window.closeBuildDetail = () => document.getElementById('build-detail-overlay').classList.remove('open');
+
+    document.addEventListener('keydown', e => {
+      if (document.getElementById('build-detail-overlay').classList.contains('open')) {
+        if (e.key === 'ArrowLeft') bdNav(-1);
+        if (e.key === 'ArrowRight') bdNav(1);
+        if (e.key === 'Escape') closeBuildDetail();
+      }
+    });
+
     window.closeModal = () => document.getElementById('modal-overlay').classList.remove('open');
     document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
 
