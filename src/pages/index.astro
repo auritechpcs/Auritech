@@ -9,22 +9,28 @@ const diamondBuilds = [
 <BaseLayout title="Home" description="The Gold Standard in Custom PCs. Windsor, Ontario.">
 
   <!-- Hero -->
-  <section style="min-height:92vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 24px;position:relative;overflow:hidden;">
+  <section id="hero" style="min-height:92vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 24px;position:relative;overflow:hidden;">
     <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 30%,rgba(201,168,76,0.06) 0%,transparent 70%);pointer-events:none;"></div>
     <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.3;"></div>
+    <!-- Floating gold orbs -->
+    <div class="hero-orb" style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.04) 0%,transparent 70%);top:-100px;right:-100px;animation:float1 8s ease-in-out infinite;pointer-events:none;"></div>
+    <div class="hero-orb" style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.03) 0%,transparent 70%);bottom:-50px;left:-80px;animation:float2 10s ease-in-out infinite;pointer-events:none;"></div>
+    <div class="hero-orb" style="position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.05) 0%,transparent 70%);top:30%;left:10%;animation:float3 6s ease-in-out infinite;pointer-events:none;"></div>
+
     <div class="fade-up" style="max-width:800px;position:relative;z-index:1;">
-      <div class="section-label">Windsor, Ontario · Est. 2024</div>
+      <div class="section-label" data-parallax="-0.1" style="opacity:0;animation:fadeSlideDown 0.6s 0.2s ease forwards;">Windsor, Ontario · Est. 2024</div>
       <h1 style="font-size:clamp(2.5rem,7vw,5rem);line-height:1.1;margin-bottom:24px;">
-        The Gold Standard<br/><span style="color:var(--gold);">in Custom PCs</span>
+        <span id="hero-line1" style="display:block;opacity:0;">The Gold Standard</span>
+        <span id="hero-line2" style="display:block;color:var(--gold);opacity:0;">in Custom PCs</span>
       </h1>
-      <p style="font-size:clamp(15px,2vw,18px);color:var(--text2);max-width:560px;margin:0 auto 40px;line-height:1.8;">
+      <p id="hero-desc" style="font-size:clamp(15px,2vw,18px);color:var(--text2);max-width:560px;margin:0 auto 40px;line-height:1.8;opacity:0;">
         Every build crafted to dominate. We spec, build, and deliver performance machines — custom or pre-built — shipped across Canada or ready for local pickup.
       </p>
-      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <div id="hero-btns" style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;opacity:0;">
         <a href="/custom-build" class="btn btn-gold">Build Your PC</a>
         <a href="/preconfigured" class="btn btn-outline">Browse Builds</a>
       </div>
-      <div style="display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-top:72px;padding-top:40px;border-top:1px solid rgba(201,168,76,0.12);">
+      <div id="hero-stats" style="display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-top:72px;padding-top:40px;border-top:1px solid rgba(201,168,76,0.12);opacity:0;">
         <div style="text-align:center;">
           <div id="stat-sold" style="font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);font-weight:700;">—</div>
           <div style="font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:4px;">PCs Sold</div>
@@ -51,7 +57,7 @@ const diamondBuilds = [
       <div class="section-label">Why Choose Us</div>
       <h2 class="section-title">Built Different</h2>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px;">
+    <div class="stagger-children" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px;">
       {[
         {icon:"⚡",title:"Performance First",desc:"Every component chosen for max FPS, thermals, and longevity. No filler parts, no shortcuts."},
         {icon:"🔧",title:"Custom or Pre-Built",desc:"Tell us your use case and budget — we'll build it. Or grab one of our ready-to-ship machines."},
@@ -77,7 +83,7 @@ const diamondBuilds = [
         </div>
         <a href="/preconfigured" class="btn btn-outline" style="font-size:11px;">View All →</a>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;">
+      <div class="stagger-children" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;">
         {diamondBuilds.map(b=>(
           <div class="build-card" style="background:var(--surface2);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);padding:28px;transition:all 0.2s;">
             <div style="font-family:'Cinzel',serif;font-size:16px;letter-spacing:1px;margin-bottom:8px;">{b.name}</div>
@@ -158,11 +164,95 @@ const diamondBuilds = [
   </div>
 
   <style>
-    .feature-card:hover { border-color: rgba(201,168,76,0.35) !important; transform: translateY(-2px); }
-    .build-card:hover { border-color: rgba(201,168,76,0.4) !important; transform: translateY(-2px); }
+    .feature-card:hover { border-color: rgba(201,168,76,0.35) !important; }
+    .build-card:hover { border-color: rgba(201,168,76,0.4) !important; }
+
+    /* Hero entrance sequence */
+    @keyframes fadeSlideDown { from { opacity:0; transform:translateY(-10px); } to { opacity:0.7; transform:translateY(0); } }
+    @keyframes fadeSlideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes heroGlow { 0%,100% { text-shadow: 0 0 30px rgba(201,168,76,0); } 50% { text-shadow: 0 0 40px rgba(201,168,76,0.15); } }
+
+    #hero-line1.show { animation: fadeSlideUp 0.7s ease forwards; }
+    #hero-line2.show { animation: fadeSlideUp 0.7s 0.15s ease forwards, heroGlow 4s 1.5s ease-in-out infinite; }
+    #hero-desc.show { animation: fadeSlideUp 0.6s ease forwards; }
+    #hero-btns.show { animation: fadeSlideUp 0.6s ease forwards; }
+    #hero-stats.show { animation: fadeSlideUp 0.6s ease forwards; }
+
+    /* Floating orbs */
+    @keyframes float1 { 0%,100% { transform:translate(0,0) scale(1); } 50% { transform:translate(-30px,20px) scale(1.1); } }
+    @keyframes float2 { 0%,100% { transform:translate(0,0) scale(1); } 50% { transform:translate(20px,-30px) scale(1.05); } }
+    @keyframes float3 { 0%,100% { transform:translate(0,0); } 50% { transform:translate(15px,25px); } }
+
+    /* Typing cursor */
+    .typing-cursor {
+      display: inline-block; width: 3px; height: 0.9em; background: var(--gold);
+      margin-left: 4px; vertical-align: text-bottom;
+      animation: blink 0.8s step-end infinite;
+    }
+    @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
+
+    /* Enhanced CTA section */
+    section:last-of-type { position: relative; }
   </style>
 
   <script type="module">
+    // ── HERO ENTRANCE SEQUENCE ──
+    (function heroEntrance() {
+      const line1 = document.getElementById('hero-line1');
+      const line2 = document.getElementById('hero-line2');
+      const desc = document.getElementById('hero-desc');
+      const btns = document.getElementById('hero-btns');
+      const stats = document.getElementById('hero-stats');
+
+      // Typing effect for hero title
+      const text1 = 'The Gold Standard';
+      const text2 = 'in Custom PCs';
+      line1.textContent = '';
+      line2.textContent = '';
+      line1.style.opacity = '1';
+      line2.style.opacity = '1';
+
+      const cursor = document.createElement('span');
+      cursor.className = 'typing-cursor';
+
+      let i = 0;
+      function typeLine1() {
+        if (i < text1.length) {
+          line1.textContent = text1.slice(0, i + 1);
+          line1.appendChild(cursor);
+          i++;
+          setTimeout(typeLine1, 45 + Math.random() * 30);
+        } else {
+          cursor.remove();
+          setTimeout(typeLine2Start, 200);
+        }
+      }
+
+      let j = 0;
+      function typeLine2Start() {
+        j = 0;
+        typeLine2();
+      }
+      function typeLine2() {
+        if (j < text2.length) {
+          line2.textContent = text2.slice(0, j + 1);
+          line2.appendChild(cursor);
+          j++;
+          setTimeout(typeLine2, 45 + Math.random() * 30);
+        } else {
+          // Remove cursor after a beat
+          setTimeout(() => cursor.remove(), 2000);
+          // Reveal rest
+          setTimeout(() => desc.classList.add('show'), 200);
+          setTimeout(() => btns.classList.add('show'), 400);
+          setTimeout(() => stats.classList.add('show'), 600);
+        }
+      }
+
+      // Start typing after page loads
+      setTimeout(typeLine1, 400);
+    })();
+
     import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
     import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 
@@ -214,16 +304,18 @@ const diamondBuilds = [
         });
       }
 
-      // Animate count up
+      // Smooth eased count up
       function countUp(el, target) {
         if (!el || target === 0) { if(el) el.textContent = target; return; }
-        let current = 0;
-        const step = Math.ceil(target / 30);
-        const timer = setInterval(() => {
-          current = Math.min(current + step, target);
-          el.textContent = current;
-          if (current >= target) clearInterval(timer);
-        }, 40);
+        const duration = 1500;
+        const start = performance.now();
+        function ease(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
+        function tick(now) {
+          const elapsed = Math.min((now - start) / duration, 1);
+          el.textContent = Math.round(ease(elapsed) * target);
+          if (elapsed < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
       }
 
       countUp(document.getElementById('stat-sold'), sold);
