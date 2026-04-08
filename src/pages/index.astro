@@ -1,9 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 const diamondBuilds = [
-  { name: "Diamond Core", tier: "Entry", specs: "Ryzen 5 5500 · RTX 5060 · 16GB RAM", price: 1299, sale: 1499, color: "#a0a0a0" },
-  { name: "Diamond Apex Plus", tier: "Mid-Range", specs: "Ryzen 7 7800X3D · RTX 5070 · 32GB DDR5", price: 2539, sale: 2899, color: "#C9A84C" },
-  { name: "Diamond Elite RTX", tier: "Flagship", specs: "Ryzen 7 9800X3D · RTX 5080 · 32GB DDR5", price: 3799, sale: 4299, color: "#e8d48a" },
+  { name: "Diamond Core", tier: "Entry", price: 1299, sale: 1499, color: "#a0a0a0",
+    parts: [{item:"CPU",part:"Ryzen 5 5500"},{item:"GPU",part:"RTX 5060"},{item:"RAM",part:"16GB DDR4"},{item:"Storage",part:"1TB NVMe SSD"},{item:"Shipping",part:"$99 Flat Canada-wide"}] },
+  { name: "Diamond Apex Plus", tier: "Mid-Range", price: 2539, sale: 2899, color: "#C9A84C",
+    parts: [{item:"CPU",part:"Ryzen 7 7800X3D"},{item:"GPU",part:"RTX 5070"},{item:"RAM",part:"32GB DDR5"},{item:"Storage",part:"1TB NVMe SSD"},{item:"Shipping",part:"$99 Flat Canada-wide"}] },
+  { name: "Diamond Elite RTX", tier: "Flagship", price: 3799, sale: 4299, color: "#e8d48a",
+    parts: [{item:"CPU",part:"Ryzen 7 9800X3D"},{item:"GPU",part:"RTX 5080"},{item:"RAM",part:"32GB DDR5"},{item:"Storage",part:"2TB NVMe SSD"},{item:"Shipping",part:"$99 Flat Canada-wide"}] },
 ];
 ---
 <BaseLayout title="Home" description="The Gold Standard in Custom PCs. Windsor, Ontario.">
@@ -101,24 +104,22 @@ const diamondBuilds = [
       </div>
       <div class="stagger-children" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;">
         {diamondBuilds.map(b=>(
-          <div class="build-card" style="background:var(--surface2);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;">
+          <div class="build-card" style="background:var(--surface2);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;cursor:pointer;"
+            onclick={`openBuildModal(${JSON.stringify({name:b.name,price:b.price,sale:b.sale,parts:b.parts,photos:[],type:'preconfigured'})})`}>
             <div style={`padding:16px 28px 12px;background:linear-gradient(135deg,rgba(${b.color === '#e8d48a' ? '232,212,138' : b.color === '#C9A84C' ? '201,168,76' : '160,160,160'},0.06),transparent);border-bottom:1px solid rgba(201,168,76,0.06);display:flex;align-items:center;gap:12px;`}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={b.color} stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
               <span style={`font-size:9px;letter-spacing:2px;text-transform:uppercase;color:${b.color};opacity:0.8;`}>{b.tier}</span>
             </div>
             <div style="padding:24px 28px 28px;">
               <div style="font-family:'Cinzel',serif;font-size:17px;letter-spacing:1px;margin-bottom:10px;">{b.name}</div>
-              <div style="font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.6;">{b.specs}</div>
+              <div style="font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.6;">{b.parts.slice(0,3).map(p=>p.part).join(' · ')}</div>
               <div class="gold-line" style="margin-bottom:20px;"></div>
               <div style="display:flex;justify-content:space-between;align-items:flex-end;">
                 <div>
                   <div style="font-size:11px;color:var(--text3);text-decoration:line-through;">${b.sale.toLocaleString()} CAD</div>
                   <div style="font-family:'Cinzel',serif;font-size:22px;color:var(--gold);">${b.price.toLocaleString()} CAD</div>
                 </div>
-                <button class="btn btn-outline" style="font-size:10px;padding:8px 16px;"
-                  data-name={b.name} data-price={`$${b.price.toLocaleString()} CAD`} data-type="preconfigured" onclick="handleInquireClick(this)">
-                  Inquire
-                </button>
+                <span style="font-size:10px;color:var(--text3);letter-spacing:1px;">View details →</span>
               </div>
             </div>
           </div>
@@ -174,18 +175,40 @@ const diamondBuilds = [
     </div>
   </section>
 
-  <!-- Home Gallery Lightbox -->
-  <div id="home-gallery-overlay" onclick="if(event.target===this)closeHomeGallery()">
-    <div style="position:relative;max-width:700px;width:100%;">
-      <button onclick="closeHomeGallery()" style="position:absolute;top:-44px;right:0;background:none;border:none;color:var(--text2);cursor:pointer;font-size:28px;line-height:1;z-index:1;">×</button>
-      <div style="background:#0a0a0a;border-radius:14px;overflow:hidden;border:1px solid rgba(201,168,76,0.15);">
-        <div style="position:relative;height:480px;display:flex;align-items:center;justify-content:center;">
-          <img id="hg-main" src="" alt="" style="max-width:100%;max-height:100%;object-fit:contain;padding:20px;" />
-          <button id="hg-prev" onclick="hgNav(-1)" style="position:absolute;left:12px;background:rgba(0,0,0,0.6);border:1px solid rgba(201,168,76,0.3);color:var(--gold);border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:18px;display:none;align-items:center;justify-content:center;">‹</button>
-          <button id="hg-next" onclick="hgNav(1)" style="position:absolute;right:12px;background:rgba(0,0,0,0.6);border:1px solid rgba(201,168,76,0.3);color:var(--gold);border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:18px;display:none;align-items:center;justify-content:center;">›</button>
-          <div id="hg-counter" style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--text3);background:rgba(0,0,0,0.5);padding:2px 12px;border-radius:100px;"></div>
+  <!-- Build Detail Modal -->
+  <div id="build-modal-overlay" onclick="if(event.target===this)closeBuildModal()" style="position:fixed;inset:0;background:rgba(0,0,0,0.88);backdrop-filter:blur(12px);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;">
+    <div style="background:var(--surface);border:1px solid rgba(201,168,76,0.15);border-radius:16px;width:min(960px,96vw);max-height:90vh;overflow:hidden;display:flex;flex-direction:column;">
+      <!-- Header -->
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:20px 28px;border-bottom:1px solid rgba(255,255,255,0.06);">
+        <div>
+          <div id="bm-name" style="font-family:'Cinzel',serif;font-size:19px;letter-spacing:1px;"></div>
+          <div id="bm-price" style="font-size:15px;color:var(--gold);margin-top:3px;font-family:'Cinzel',serif;"></div>
         </div>
-        <div id="hg-thumbs" style="display:flex;gap:8px;padding:12px 16px;background:#111;flex-wrap:wrap;"></div>
+        <button onclick="closeBuildModal()" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:28px;line-height:1;padding:4px;">×</button>
+      </div>
+      <!-- Body -->
+      <div style="display:flex;flex:1;overflow:hidden;min-height:0;">
+        <!-- Left: photos -->
+        <div id="bm-photo-col" style="flex:1;display:flex;flex-direction:column;padding:20px;gap:12px;min-width:0;">
+          <div style="position:relative;flex:1;background:#0a0a0a;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:300px;">
+            <img id="bm-main-img" src="" alt="" style="max-width:100%;max-height:420px;object-fit:contain;padding:16px;" />
+            <button id="bm-prev" onclick="bmNav(-1)" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.6);border:1px solid rgba(201,168,76,0.3);color:var(--gold);border-radius:50%;width:38px;height:38px;cursor:pointer;font-size:18px;display:none;align-items:center;justify-content:center;">‹</button>
+            <button id="bm-next" onclick="bmNav(1)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.6);border:1px solid rgba(201,168,76,0.3);color:var(--gold);border-radius:50%;width:38px;height:38px;cursor:pointer;font-size:18px;display:none;align-items:center;justify-content:center;">›</button>
+            <div id="bm-counter" style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--text3);background:rgba(0,0,0,0.5);padding:2px 12px;border-radius:100px;"></div>
+          </div>
+          <div id="bm-thumbs" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+        </div>
+        <!-- Right: specs + CTA -->
+        <div style="width:280px;flex-shrink:0;border-left:1px solid rgba(255,255,255,0.06);padding:24px;display:flex;flex-direction:column;overflow-y:auto;">
+          <div style="font-size:10px;letter-spacing:2px;color:var(--gold);opacity:0.6;margin-bottom:14px;text-transform:uppercase;">Specifications</div>
+          <div id="bm-specs" style="flex:1;font-size:13px;"></div>
+          <div id="bm-sale-row" style="margin-top:20px;display:none;">
+            <div id="bm-sale-price" style="font-size:12px;color:var(--text3);text-decoration:line-through;"></div>
+          </div>
+          <div style="margin-top:12px;">
+            <button id="bm-inquire-btn" class="btn btn-gold" style="width:100%;justify-content:center;font-size:11px;" onclick="handleInquireClick(this)">Inquire About This PC</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -261,9 +284,12 @@ const diamondBuilds = [
     .build-card [data-photos]:hover .img-hover-overlay { background: rgba(0,0,0,0.35) !important; }
     .build-card [data-photos]:hover .view-label { opacity: 1 !important; }
 
-    /* Home gallery overlay */
-    #home-gallery-overlay { position:fixed;inset:0;background:rgba(0,0,0,0.92);backdrop-filter:blur(12px);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px; }
-    #home-gallery-overlay.open { display:flex; }
+    /* Build detail modal */
+    #build-modal-overlay.open { display:flex !important; }
+    @media (max-width:640px) {
+      #build-modal-overlay > div > div:last-child { flex-direction:column; }
+      #build-modal-overlay > div > div:last-child > div:last-child { width:100%;border-left:none;border-top:1px solid rgba(255,255,255,0.06); }
+    }
   </style>
 
   <script type="module">
@@ -343,30 +369,26 @@ const diamondBuilds = [
     function buildCard(b) {
       const photos = b.photos || [];
       const photoCount = photos.length;
-      const img = photoCount
-        ? `<div style="height:240px;background:#0a0a0a;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;position:relative;" onclick="openHomeGallery(this)" data-photos='${JSON.stringify(photos).replace(/'/g,"&#39;")}'>
-            <img src="${photos[0]}" alt="${b.name||''}" style="max-width:100%;max-height:100%;object-fit:contain;padding:12px;transition:transform 0.3s;" />
-            ${photoCount > 1 ? `<div style="position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.7);border-radius:100px;font-size:11px;padding:3px 10px;color:var(--text2);backdrop-filter:blur(4px);">+${photoCount-1} photos</div>` : ''}
-            <div style="position:absolute;inset:0;background:rgba(201,168,76,0);transition:background 0.2s;display:flex;align-items:center;justify-content:center;" class="img-hover-overlay">
-              <span style="opacity:0;transition:opacity 0.2s;font-size:11px;letter-spacing:2px;color:var(--gold);font-family:'Cinzel',serif;text-transform:uppercase;" class="view-label">View Photos</span>
-            </div>
-          </div>`
-        : `<div style="height:200px;background:var(--surface2);display:flex;align-items:center;justify-content:center;">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-          </div>`;
       const price = b.listPrice || b.listingPrice || b.salePrice || '';
       const name = b.name || 'Custom Build';
       const partsArr = Array.isArray(b.parts) ? b.parts : [];
-      return `<div class="build-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;">
+      const modalData = JSON.stringify({name, price, photos, parts: partsArr, type:'product'}).replace(/"/g,'&quot;');
+      const img = photoCount
+        ? `<div style="height:240px;background:#0a0a0a;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
+            <img src="${photos[0]}" alt="${name}" style="max-width:100%;max-height:100%;object-fit:contain;padding:12px;transition:transform 0.3s;" />
+            ${photoCount > 1 ? `<div style="position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.7);border-radius:100px;font-size:11px;padding:3px 10px;color:var(--text2);backdrop-filter:blur(4px);">+${photoCount-1} photos</div>` : ''}
+          </div>`
+        : `<div style="height:180px;background:var(--surface2);display:flex;align-items:center;justify-content:center;">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>`;
+      return `<div class="build-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;cursor:pointer;" onclick="openBuildModal(JSON.parse(this.dataset.build))" data-build="${modalData}">
         ${img}
         <div style="padding:24px;">
           <div style="font-family:'Cinzel',serif;font-size:16px;letter-spacing:1px;margin-bottom:16px;">${name}</div>
           <div class="gold-line" style="margin-bottom:16px;"></div>
           <div style="display:flex;justify-content:space-between;align-items:center;">
             <div style="font-family:'Cinzel',serif;font-size:20px;color:var(--gold);">${price ? '$'+Number(price).toLocaleString()+' CAD' : 'Contact Us'}</div>
-            <button class="btn btn-outline" style="font-size:10px;padding:8px 16px;"
-              data-name="${name.replace(/"/g,'&quot;')}" data-price="${price ? '$'+Number(price).toLocaleString()+' CAD' : ''}" data-type="product"
-              onclick="handleInquireClick(this)">Inquire</button>
+            <span style="font-size:10px;color:var(--text3);letter-spacing:1px;">View details →</span>
           </div>
         </div>
       </div>`;
@@ -416,33 +438,62 @@ const diamondBuilds = [
       container.innerHTML = listed.slice(0,3).map(buildCard).join('');
     });
 
-    // ── HOME GALLERY ──
-    let hgPhotos = [], hgIdx = 0;
-    window.openHomeGallery = (el) => {
-      try { hgPhotos = JSON.parse(el.dataset.photos.replace(/&#39;/g,"'")); } catch { return; }
-      if (!hgPhotos.length) return;
-      hgIdx = 0;
-      renderHG();
-      document.getElementById('home-gallery-overlay').classList.add('open');
+    // ── BUILD DETAIL MODAL ──
+    let bmPhotos = [], bmIdx = 0, bmCurrent = {};
+    window.openBuildModal = (data) => {
+      bmCurrent = data;
+      bmPhotos = data.photos || [];
+      bmIdx = 0;
+      const price = data.price;
+      document.getElementById('bm-name').textContent = data.name || '';
+      document.getElementById('bm-price').textContent = price ? '$' + Number(price).toLocaleString() + ' CAD' : 'Contact Us';
+      // Sale price row
+      const saleRow = document.getElementById('bm-sale-row');
+      if (data.sale) {
+        saleRow.style.display = 'block';
+        document.getElementById('bm-sale-price').textContent = 'Was $' + Number(data.sale).toLocaleString() + ' CAD';
+      } else { saleRow.style.display = 'none'; }
+      // Specs
+      const parts = data.parts || [];
+      document.getElementById('bm-specs').innerHTML = parts.map(p =>
+        `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+          <span style="font-size:11px;letter-spacing:1px;color:var(--gold);opacity:0.7;text-transform:uppercase;">${p.item||''}</span>
+          <span style="font-size:12px;color:var(--text);text-align:right;max-width:55%;">${p.part||''}</span>
+        </div>`
+      ).join('');
+      // Inquire button
+      const btn = document.getElementById('bm-inquire-btn');
+      btn.dataset.name = data.name || '';
+      btn.dataset.price = price ? '$' + Number(price).toLocaleString() + ' CAD' : '';
+      btn.dataset.type = data.type || 'product';
+      // Photos column
+      const photoCol = document.getElementById('bm-photo-col');
+      if (bmPhotos.length) {
+        photoCol.style.display = 'flex';
+        renderBM();
+      } else {
+        photoCol.style.display = 'none';
+      }
+      document.getElementById('build-modal-overlay').classList.add('open');
     };
-    function renderHG() {
-      document.getElementById('hg-main').src = hgPhotos[hgIdx];
-      const show = hgPhotos.length > 1;
-      document.getElementById('hg-prev').style.display = show ? 'flex' : 'none';
-      document.getElementById('hg-next').style.display = show ? 'flex' : 'none';
-      document.getElementById('hg-counter').textContent = show ? `${hgIdx+1} / ${hgPhotos.length}` : '';
-      document.getElementById('hg-thumbs').innerHTML = hgPhotos.map((p,i) =>
-        `<img src="${p}" onclick="hgSet(${i})" style="width:64px;height:64px;object-fit:contain;padding:4px;border-radius:6px;cursor:pointer;border:2px solid ${i===hgIdx?'var(--gold)':'rgba(255,255,255,0.08)'};background:#0a0a0a;transition:border 0.15s;">`
+    function renderBM() {
+      document.getElementById('bm-main-img').src = bmPhotos[bmIdx] || '';
+      const multi = bmPhotos.length > 1;
+      document.getElementById('bm-prev').style.display = multi ? 'flex' : 'none';
+      document.getElementById('bm-next').style.display = multi ? 'flex' : 'none';
+      document.getElementById('bm-counter').textContent = multi ? `${bmIdx+1} / ${bmPhotos.length}` : '';
+      document.getElementById('bm-thumbs').innerHTML = bmPhotos.map((p,i) =>
+        `<img src="${p}" onclick="bmSet(${i})" style="width:64px;height:64px;object-fit:contain;padding:4px;border-radius:6px;cursor:pointer;border:2px solid ${i===bmIdx?'var(--gold)':'rgba(255,255,255,0.08)'};background:#0a0a0a;transition:border 0.15s;">`
       ).join('');
     }
-    window.hgNav = (d) => { hgIdx = (hgIdx + d + hgPhotos.length) % hgPhotos.length; renderHG(); };
-    window.hgSet = (i) => { hgIdx = i; renderHG(); };
-    window.closeHomeGallery = () => document.getElementById('home-gallery-overlay').classList.remove('open');
+    window.bmNav = (d) => { bmIdx = (bmIdx + d + bmPhotos.length) % bmPhotos.length; renderBM(); };
+    window.bmSet = (i) => { bmIdx = i; renderBM(); };
+    window.closeBuildModal = () => document.getElementById('build-modal-overlay').classList.remove('open');
     document.addEventListener('keydown', e => {
-      if (document.getElementById('home-gallery-overlay').classList.contains('open')) {
-        if (e.key === 'ArrowLeft') hgNav(-1);
-        if (e.key === 'ArrowRight') hgNav(1);
-        if (e.key === 'Escape') closeHomeGallery();
+      if (document.getElementById('build-modal-overlay').classList.contains('open')) {
+        if (e.key === 'ArrowLeft' && bmPhotos.length > 1) bmNav(-1);
+        if (e.key === 'ArrowRight' && bmPhotos.length > 1) bmNav(1);
+        if (e.key === 'Escape') closeBuildModal();
       }
     });
 
