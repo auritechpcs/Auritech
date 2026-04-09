@@ -1,9 +1,39 @@
-// Cloudflare Pages Function — replaces Netlify Function
+// Cloudflare Pages Function
 // Uses Resend API (free: 3000 emails/month)
 
 const RATE_LIMIT = 5;
 const RATE_WINDOW = 60_000;
 const rateMap = new Map();
+
+const ALLOWED_ORIGINS = [
+  'https://auritechpcs.com',
+  'https://www.auritechpcs.com',
+];
+
+function getAllowedOrigin(request) {
+  const origin = request.headers.get('origin') || '';
+  if (ALLOWED_ORIGINS.includes(origin)) return origin;
+  if (origin.endsWith('.pages.dev')) return origin;
+  return null;
+}
+
+function corsHeaders(origin) {
+  return {
+    'Access-Control-Allow-Origin': origin || '*',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Max-Age': '86400',
+  };
+}
+
+// Handle CORS preflight — this is the fix
+export async function onRequestOptions({ request }) {
+  const origin = getAllowedOrigin(request);
+  if (!origin) {
+    return new Response(null, { status: 403 });
+  }
+  return new Response(null, { status: 204, headers: corsHeaders(origin) });
+}
 
 function isRateLimited(ip) {
   const now = Date.now();
@@ -24,6 +54,13 @@ function sanitize(str, max = 500) {
 
 function isValidEmail(e) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+}
+
+function respond(origin, data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+  });
 }
 
 const templates = {
@@ -125,40 +162,35 @@ const templates = {
 };
 
 export async function onRequestPost({ request, env }) {
-  const origin = request.headers.get('origin') || request.headers.get('referer') || '';
-  const allowed = ['https://auritechpcs.com', 'https://www.auritechpcs.com'];
-  // Allow Cloudflare Pages preview URLs too
-  if (!allowed.some(o => origin.startsWith(o)) && !origin.includes('.pages.dev')) {
-    return new Response(JSON.stringify({ error: 'Forbidden' }), { status: 403 });
-  }
+  const origin = getAllowedOrigin(request) || '*';
 
   const ip = request.headers.get('cf-connecting-ip') || request.headers.get('x-forwarded-for') || 'unknown';
   if (isRateLimited(ip)) {
-    return new Response(JSON.stringify({ error: 'Too many requests. Try again in a minute.' }), { status: 429 });
+    return respond(origin, { error: 'Too many requests. Try again in a minute.' }, 429);
   }
 
   let body;
   try {
     body = await request.json();
   } catch {
-    return new Response(JSON.stringify({ error: 'Invalid JSON' }), { status: 400 });
+    return respond(origin, { error: 'Invalid JSON' }, 400);
   }
 
   const { type, honeypot, ...params } = body;
 
   if (honeypot) {
-    return new Response(JSON.stringify({ success: true }), { status: 200 });
+    return respond(origin, { success: true });
   }
 
   if (!templates[type]) {
-    return new Response(JSON.stringify({ error: 'Invalid type' }), { status: 400 });
+    return respond(origin, { error: 'Invalid type' }, 400);
   }
 
   if (!params.name || !params.email) {
-    return new Response(JSON.stringify({ error: 'Name and email required' }), { status: 400 });
+    return respond(origin, { error: 'Name and email required' }, 400);
   }
   if (!isValidEmail(params.email)) {
-    return new Response(JSON.stringify({ error: 'Invalid email address' }), { status: 400 });
+    return respond(origin, { error: 'Invalid email address' }, 400);
   }
 
   const clean = {};
@@ -187,12 +219,12 @@ export async function onRequestPost({ request, env }) {
     if (!res.ok) {
       const err = await res.text();
       console.error('Resend error:', err);
-      return new Response(JSON.stringify({ error: 'Failed to send email' }), { status: 500 });
+      return respond(origin, { error: 'Failed to send email', detail: err }, 500);
     }
 
-    return new Response(JSON.stringify({ success: true }), { status: 200 });
+    return respond(origin, { success: true });
   } catch (err) {
     console.error('Email error:', err);
-    return new Response(JSON.stringify({ error: 'Failed to send email' }), { status: 500 });
+    return respond(origin, { error: 'Failed to send email' }, 500);
   }
 }
