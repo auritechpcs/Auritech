@@ -161,17 +161,6 @@ const templates = {
   }),
 };
 
-// Debug GET — visit /send-email in browser to check if function is alive
-export async function onRequestGet({ env }) {
-  const hasKey = !!(env.RESEND_API_KEY || env.GMAIL_API);
-  const keyPreview = hasKey ? (env.RESEND_API_KEY || env.GMAIL_API).slice(0, 8) + '...' : 'MISSING';
-  return new Response(JSON.stringify({
-    status: 'Function is running',
-    resend_key: keyPreview,
-    has_key: hasKey,
-  }), { status: 200, headers: { 'Content-Type': 'application/json' } });
-}
-
 export async function onRequestPost({ request, env }) {
   const origin = getAllowedOrigin(request) || '*';
 
