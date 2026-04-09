@@ -291,7 +291,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ type: 'custom_build', honeypot: document.getElementById('_hp_')?.value || '', ...params }),
         });
-        if (!res.ok) throw new Error();
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.detail || data.error || res.status);
         window.showToast("Request sent! We'll email you within 24 hours.", 'success');
         e.target.reset();
         wizData = { useCase: '', budget: '', priorities: [] };
@@ -299,8 +300,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         document.querySelectorAll('input[name="priorities"]').forEach(cb => cb.checked = false);
         updateSidebar();
         goToStep(1);
-      } catch {
-        window.showToast('Failed to send. Email us at AuritechPcs@gmail.com', 'error');
+      } catch (err) {
+        window.showToast('Error: ' + (err.message || 'Unknown'), 'error');
       } finally { btn.textContent = 'Send Build Request'; btn.disabled = false; }
     });
 
