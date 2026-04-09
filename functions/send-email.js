@@ -220,7 +220,7 @@ export async function onRequestPost({ request, env }) {
       },
       body: JSON.stringify({
         from: 'Auritech Website <onboarding@resend.dev>',
-        to: ['AuritechPcs@gmail.com'],
+        to: ['auritechpcs@gmail.com'],
         reply_to: clean.email,
         subject,
         html,
