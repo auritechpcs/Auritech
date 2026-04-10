@@ -230,16 +230,15 @@ const currentPath = Astro.url.pathname;
       50% { background-position: -50% 0; }
     }
 
-    /* Enhanced card hover glow */
+    /* Card hover lift */
     .build-card, .feature-card, .inv-card {
       position: relative; overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
     }
-    .build-card::before, .feature-card::before, .inv-card::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(201,168,76,0.06), transparent 40%);
-      opacity: 0; transition: opacity 0.3s; z-index: 0; pointer-events: none;
+    .build-card:hover, .feature-card:hover, .inv-card:hover {
+      transform: translateY(-4px) !important;
+      box-shadow: 0 16px 48px rgba(201,168,76,0.1);
     }
-    .build-card:hover::before, .feature-card:hover::before, .inv-card:hover::before { opacity: 1; }
     .build-card > *, .feature-card > *, .inv-card > * { position: relative; z-index: 1; }
 
     /* Button glow pulse on hover */
@@ -550,7 +549,8 @@ const currentPath = Astro.url.pathname;
       draw();
     })();
 
-    // ── 3D CARD TILT + GLOW TRACKING ──
+    // ── 3D CARD TILT (removed per user request) ──
+    /*
     document.addEventListener('mousemove', (e) => {
       document.querySelectorAll('.build-card, .feature-card, .inv-card').forEach(card => {
         const rect = card.getBoundingClientRect();
@@ -569,6 +569,7 @@ const currentPath = Astro.url.pathname;
         }
       });
     });
+    */
 
     // ── SCROLL REVEAL (SECTIONS + CARDS) ──
     const revealObserver = new IntersectionObserver((entries) => {
@@ -598,18 +599,7 @@ const currentPath = Astro.url.pathname;
       revealObserver.observe(el);
     });
 
-    // ── MAGNETIC BUTTONS ──
-    document.querySelectorAll('.btn').forEach(btn => {
-      btn.addEventListener('mousemove', (e) => {
-        const rect = btn.getBoundingClientRect();
-        const dx = e.clientX - (rect.left + rect.width / 2);
-        const dy = e.clientY - (rect.top + rect.height / 2);
-        btn.style.transform = `translate(${dx * 0.15}px, ${dy * 0.15}px)`;
-      });
-      btn.addEventListener('mouseleave', () => {
-        btn.style.transform = '';
-      });
-    });
+    // ── MAGNETIC BUTTONS (removed per user request) ──
 
     // ── BUTTON CLICK RIPPLE ──
     document.querySelectorAll('.btn').forEach(btn => {
