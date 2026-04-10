@@ -70,6 +70,14 @@ function isValidEmail(e) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 }
 
+function formatPhone(str) {
+  if (typeof str !== 'string') return 'Not provided';
+  const digits = str.replace(/\D/g, '');
+  if (digits.length === 10) return `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
+  if (digits.length === 11 && digits[0] === '1') return `(${digits.slice(1,4)}) ${digits.slice(4,7)}-${digits.slice(7)}`;
+  return str.trim() || 'Not provided';
+}
+
 function respond(origin, data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
@@ -90,7 +98,7 @@ const templates = {
         <p style="color:#666;font-size:11px;letter-spacing:2px;margin-bottom:4px;">EMAIL</p>
         <p style="color:#C9A84C;font-size:16px;margin:0 0 16px;">${p.email}</p>
         <p style="color:#666;font-size:11px;letter-spacing:2px;margin-bottom:4px;">PHONE</p>
-        <p style="color:#fff;font-size:16px;margin:0 0 24px;">${p.phone || 'Not provided'}</p>
+        <p style="color:#fff;font-size:16px;margin:0 0 24px;">${formatPhone(params.phone)}</p>
         <p style="color:#666;font-size:11px;letter-spacing:2px;margin-bottom:4px;">LOCAL CUSTOMER?</p>
         <p style="color:${p.is_local && p.is_local.startsWith('Yes') ? '#4ade80' : '#fff'};margin:0 0 16px;">${p.is_local || 'Not specified'}</p>
         <p style="color:#666;font-size:11px;letter-spacing:2px;margin-bottom:4px;">USE CASE</p>
@@ -137,7 +145,7 @@ const templates = {
         <p style="color:#666;font-size:11px;letter-spacing:2px;margin-bottom:4px;">EMAIL</p>
         <p style="color:#C9A84C;font-size:16px;margin:0 0 16px;">${p.email}</p>
         <p style="color:#666;font-size:11px;letter-spacing:2px;margin-bottom:4px;">PHONE</p>
-        <p style="color:#fff;font-size:16px;margin:0 0 16px;">${p.phone || 'Not provided'}</p>
+        <p style="color:#fff;font-size:16px;margin:0 0 16px;">${formatPhone(params.phone)}</p>
         <p style="color:#666;font-size:11px;letter-spacing:2px;margin-bottom:4px;">LOCAL CUSTOMER?</p>
         <p style="color:${p.is_local && p.is_local.startsWith('Yes') ? '#4ade80' : '#fff'};margin:0 0 24px;">${p.is_local || 'Not specified'}</p>
         <p style="color:#666;font-size:11px;letter-spacing:2px;margin-bottom:4px;">BUILD</p>
@@ -164,7 +172,7 @@ const templates = {
         <p style="color:#666;font-size:11px;letter-spacing:2px;margin-bottom:4px;">EMAIL</p>
         <p style="color:#C9A84C;font-size:16px;margin:0 0 16px;">${p.email}</p>
         <p style="color:#666;font-size:11px;letter-spacing:2px;margin-bottom:4px;">PHONE</p>
-        <p style="color:#fff;font-size:16px;margin:0 0 16px;">${p.phone || 'Not provided'}</p>
+        <p style="color:#fff;font-size:16px;margin:0 0 16px;">${formatPhone(params.phone)}</p>
         <p style="color:#666;font-size:11px;letter-spacing:2px;margin-bottom:4px;">LOCAL CUSTOMER?</p>
         <p style="color:${p.is_local && p.is_local.startsWith('Yes') ? '#4ade80' : '#fff'};margin:0 0 24px;">${p.is_local || 'Not specified'}</p>
         <p style="color:#666;font-size:11px;letter-spacing:2px;margin-bottom:4px;">INTERESTED IN</p>
@@ -189,7 +197,7 @@ const templates = {
         <p style="color:#666;font-size:11px;letter-spacing:2px;margin-bottom:4px;">EMAIL</p>
         <p style="color:#C9A84C;font-size:16px;margin:0 0 16px;">${p.email}</p>
         <p style="color:#666;font-size:11px;letter-spacing:2px;margin-bottom:4px;">PHONE</p>
-        <p style="color:#fff;font-size:16px;margin:0 0 24px;">${p.phone || 'Not provided'}</p>
+        <p style="color:#fff;font-size:16px;margin:0 0 24px;">${formatPhone(params.phone)}</p>
         <div style="background:#1a1a1a;border-left:3px solid #8b7530;padding:16px;border-radius:0 8px 8px 0;">
           <p style="color:#666;font-size:11px;letter-spacing:2px;margin:0 0 8px;">MESSAGE</p>
           <p style="color:#ccc;margin:0;">${p.message}</p>
