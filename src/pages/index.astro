@@ -27,6 +27,10 @@ const diamondBuilds = [
     <div class="hero-orb" style="position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.05) 0%,transparent 70%);top:30%;left:10%;animation:float3 6s ease-in-out infinite;pointer-events:none;"></div>
 
     <div class="fade-up" style="max-width:800px;position:relative;z-index:1;">
+      <div id="hero-badge" style="display:inline-flex;align-items:center;gap:10px;background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.22);border-radius:100px;padding:7px 20px;margin-bottom:28px;opacity:0;">
+        <span style="width:7px;height:7px;border-radius:50%;background:var(--gold);display:inline-block;box-shadow:0 0 8px rgba(201,168,76,0.6);animation:badgePulse 2s ease-in-out infinite;flex-shrink:0;"></span>
+        <span style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;">Windsor, Ontario &nbsp;·&nbsp; Est. 2024</span>
+      </div>
       <h1 style="font-size:clamp(2.5rem,7vw,5rem);line-height:1.1;margin-bottom:24px;">
         <span id="hero-line1" style="display:block;opacity:0;">The Gold Standard</span>
         <span id="hero-line2" style="display:block;color:var(--gold);opacity:0;">in Custom PCs</span>
@@ -274,6 +278,8 @@ const diamondBuilds = [
     @keyframes fadeSlideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
     @keyframes heroGlow { 0%,100% { text-shadow: 0 0 30px rgba(201,168,76,0); } 50% { text-shadow: 0 0 40px rgba(201,168,76,0.15); } }
 
+    @keyframes badgePulse { 0%,100% { box-shadow:0 0 6px rgba(201,168,76,0.5); } 50% { box-shadow:0 0 14px rgba(201,168,76,0.9); } }
+    #hero-badge.show { animation: fadeSlideUp 0.6s ease forwards; }
     #hero-line1.show { animation: fadeSlideUp 0.7s ease forwards; }
     #hero-line2.show { animation: fadeSlideUp 0.7s 0.15s ease forwards, heroGlow 4s 1.5s ease-in-out infinite; }
     #hero-desc.show { animation: fadeSlideUp 0.6s ease forwards; }
@@ -304,17 +310,19 @@ const diamondBuilds = [
   <script type="module">
     // ── HERO ENTRANCE SEQUENCE ──
     (function heroEntrance() {
+      const badge = document.getElementById('hero-badge');
       const line1 = document.getElementById('hero-line1');
       const line2 = document.getElementById('hero-line2');
       const desc = document.getElementById('hero-desc');
       const btns = document.getElementById('hero-btns');
       const stats = document.getElementById('hero-stats');
 
-      setTimeout(() => line1.classList.add('show'), 200);
-      setTimeout(() => line2.classList.add('show'), 420);
-      setTimeout(() => desc.classList.add('show'), 680);
-      setTimeout(() => btns.classList.add('show'), 880);
-      setTimeout(() => stats.classList.add('show'), 1080);
+      setTimeout(() => badge.classList.add('show'), 80);
+      setTimeout(() => line1.classList.add('show'), 280);
+      setTimeout(() => line2.classList.add('show'), 500);
+      setTimeout(() => desc.classList.add('show'), 760);
+      setTimeout(() => btns.classList.add('show'), 960);
+      setTimeout(() => stats.classList.add('show'), 1160);
     })();
 
     import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
