@@ -65,7 +65,7 @@ function respond(origin, data, status = 200) {
 
 const templates = {
   custom_build: (p) => ({
-    subject: `[CUSTOM BUILD] ${p.name} — ${p.budget} | ${p.use_case}`,
+    subject: `🔧 CUSTOM BUILD | ${p.name} | ${p.budget} | ${p.use_case}`,
     html: `
       <div style="background:#111;padding:32px;border-radius:12px;font-family:Inter,sans-serif;max-width:600px;">
         <h2 style="color:#C9A84C;font-family:serif;margin-bottom:8px;">Custom Build Request</h2>
@@ -112,7 +112,7 @@ const templates = {
   }),
 
   preconfigured: (p) => ({
-    subject: `[PRECONFIGURED] ${p.name} → ${p.build_name} (${p.price})`,
+    subject: `💎 PRECONFIGURED | ${p.name} | ${p.build_name} (${p.price})`,
     html: `
       <div style="background:#111;padding:32px;border-radius:12px;font-family:Inter,sans-serif;max-width:600px;">
         <h2 style="color:#C9A84C;font-family:serif;margin-bottom:8px;">Preconfigured Build Inquiry</h2>
@@ -139,7 +139,7 @@ const templates = {
   }),
 
   product_inquiry: (p) => ({
-    subject: `[PRODUCT INQUIRY] ${p.name} → ${p.product_name}`,
+    subject: `📦 PICKUP INQUIRY | ${p.name} | ${p.product_name}`,
     html: `
       <div style="background:#111;padding:32px;border-radius:12px;font-family:Inter,sans-serif;max-width:600px;">
         <h2 style="color:#C9A84C;font-family:serif;margin-bottom:8px;">Product Inquiry</h2>
@@ -164,7 +164,7 @@ const templates = {
   }),
 
   contact: (p) => ({
-    subject: `[CONTACT] ${p.name} — ${p.subject_line || 'General Inquiry'}`,
+    subject: `💬 CONTACT | ${p.name} | ${p.subject_line || 'General Inquiry'}`,
     html: `
       <div style="background:#111;padding:32px;border-radius:12px;font-family:Inter,sans-serif;max-width:600px;">
         <h2 style="color:#C9A84C;font-family:serif;margin-bottom:8px;">Contact Form</h2>
