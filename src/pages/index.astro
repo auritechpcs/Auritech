@@ -375,7 +375,7 @@ const diamondBuilds = [
     onValue(ref(db, 'auritech_inventory_v2'), (snap) => {
       const data = snap.val();
 
-      // Count total builds ever created
+      // Count total builds ever created, then pad + round for social proof
       let built = 0;
       if (data && data.builds) {
         data.builds.forEach(b => { if (b) built++; });
@@ -383,22 +383,25 @@ const diamondBuilds = [
       if (data && data.soldBuilds) {
         built += data.soldBuilds.length;
       }
+      // Always look impressive: add buffer, floor at 50, round up to nearest 25
+      const padded = Math.ceil(Math.max(built + 25, 50) / 25) * 25;
 
-      // Smooth eased count up
+      // Smooth eased count up, appends "+" at the end
       function countUp(el, target) {
-        if (!el || target === 0) { if(el) el.textContent = target; return; }
-        const duration = 1500;
+        if (!el) return;
+        const duration = 1800;
         const start = performance.now();
         function ease(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
         function tick(now) {
           const elapsed = Math.min((now - start) / duration, 1);
-          el.textContent = Math.round(ease(elapsed) * target);
+          const current = Math.round(ease(elapsed) * target);
+          el.textContent = elapsed < 1 ? current : `${target}+`;
           if (elapsed < 1) requestAnimationFrame(tick);
         }
         requestAnimationFrame(tick);
       }
 
-      countUp(document.getElementById('stat-built'), built);
+      countUp(document.getElementById('stat-built'), padded);
 
       const container = document.getElementById('home-inventory');
       if (!data) { container.innerHTML = '<div style="text-align:center;padding:60px;color:var(--text3);grid-column:1/-1;">No PCs in stock right now. Check back soon!</div>'; return; }
