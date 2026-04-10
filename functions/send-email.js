@@ -83,9 +83,27 @@ const templates = {
         <p style="color:#C9A84C;font-size:20px;font-weight:700;margin:0 0 16px;">${p.budget}</p>
         <p style="color:#666;font-size:11px;letter-spacing:2px;margin-bottom:4px;">PRIORITIES</p>
         <p style="color:#fff;margin:0 0 16px;">${p.priorities}</p>
+        <table style="width:100%;border-collapse:collapse;margin-bottom:24px;">
+          <tr>
+            <td style="padding:10px 0;border-bottom:1px solid #222;width:50%;">
+              <p style="color:#666;font-size:11px;letter-spacing:2px;margin:0 0 4px;">COLOR THEME</p>
+              <p style="color:#fff;margin:0;">${p.color_theme || 'Not specified'}</p>
+            </td>
+            <td style="padding:10px 0 10px 16px;border-bottom:1px solid #222;">
+              <p style="color:#666;font-size:11px;letter-spacing:2px;margin:0 0 4px;">RGB</p>
+              <p style="color:#fff;margin:0;">${p.rgb || 'Not specified'}</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:10px 0;" colspan="2">
+              <p style="color:#666;font-size:11px;letter-spacing:2px;margin:0 0 4px;">CASE STYLE</p>
+              <p style="color:#fff;margin:0;">${p.case_style || 'Not specified'}</p>
+            </td>
+          </tr>
+        </table>
         <div style="background:#1a1a1a;border-left:3px solid #8b7530;padding:16px;border-radius:0 8px 8px 0;">
           <p style="color:#666;font-size:11px;letter-spacing:2px;margin:0 0 8px;">ADDITIONAL NOTES</p>
-          <p style="color:#ccc;margin:0;">${p.notes}</p>
+          <p style="color:#ccc;margin:0;">${p.notes || 'None'}</p>
         </div>
         <p style="color:#333;font-size:11px;margin-top:32px;">Auritech Website · auritechpcs.com</p>
       </div>`,

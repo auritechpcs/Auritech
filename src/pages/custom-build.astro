@@ -5,14 +5,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   <!-- Progress bar -->
   <div id="wiz-progress-wrap" style="position:sticky;top:56px;z-index:50;background:var(--bg);border-bottom:1px solid rgba(255,255,255,0.04);padding:0 24px;">
-    <div style="max-width:860px;margin:0 auto;display:flex;align-items:center;gap:0;padding:16px 0;">
-      {[1,2,3].map((n,i) => (<>
+    <div style="max-width:960px;margin:0 auto;display:flex;align-items:center;gap:0;padding:16px 0;">
+      {[1,2,3,4].map((n,i) => (<>
         <div class={`wiz-step-dot step-${n}`} style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:none;">
           <div style={`width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;border:2px solid;transition:all 0.3s;`}
             class={`dot-circle dot-${n}`}>{n}</div>
-          <span class={`dot-label dot-label-${n}`} style="font-size:10px;letter-spacing:1px;text-transform:uppercase;transition:color 0.3s;">{["Use Case","Budget","Contact"][i]}</span>
+          <span class={`dot-label dot-label-${n}`} style="font-size:10px;letter-spacing:1px;text-transform:uppercase;transition:color 0.3s;">{["Use Case","Budget","Style","Contact"][i]}</span>
         </div>
-        {n < 3 && <div class={`wiz-line line-${n}`} style="flex:1;height:2px;margin:0 8px;margin-bottom:16px;transition:background 0.4s;"></div>}
+        {n < 4 && <div class={`wiz-line line-${n}`} style="flex:1;height:2px;margin:0 8px;margin-bottom:16px;transition:background 0.4s;"></div>}
       </>))}
     </div>
   </div>
@@ -25,7 +25,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <!-- Step 1: Use Case -->
       <div class="wiz-step" id="step-1">
         <div style="margin-bottom:40px;">
-          <div class="section-label">Step 1 of 3</div>
+          <div class="section-label">Step 1 of 4</div>
           <h1 class="section-title" style="font-size:clamp(28px,4vw,42px);">What are you building for?</h1>
           <p style="font-size:15px;color:var(--text2);line-height:1.8;margin-top:8px;">Pick your primary use case and we'll tailor the build to match.</p>
         </div>
@@ -53,7 +53,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <!-- Step 2: Budget + Priorities -->
       <div class="wiz-step" id="step-2" style="display:none;">
         <div style="margin-bottom:40px;">
-          <div class="section-label">Step 2 of 3</div>
+          <div class="section-label">Step 2 of 4</div>
           <h2 class="section-title" style="font-size:clamp(28px,4vw,42px);">Budget & priorities</h2>
           <p style="font-size:15px;color:var(--text2);line-height:1.8;margin-top:8px;">Select your range — we'll maximize every dollar.</p>
         </div>
@@ -96,10 +96,91 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
       </div>
 
-      <!-- Step 3: Contact -->
+      <!-- Step 3: Aesthetics -->
       <div class="wiz-step" id="step-3" style="display:none;">
         <div style="margin-bottom:40px;">
-          <div class="section-label">Step 3 of 3</div>
+          <div class="section-label">Step 3 of 4</div>
+          <h2 class="section-title" style="font-size:clamp(28px,4vw,42px);">Make it yours</h2>
+          <p style="font-size:15px;color:var(--text2);line-height:1.8;margin-top:8px;">Pick a vibe. We'll match the case, fans, cables, and lighting to your style.</p>
+        </div>
+
+        <!-- Color Theme -->
+        <div style="margin-bottom:40px;">
+          <div style="font-size:11px;letter-spacing:2px;color:var(--gold);opacity:0.7;text-transform:uppercase;margin-bottom:16px;">Color Theme</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;">
+            {[
+              {v:"All Black", colors:["#1a1a1a","#333"], label:"All Black", desc:"Stealth mode"},
+              {v:"Black & White", colors:["#1a1a1a","#e8e8e8"], label:"Black & White", desc:"Clean contrast"},
+              {v:"All White", colors:["#e8e8e8","#f5f5f5"], label:"All White", desc:"Snow build"},
+              {v:"Black & Red", colors:["#1a1a1a","#dc2626"], label:"Black & Red", desc:"Aggressive"},
+              {v:"Black & Blue", colors:["#1a1a1a","#3b82f6"], label:"Black & Blue", desc:"Cool tones"},
+              {v:"Black & Purple", colors:["#1a1a1a","#9333ea"], label:"Black & Purple", desc:"Vaporwave"},
+              {v:"Black & Gold", colors:["#1a1a1a","#C9A84C"], label:"Black & Gold", desc:"Premium"},
+              {v:"No Preference", colors:["#444","#555"], label:"Surprise Me", desc:"Dealer's choice"},
+            ].map(t => (
+              <button type="button" class="theme-card" data-value={t.v}
+                style="background:var(--surface);border:2px solid rgba(201,168,76,0.08);border-radius:12px;padding:16px;cursor:pointer;text-align:center;transition:all 0.2s;">
+                <div style="display:flex;gap:4px;justify-content:center;margin-bottom:12px;">
+                  <div style={`width:32px;height:32px;border-radius:8px;background:${t.colors[0]};border:1px solid rgba(255,255,255,0.1);`}></div>
+                  <div style={`width:32px;height:32px;border-radius:8px;background:${t.colors[1]};border:1px solid rgba(255,255,255,0.1);`}></div>
+                </div>
+                <div style="font-size:13px;color:#fff;font-weight:500;margin-bottom:2px;">{t.label}</div>
+                <div style="font-size:10px;color:rgba(255,255,255,0.4);">{t.desc}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <!-- RGB Level -->
+        <div style="margin-bottom:40px;">
+          <div style="font-size:11px;letter-spacing:2px;color:var(--gold);opacity:0.7;text-transform:uppercase;margin-bottom:16px;">Lighting / RGB</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+            {[
+              {v:"No RGB", icon:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><circle cx="24" cy="24" r="14"/><line x1="14" y1="14" x2="34" y2="34"/></svg>`, label:"No RGB", desc:"Clean and minimal"},
+              {v:"Subtle RGB", icon:`<svg viewBox="0 0 48 48" fill="none" stroke-width="2"><circle cx="24" cy="24" r="14" stroke="currentColor"/><circle cx="24" cy="24" r="6" stroke="url(#rgbSub)" stroke-width="3"/><defs><linearGradient id="rgbSub" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#60a5fa"/><stop offset="100%" stop-color="#a78bfa"/></linearGradient></defs></svg>`, label:"Subtle RGB", desc:"Accent glow, not overwhelming"},
+              {v:"Full RGB", icon:`<svg viewBox="0 0 48 48" fill="none" stroke-width="2"><circle cx="24" cy="24" r="14" stroke="url(#rgbFull)" stroke-width="3"/><circle cx="24" cy="24" r="8" stroke="url(#rgbFull2)" stroke-width="2"/><circle cx="24" cy="24" r="3" fill="url(#rgbFull)"/><defs><linearGradient id="rgbFull" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ef4444"/><stop offset="33%" stop-color="#22c55e"/><stop offset="66%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#ef4444"/></linearGradient><linearGradient id="rgbFull2" x1="1" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f59e0b"/><stop offset="50%" stop-color="#ec4899"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient></defs></svg>`, label:"Full RGB", desc:"Light it up everywhere"},
+            ].map(r => (
+              <button type="button" class="rgb-card" data-value={r.v}
+                style="background:var(--surface);border:2px solid rgba(201,168,76,0.08);border-radius:14px;padding:24px 16px;cursor:pointer;text-align:center;transition:all 0.2s;">
+                <div style="width:48px;height:48px;margin:0 auto 14px;color:var(--gold);" set:html={r.icon}></div>
+                <div style="font-size:14px;color:#fff;font-weight:500;margin-bottom:4px;">{r.label}</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.4);">{r.desc}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <!-- Case Style -->
+        <div style="margin-bottom:40px;">
+          <div style="font-size:11px;letter-spacing:2px;color:var(--gold);opacity:0.7;text-transform:uppercase;margin-bottom:16px;">Case Style</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;">
+            {[
+              {v:"Tempered Glass Showcase", icon:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="10" y="6" width="28" height="36" rx="2"/><rect x="14" y="10" width="20" height="24" rx="1" stroke-dasharray="2 2" opacity="0.4"/><circle cx="24" cy="39" r="1.5" fill="currentColor"/></svg>`, desc:"Show off your hardware"},
+              {v:"Mesh Airflow", icon:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="10" y="6" width="28" height="36" rx="2"/><line x1="14" y1="12" x2="34" y2="12"/><line x1="14" y1="16" x2="34" y2="16"/><line x1="14" y1="20" x2="34" y2="20"/><line x1="14" y1="24" x2="34" y2="24"/><line x1="14" y1="28" x2="34" y2="28"/><circle cx="24" cy="36" r="1.5" fill="currentColor"/></svg>`, desc:"Max cooling performance"},
+              {v:"Mid Tower", icon:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="12" y="6" width="24" height="36" rx="2"/><rect x="16" y="10" width="16" height="20" rx="1" stroke-dasharray="2 2" opacity="0.4"/><circle cx="24" cy="38" r="1.5" fill="currentColor"/><line x1="16" y1="34" x2="20" y2="34"/></svg>`, desc:"Most popular — great airflow"},
+              {v:"Micro ATX", icon:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="13" y="8" width="22" height="32" rx="2"/><rect x="17" y="12" width="14" height="18" rx="1" stroke-dasharray="2 2" opacity="0.4"/><circle cx="24" cy="36" r="1.5" fill="currentColor"/><line x1="17" y1="32" x2="21" y2="32"/></svg>`, desc:"Compact without sacrificing power"},
+              {v:"No Preference", icon:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><circle cx="24" cy="24" r="14"/><path d="M18 20 Q24 14 30 20"/><circle cx="18" cy="26" r="1.5" fill="currentColor"/><circle cx="30" cy="26" r="1.5" fill="currentColor"/></svg>`, desc:"You pick for me"},
+            ].map(c => (
+              <button type="button" class="case-card" data-value={c.v}
+                style="background:var(--surface);border:2px solid rgba(201,168,76,0.08);border-radius:14px;padding:24px 16px;cursor:pointer;text-align:center;transition:all 0.2s;">
+                <div style="width:48px;height:48px;margin:0 auto 14px;color:var(--gold);" set:html={c.icon}></div>
+                <div style="font-size:13px;color:#fff;font-weight:500;margin-bottom:4px;">{c.label}</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.4);">{c.desc}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div style="display:flex;gap:12px;">
+          <button type="button" id="back-2" class="btn" style="background:transparent;border:1px solid rgba(255,255,255,0.15);color:var(--text2);">← Back</button>
+          <button type="button" id="next-3" class="btn btn-gold" style="flex:1;justify-content:center;">Continue →</button>
+        </div>
+      </div>
+
+      <!-- Step 4: Contact -->
+      <div class="wiz-step" id="step-4" style="display:none;">
+        <div style="margin-bottom:40px;">
+          <div class="section-label">Step 4 of 4</div>
           <h2 class="section-title" style="font-size:clamp(28px,4vw,42px);">Almost there</h2>
           <p style="font-size:15px;color:var(--text2);line-height:1.8;margin-top:8px;">We'll email you a custom spec sheet within 24 hours.</p>
         </div>
@@ -122,7 +203,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             </div>
             <div class="form-group">
               <label class="form-label">Additional Notes</label>
-              <textarea class="form-textarea" id="cb-notes" rows="4" placeholder="E.g. mainly play Warzone at high FPS, want quiet cooling, prefer a black case..."></textarea>
+              <textarea class="form-textarea" id="cb-notes" rows="4" placeholder="Anything else? Specific parts you want, games you play, deadline..."></textarea>
             </div>
             <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;padding:16px;font-size:13px;" id="cb-submit">
               Send Build Request
@@ -131,7 +212,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </form>
         </div>
 
-        <button type="button" id="back-2" class="btn" style="background:transparent;border:1px solid rgba(255,255,255,0.15);color:var(--text2);margin-top:16px;">← Back</button>
+        <button type="button" id="back-3" class="btn" style="background:transparent;border:1px solid rgba(255,255,255,0.15);color:var(--text2);margin-top:16px;">← Back</button>
       </div>
 
     </div>
@@ -152,9 +233,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
       <div class="gold-line" style="margin-bottom:16px;"></div>
 
-      <div id="sb-priorities-wrap" style="margin-bottom:20px;opacity:0.3;transition:opacity 0.3s;">
+      <div id="sb-priorities-wrap" style="margin-bottom:16px;opacity:0.3;transition:opacity 0.3s;">
         <div style="font-size:10px;letter-spacing:1px;color:var(--text3);text-transform:uppercase;margin-bottom:8px;">Priorities</div>
         <div id="sb-priorities" style="font-size:12px;color:var(--text2);line-height:1.8;">None yet</div>
+      </div>
+      <div class="gold-line" style="margin-bottom:16px;"></div>
+
+      <div id="sb-style-wrap" style="margin-bottom:20px;opacity:0.3;transition:opacity 0.3s;">
+        <div style="font-size:10px;letter-spacing:1px;color:var(--text3);text-transform:uppercase;margin-bottom:8px;">Style</div>
+        <div id="sb-style" style="font-size:12px;color:var(--text2);line-height:1.8;">Not selected</div>
       </div>
 
       <div style="background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.1);border-radius:10px;padding:16px;font-size:12px;color:var(--text3);line-height:1.7;">
@@ -165,15 +252,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </div>
 
   <style>
-    .use-case-card:hover { border-color: rgba(201,168,76,0.4) !important; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,168,76,0.07); }
-    .use-case-card.selected { border-color: var(--gold) !important; background: rgba(201,168,76,0.06) !important; }
+    .use-case-card:hover, .theme-card:hover, .rgb-card:hover, .case-card:hover { border-color: rgba(201,168,76,0.4) !important; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,168,76,0.07); }
+    .use-case-card.selected, .theme-card.selected, .rgb-card.selected, .case-card.selected { border-color: var(--gold) !important; background: rgba(201,168,76,0.06) !important; }
     .budget-card:hover { border-color: rgba(201,168,76,0.4) !important; transform: translateY(-2px); }
     .budget-card.selected { border-color: var(--gold) !important; background: rgba(201,168,76,0.06) !important; }
     .priority-label:hover { border-color: rgba(201,168,76,0.3) !important; }
     .priority-label:has(input:checked) { border-color: rgba(201,168,76,0.5) !important; background: rgba(201,168,76,0.05) !important; }
     .wiz-step { animation: fadeSlideIn 0.35s ease; }
     @keyframes fadeSlideIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
-    /* Progress dots */
     .dot-circle { color: var(--text3); border-color: rgba(255,255,255,0.1); background: var(--surface); }
     .dot-circle.active { color: var(--gold); border-color: var(--gold); background: rgba(201,168,76,0.1); }
     .dot-circle.done { color: #080808; border-color: var(--gold); background: var(--gold); }
@@ -189,11 +275,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </style>
 
   <script>
-    let wizData = { useCase: '', budget: '', priorities: [] };
+    let wizData = { useCase: '', budget: '', priorities: [], colorTheme: '', rgb: '', caseStyle: '' };
     let currentStep = 1;
 
     function updateProgress(step) {
-      [1,2,3].forEach(n => {
+      [1,2,3,4].forEach(n => {
         const circle = document.querySelector(`.dot-${n}`);
         const label = document.querySelector(`.dot-label-${n}`);
         circle.classList.remove('active','done');
@@ -201,7 +287,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         if (n < step) { circle.classList.add('done'); }
         else if (n === step) { circle.classList.add('active'); label.classList.add('active'); }
       });
-      [1,2].forEach(n => {
+      [1,2,3].forEach(n => {
         const line = document.querySelector(`.line-${n}`);
         line.classList.toggle('done', n < step);
       });
@@ -213,28 +299,30 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       const el = document.getElementById(`step-${n}`);
       el.style.display = '';
       el.style.animation = 'none';
-      el.offsetHeight; // reflow
+      el.offsetHeight;
       el.style.animation = '';
       updateProgress(n);
       window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
     function updateSidebar() {
-      const ucWrap = document.getElementById('sb-usecase-wrap');
-      const budWrap = document.getElementById('sb-budget-wrap');
-      const priWrap = document.getElementById('sb-priorities-wrap');
-
       document.getElementById('sb-usecase').textContent = wizData.useCase || 'Not selected';
-      ucWrap.style.opacity = wizData.useCase ? '1' : '0.3';
+      document.getElementById('sb-usecase-wrap').style.opacity = wizData.useCase ? '1' : '0.3';
 
       document.getElementById('sb-budget').textContent = wizData.budget ? wizData.budget + ' CAD' : 'Not selected';
-      budWrap.style.opacity = wizData.budget ? '1' : '0.3';
+      document.getElementById('sb-budget-wrap').style.opacity = wizData.budget ? '1' : '0.3';
 
       const pList = wizData.priorities;
       document.getElementById('sb-priorities').innerHTML = pList.length
-        ? pList.map(p => `<div style="display:flex;align-items:center;gap:6px;"><span style="color:var(--gold);font-size:10px;">✓</span>${p}</div>`).join('')
+        ? pList.map(p => `<div style="display:flex;align-items:center;gap:6px;"><span style="color:var(--gold);font-size:10px;">&#10003;</span>${p}</div>`).join('')
         : 'None yet';
-      priWrap.style.opacity = pList.length ? '1' : '0.3';
+      document.getElementById('sb-priorities-wrap').style.opacity = pList.length ? '1' : '0.3';
+
+      const styleItems = [wizData.colorTheme, wizData.rgb, wizData.caseStyle].filter(Boolean);
+      document.getElementById('sb-style').innerHTML = styleItems.length
+        ? styleItems.map(s => `<div style="display:flex;align-items:center;gap:6px;"><span style="color:var(--gold);font-size:10px;">&#10003;</span>${s}</div>`).join('')
+        : 'Not selected';
+      document.getElementById('sb-style-wrap').style.opacity = styleItems.length ? '1' : '0.3';
     }
 
     // Step 1: use case cards
@@ -267,11 +355,43 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       });
     });
 
+    // Step 3: theme cards
+    document.querySelectorAll('.theme-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        wizData.colorTheme = card.dataset.value;
+        updateSidebar();
+      });
+    });
+
+    // Step 3: RGB cards
+    document.querySelectorAll('.rgb-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.rgb-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        wizData.rgb = card.dataset.value;
+        updateSidebar();
+      });
+    });
+
+    // Step 3: case cards
+    document.querySelectorAll('.case-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.case-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        wizData.caseStyle = card.dataset.value;
+        updateSidebar();
+      });
+    });
+
     document.getElementById('back-1').addEventListener('click', () => goToStep(1));
     document.getElementById('next-2').addEventListener('click', () => goToStep(3));
     document.getElementById('back-2').addEventListener('click', () => goToStep(2));
+    document.getElementById('next-3').addEventListener('click', () => goToStep(4));
+    document.getElementById('back-3').addEventListener('click', () => goToStep(3));
 
-    // Step 3: submit
+    // Step 4: submit
     document.getElementById('custom-build-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = document.getElementById('cb-submit');
@@ -282,6 +402,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         use_case: wizData.useCase,
         budget: wizData.budget,
         priorities: wizData.priorities.join(', ') || 'None specified',
+        color_theme: wizData.colorTheme || 'No preference',
+        rgb: wizData.rgb || 'No preference',
+        case_style: wizData.caseStyle || 'No preference',
         notes: document.getElementById('cb-notes').value || 'None',
       };
       btn.textContent = 'Sending...'; btn.disabled = true;
@@ -295,8 +418,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         if (!res.ok) throw new Error(data.detail || data.error || res.status);
         window.showToast("Request sent! We'll email you within 24 hours.", 'success');
         e.target.reset();
-        wizData = { useCase: '', budget: '', priorities: [] };
-        document.querySelectorAll('.use-case-card,.budget-card').forEach(c => c.classList.remove('selected'));
+        wizData = { useCase: '', budget: '', priorities: [], colorTheme: '', rgb: '', caseStyle: '' };
+        document.querySelectorAll('.use-case-card,.budget-card,.theme-card,.rgb-card,.case-card').forEach(c => c.classList.remove('selected'));
         document.querySelectorAll('input[name="priorities"]').forEach(cb => cb.checked = false);
         updateSidebar();
         goToStep(1);
@@ -305,7 +428,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       } finally { btn.textContent = 'Send Build Request'; btn.disabled = false; }
     });
 
-    // Init
     updateProgress(1);
     updateSidebar();
   </script>
