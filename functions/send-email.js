@@ -8,6 +8,8 @@ const rateMap = new Map();
 const ALLOWED_ORIGINS = [
   'https://auritechpcs.com',
   'https://www.auritechpcs.com',
+  'https://auritech.ca',
+  'https://www.auritech.ca',
 ];
 
 function getAllowedOrigin(request) {
