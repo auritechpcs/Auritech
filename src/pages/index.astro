@@ -378,16 +378,27 @@ const diamondBuilds = [
     const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
+    function esc(s) {
+      const d = document.createElement('div');
+      d.textContent = s || '';
+      return d.innerHTML;
+    }
+    function safeImgSrc(url) {
+      try { return new URL(url).protocol === 'https:' ? url : ''; }
+      catch { return ''; }
+    }
+
     function buildCard(b) {
-      const photos = b.photos || [];
+      const photos = (b.photos || []).map(safeImgSrc).filter(Boolean);
       const photoCount = photos.length;
       const price = b.listPrice || b.listingPrice || b.salePrice || '';
       const name = b.name || 'Custom Build';
+      const escapedName = esc(name);
       const partsArr = Array.isArray(b.parts) ? b.parts : [];
-      const modalData = JSON.stringify({name, price, photos, parts: partsArr, type:'product'}).replace(/"/g,'&quot;');
+      const modalData = esc(JSON.stringify({name, price, photos, parts: partsArr, type:'product'}));
       const img = photoCount
         ? `<div style="height:240px;background:#0a0a0a;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
-            <img src="${photos[0]}" alt="${name}" style="max-width:100%;max-height:100%;object-fit:contain;padding:12px;transition:transform 0.3s;" />
+            <img src="${safeImgSrc(photos[0])}" alt="${escapedName}" style="max-width:100%;max-height:100%;object-fit:contain;padding:12px;transition:transform 0.3s;" />
             ${photoCount > 1 ? `<div style="position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.7);border-radius:100px;font-size:11px;padding:3px 10px;color:var(--text2);backdrop-filter:blur(4px);">+${photoCount-1} photos</div>` : ''}
           </div>`
         : `<div style="height:180px;background:var(--surface2);display:flex;align-items:center;justify-content:center;">
@@ -397,7 +408,7 @@ const diamondBuilds = [
         ${img}
         <div style="padding:24px;">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px;">
-            <div style="font-family:'Cinzel',serif;font-size:16px;letter-spacing:1px;">${name}</div>
+            <div style="font-family:'Cinzel',serif;font-size:16px;letter-spacing:1px;">${escapedName}</div>
             <span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(74,222,128,0.1);color:#4ade80;border:1px solid rgba(74,222,128,0.25);border-radius:100px;padding:3px 10px;white-space:nowrap;flex-shrink:0;">Same Day Pickup</span>
           </div>
           <div class="gold-line" style="margin-bottom:16px;"></div>
@@ -471,8 +482,8 @@ const diamondBuilds = [
       const parts = data.parts || [];
       document.getElementById('bm-specs').innerHTML = parts.map(p =>
         `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
-          <span style="font-size:11px;letter-spacing:1px;color:var(--gold);opacity:0.7;text-transform:uppercase;">${p.item||''}</span>
-          <span style="font-size:12px;color:var(--text);text-align:right;max-width:55%;">${p.part||''}</span>
+          <span style="font-size:11px;letter-spacing:1px;color:var(--gold);opacity:0.7;text-transform:uppercase;">${esc(p.item||'')}</span>
+          <span style="font-size:12px;color:var(--text);text-align:right;max-width:55%;">${esc(p.part||'')}</span>
         </div>`
       ).join('');
       // Inquire button
@@ -497,7 +508,7 @@ const diamondBuilds = [
       document.getElementById('bm-next').style.display = multi ? 'flex' : 'none';
       document.getElementById('bm-counter').textContent = multi ? `${bmIdx+1} / ${bmPhotos.length}` : '';
       document.getElementById('bm-thumbs').innerHTML = bmPhotos.map((p,i) =>
-        `<img src="${p}" onclick="bmSet(${i})" style="width:64px;height:64px;object-fit:contain;padding:4px;border-radius:6px;cursor:pointer;border:2px solid ${i===bmIdx?'var(--gold)':'rgba(255,255,255,0.08)'};background:#0a0a0a;transition:border 0.15s;">`
+        `<img src="${safeImgSrc(p)}" onclick="bmSet(${i})" style="width:64px;height:64px;object-fit:contain;padding:4px;border-radius:6px;cursor:pointer;border:2px solid ${i===bmIdx?'var(--gold)':'rgba(255,255,255,0.08)'};background:#0a0a0a;transition:border 0.15s;">`
       ).join('');
     }
     window.bmNav = (d) => { bmIdx = (bmIdx + d + bmPhotos.length) % bmPhotos.length; renderBM(); };
@@ -542,7 +553,7 @@ const diamondBuilds = [
         const res = await fetch('/send-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ type: emailType, ...params }),
+          body: JSON.stringify({ type: emailType, honeypot: document.getElementById("_hp_")?.value || "", ...params }),
         });
         if (!res.ok) throw new Error();
         closeModal(); e.target.reset();

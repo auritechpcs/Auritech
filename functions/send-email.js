@@ -47,9 +47,21 @@ function isRateLimited(ip) {
   return entry.count > RATE_LIMIT;
 }
 
-function sanitize(str, max = 500) {
+function escapeHtml(str, max = 500) {
   if (typeof str !== 'string') return '';
-  return str.replace(/[<>]/g, '').trim().slice(0, max);
+  return str
+    .trim()
+    .slice(0, max)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function sanitizePlain(str, max = 200) {
+  if (typeof str !== 'string') return '';
+  return str.replace(/[<>\r\n]/g, ' ').trim().slice(0, max);
 }
 
 function isValidEmail(e) {
@@ -64,8 +76,8 @@ function respond(origin, data, status = 200) {
 }
 
 const templates = {
-  custom_build: (p) => ({
-    subject: `🔧 CUSTOM BUILD | ${p.name} | ${p.budget} | ${p.use_case}`,
+  custom_build: (p, plainName) => ({
+    subject: `🔧 CUSTOM BUILD | ${plainName} | ${sanitizePlain(p.budget)} | ${sanitizePlain(p.use_case)}`,
     html: `
       <div style="background:#111;padding:32px;border-radius:12px;font-family:Inter,sans-serif;max-width:600px;">
         <h2 style="color:#C9A84C;font-family:serif;margin-bottom:8px;">Custom Build Request</h2>
@@ -111,8 +123,8 @@ const templates = {
       </div>`,
   }),
 
-  preconfigured: (p) => ({
-    subject: `💎 PRECONFIGURED | ${p.name} | ${p.build_name} (${p.price})`,
+  preconfigured: (p, plainName) => ({
+    subject: `💎 PRECONFIGURED | ${plainName} | ${sanitizePlain(p.build_name)} (${sanitizePlain(p.price)})`,
     html: `
       <div style="background:#111;padding:32px;border-radius:12px;font-family:Inter,sans-serif;max-width:600px;">
         <h2 style="color:#C9A84C;font-family:serif;margin-bottom:8px;">Preconfigured Build Inquiry</h2>
@@ -138,8 +150,8 @@ const templates = {
       </div>`,
   }),
 
-  product_inquiry: (p) => ({
-    subject: `📦 PICKUP INQUIRY | ${p.name} | ${p.product_name}`,
+  product_inquiry: (p, plainName) => ({
+    subject: `📦 PICKUP INQUIRY | ${plainName} | ${sanitizePlain(p.product_name)}`,
     html: `
       <div style="background:#111;padding:32px;border-radius:12px;font-family:Inter,sans-serif;max-width:600px;">
         <h2 style="color:#C9A84C;font-family:serif;margin-bottom:8px;">Product Inquiry</h2>
@@ -163,8 +175,8 @@ const templates = {
       </div>`,
   }),
 
-  contact: (p) => ({
-    subject: `💬 CONTACT | ${p.name} | ${p.subject_line || 'General Inquiry'}`,
+  contact: (p, plainName) => ({
+    subject: `💬 CONTACT | ${plainName} | ${sanitizePlain(p.subject_line) || 'General Inquiry'}`,
     html: `
       <div style="background:#111;padding:32px;border-radius:12px;font-family:Inter,sans-serif;max-width:600px;">
         <h2 style="color:#C9A84C;font-family:serif;margin-bottom:8px;">Contact Form</h2>
@@ -186,7 +198,18 @@ const templates = {
 };
 
 export async function onRequestPost({ request, env }) {
-  const origin = getAllowedOrigin(request) || '*';
+  const origin = getAllowedOrigin(request);
+  if (!origin) {
+    return new Response(JSON.stringify({ error: 'Forbidden' }), {
+      status: 403,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  const contentLength = parseInt(request.headers.get('content-length') || '0', 10);
+  if (contentLength > 10_000) {
+    return respond(origin, { error: 'Request too large' }, 413);
+  }
 
   const ip = request.headers.get('cf-connecting-ip') || request.headers.get('x-forwarded-for') || 'unknown';
   if (isRateLimited(ip)) {
@@ -213,16 +236,19 @@ export async function onRequestPost({ request, env }) {
   if (!params.name || !params.email) {
     return respond(origin, { error: 'Name and email required' }, 400);
   }
-  if (!isValidEmail(params.email)) {
+  if (!isValidEmail(params.email) || params.email.length > 254) {
     return respond(origin, { error: 'Invalid email address' }, 400);
   }
 
   const clean = {};
   for (const [k, v] of Object.entries(params)) {
-    clean[k] = sanitize(String(v ?? ''));
+    clean[k] = escapeHtml(String(v ?? ''));
   }
 
-  const { subject, html } = templates[type](clean);
+  // Use plain-text sanitized values for the subject line and reply-to
+  const plainName = sanitizePlain(String(params.name ?? ''));
+  const rawEmail = String(params.email ?? '').trim().slice(0, 254);
+  const { subject, html } = templates[type](clean, plainName);
 
   try {
     const res = await fetch('https://api.resend.com/emails', {
@@ -234,7 +260,7 @@ export async function onRequestPost({ request, env }) {
       body: JSON.stringify({
         from: 'Auritech Website <onboarding@resend.dev>',
         to: ['auritechpcs@gmail.com'],
-        reply_to: clean.email,
+        reply_to: rawEmail,
         subject,
         html,
       }),
@@ -243,7 +269,7 @@ export async function onRequestPost({ request, env }) {
     if (!res.ok) {
       const err = await res.text();
       console.error('Resend error:', err);
-      return respond(origin, { error: 'Failed to send email', detail: err }, 500);
+      return respond(origin, { error: 'Failed to send email' }, 500);
     }
 
     return respond(origin, { success: true });
