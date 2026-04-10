@@ -2,10 +2,16 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 const diamondBuilds = [
   { name: "Diamond Core", tier: "Entry", price: 1299, sale: 1499, color: "#a0a0a0",
+    photo: "https://diamondpcs.ca/cdn/shop/files/core_1.png?v=1768243275",
+    photos: ["https://diamondpcs.ca/cdn/shop/files/core_1.png?v=1768243275","https://diamondpcs.ca/cdn/shop/files/core_2.png?v=1768243287"],
     parts: [{item:"CPU",part:"Ryzen 5 5500"},{item:"GPU",part:"RTX 5060"},{item:"RAM",part:"16GB DDR4"},{item:"Storage",part:"1TB NVMe SSD"},{item:"Shipping",part:"$99 Flat Canada-wide"}] },
   { name: "Diamond Apex Plus", tier: "Mid-Range", price: 2539, sale: 2899, color: "#C9A84C",
+    photo: "https://diamondpcs.ca/cdn/shop/files/infinit3.0.png?v=1768411876",
+    photos: ["https://diamondpcs.ca/cdn/shop/files/infinit3.0.png?v=1768411876","https://diamondpcs.ca/cdn/shop/files/infiniti2.0.png?v=1768411876"],
     parts: [{item:"CPU",part:"Ryzen 7 7800X3D"},{item:"GPU",part:"RTX 5070"},{item:"RAM",part:"32GB DDR5"},{item:"Storage",part:"1TB NVMe SSD"},{item:"Shipping",part:"$99 Flat Canada-wide"}] },
   { name: "Diamond Elite RTX", tier: "Flagship", price: 3799, sale: 4299, color: "#e8d48a",
+    photo: "https://diamondpcs.ca/cdn/shop/files/whte_corsair_3500x_d379b833-cf0a-43b0-ad4a-849fb54e45d6.png?v=1769716735",
+    photos: ["https://diamondpcs.ca/cdn/shop/files/whte_corsair_3500x_d379b833-cf0a-43b0-ad4a-849fb54e45d6.png?v=1769716735","https://diamondpcs.ca/cdn/shop/files/updates_white_3500x_05691067-4a19-4111-a08c-0cd57c1f44fb.png?v=1769716719"],
     parts: [{item:"CPU",part:"Ryzen 7 9800X3D"},{item:"GPU",part:"RTX 5080"},{item:"RAM",part:"32GB DDR5"},{item:"Storage",part:"2TB NVMe SSD"},{item:"Shipping",part:"$99 Flat Canada-wide"}] },
 ];
 ---
@@ -119,19 +125,22 @@ const diamondBuilds = [
       <div class="stagger-children" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;">
         {diamondBuilds.map(b=>(
           <div class="build-card" style="background:var(--surface2);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;cursor:pointer;"
-            onclick={`openBuildModal(${JSON.stringify({name:b.name,price:b.price,sale:b.sale,parts:b.parts,photos:[],type:'preconfigured'})})`}>
-            <div style={`padding:16px 28px 12px;background:linear-gradient(135deg,rgba(${b.color === '#e8d48a' ? '232,212,138' : b.color === '#C9A84C' ? '201,168,76' : '160,160,160'},0.06),transparent);border-bottom:1px solid rgba(201,168,76,0.06);display:flex;align-items:center;gap:12px;`}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={b.color} stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              <span style={`font-size:9px;letter-spacing:2px;text-transform:uppercase;color:${b.color};opacity:0.8;`}>{b.tier}</span>
+            onclick={`openBuildModal(${JSON.stringify({name:b.name,price:b.price,sale:b.sale,parts:b.parts,photos:b.photos,type:'preconfigured'})})`}>
+            <div style="position:relative;height:220px;background:#0a0a0a;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+              <img src={b.photo} alt={b.name} loading="lazy" style="max-width:100%;max-height:100%;object-fit:contain;padding:16px;transition:transform 0.4s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'" />
+              <div style={`position:absolute;top:12px;left:12px;display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);border:1px solid rgba(${b.color === '#e8d48a' ? '232,212,138' : b.color === '#C9A84C' ? '201,168,76' : '160,160,160'},0.25);border-radius:100px;padding:4px 12px;`}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={b.color} stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span style={`font-size:9px;letter-spacing:2px;text-transform:uppercase;color:${b.color};`}>{b.tier}</span>
+              </div>
             </div>
-            <div style="padding:24px 28px 28px;">
-              <div style="font-family:'Cinzel',serif;font-size:17px;letter-spacing:1px;margin-bottom:10px;">{b.name}</div>
-              <div style="font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.6;">{b.parts.slice(0,3).map(p=>p.part).join(' · ')}</div>
-              <div class="gold-line" style="margin-bottom:20px;"></div>
+            <div style="padding:20px 24px 24px;">
+              <div style="font-family:'Cinzel',serif;font-size:16px;letter-spacing:1px;margin-bottom:8px;">{b.name}</div>
+              <div style="font-size:12px;color:var(--text2);margin-bottom:16px;line-height:1.6;">{b.parts.slice(0,3).map(p=>p.part).join(' · ')}</div>
+              <div class="gold-line" style="margin-bottom:16px;"></div>
               <div style="display:flex;justify-content:space-between;align-items:flex-end;">
                 <div>
                   <div style="font-size:11px;color:var(--text3);text-decoration:line-through;">${b.sale.toLocaleString()} CAD</div>
-                  <div style="font-family:'Cinzel',serif;font-size:22px;color:var(--gold);">${b.price.toLocaleString()} CAD</div>
+                  <div style="font-family:'Cinzel',serif;font-size:20px;color:var(--gold);">${b.price.toLocaleString()} CAD</div>
                 </div>
                 <span style="font-size:10px;color:var(--text3);letter-spacing:1px;">View details →</span>
               </div>
