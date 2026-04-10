@@ -202,6 +202,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <input type="email" class="form-input" id="cb-email" required placeholder="you@email.com" />
             </div>
             <div class="form-group">
+              <label class="form-label">Are you local to Windsor, ON?</label>
+              <select class="form-input" id="cb-local">
+                <option value="">Not sure / prefer not to say</option>
+                <option value="Yes — Windsor / LaSalle area">Yes — Windsor / LaSalle area</option>
+                <option value="Nearby but not Windsor">Nearby but not Windsor</option>
+                <option value="No — will need shipping">No — will need shipping</option>
+              </select>
+            </div>
+            <div class="form-group">
               <label class="form-label">Additional Notes</label>
               <textarea class="form-textarea" id="cb-notes" rows="4" placeholder="Anything else? Specific parts you want, games you play, deadline..."></textarea>
             </div>
@@ -405,6 +414,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         color_theme: wizData.colorTheme || 'No preference',
         rgb: wizData.rgb || 'No preference',
         case_style: wizData.caseStyle || 'No preference',
+        is_local: document.getElementById('cb-local').value || 'Not specified',
         notes: document.getElementById('cb-notes').value || 'None',
       };
       btn.textContent = 'Sending...'; btn.disabled = true;

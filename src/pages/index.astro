@@ -21,7 +21,6 @@ const diamondBuilds = [
     <div class="hero-orb" style="position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.05) 0%,transparent 70%);top:30%;left:10%;animation:float3 6s ease-in-out infinite;pointer-events:none;"></div>
 
     <div class="fade-up" style="max-width:800px;position:relative;z-index:1;">
-      <div class="section-label" data-parallax="-0.1" style="opacity:0;animation:fadeSlideDown 0.6s 0.2s ease forwards;">Windsor, Ontario · Est. 2024</div>
       <h1 style="font-size:clamp(2.5rem,7vw,5rem);line-height:1.1;margin-bottom:24px;">
         <span id="hero-line1" style="display:block;opacity:0;">The Gold Standard</span>
         <span id="hero-line2" style="display:block;color:var(--gold);opacity:0;">in Custom PCs</span>
@@ -35,20 +34,20 @@ const diamondBuilds = [
       </div>
       <div id="hero-stats" style="display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-top:72px;padding-top:40px;border-top:1px solid rgba(201,168,76,0.12);opacity:0;">
         <div style="text-align:center;">
-          <div id="stat-sold" style="font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);font-weight:700;">0</div>
-          <div style="font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:4px;">PCs Sold</div>
+          <div style="font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);font-weight:700;">100%</div>
+          <div style="font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:4px;">Stress Tested</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);font-weight:700;">48hr</div>
+          <div style="font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:4px;">Avg Build Time</div>
         </div>
         <div style="text-align:center;">
           <div id="stat-built" style="font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);font-weight:700;">0</div>
           <div style="font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:4px;">Builds Completed</div>
         </div>
         <div style="text-align:center;">
-          <div id="stat-stock" style="font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);font-weight:700;">0</div>
-          <div style="font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:4px;">In Stock Now</div>
-        </div>
-        <div style="text-align:center;">
-          <div style="font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);font-weight:700;">Windsor</div>
-          <div style="font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:4px;">Ontario Based</div>
+          <div style="font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);font-weight:700;">Canada</div>
+          <div style="font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:4px;">Wide Delivery</div>
         </div>
       </div>
     </div>
@@ -92,6 +91,21 @@ const diamondBuilds = [
     </div>
   </section>
 
+  <!-- Auritech Builds — Same Day Pickup -->
+  <section style="padding:80px 24px;max-width:1100px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:48px;">
+      <div class="section-label">Built By Auritech</div>
+      <h2 class="section-title">Same Day Pickup Builds</h2>
+      <p style="font-size:15px;color:var(--text2);margin-top:12px;">Fully assembled, tested, and ready. Walk in and take it home — no wait.</p>
+    </div>
+    <div id="home-inventory" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,380px));gap:24px;justify-content:center;">
+      <div style="text-align:center;padding:60px;color:var(--text3);font-size:14px;grid-column:1/-1;">Loading builds...</div>
+    </div>
+    <div style="text-align:center;margin-top:40px;">
+      <a href="/inventory" class="btn btn-outline">View All Same Day Pickup →</a>
+    </div>
+  </section>
+
   <!-- Featured Diamond Builds -->
   <section style="padding:80px 24px;background:var(--surface);border-top:1px solid rgba(201,168,76,0.08);border-bottom:1px solid rgba(201,168,76,0.08);">
     <div style="max-width:1100px;margin:0 auto;">
@@ -125,21 +139,6 @@ const diamondBuilds = [
           </div>
         ))}
       </div>
-    </div>
-  </section>
-
-  <!-- In Stock Preview -->
-  <section style="padding:80px 24px;max-width:1100px;margin:0 auto;">
-    <div style="text-align:center;margin-bottom:48px;">
-      <div class="section-label">Ready to Ship</div>
-      <h2 class="section-title">In-Stock PCs</h2>
-      <p style="font-size:15px;color:var(--text2);margin-top:12px;">Built and ready. Take it home today.</p>
-    </div>
-    <div id="home-inventory" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,380px));gap:24px;justify-content:center;">
-      <div style="text-align:center;padding:60px;color:var(--text3);font-size:14px;grid-column:1/-1;">Loading in-stock PCs...</div>
-    </div>
-    <div style="text-align:center;margin-top:40px;">
-      <a href="/inventory" class="btn btn-outline">View All In-Stock →</a>
     </div>
   </section>
 
@@ -240,6 +239,15 @@ const diamondBuilds = [
           <input type="tel" class="form-input" id="modal-phone" placeholder="Optional" />
         </div>
         <div class="form-group">
+          <label class="form-label">Are you local to Windsor, ON?</label>
+          <select class="form-input" id="modal-local">
+            <option value="">Not sure / prefer not to say</option>
+            <option value="Yes — Windsor / LaSalle area">Yes — Windsor / LaSalle area</option>
+            <option value="Nearby but not Windsor">Nearby but not Windsor</option>
+            <option value="No — will need shipping">No — will need shipping</option>
+          </select>
+        </div>
+        <div class="form-group">
           <label class="form-label">Message</label>
           <textarea class="form-textarea" id="modal-message" placeholder="Any questions or notes..."></textarea>
         </div>
@@ -268,14 +276,6 @@ const diamondBuilds = [
     @keyframes float2 { 0%,100% { transform:translate(0,0) scale(1); } 50% { transform:translate(20px,-30px) scale(1.05); } }
     @keyframes float3 { 0%,100% { transform:translate(0,0); } 50% { transform:translate(15px,25px); } }
 
-    /* Typing cursor */
-    .typing-cursor {
-      display: inline-block; width: 3px; height: 0.9em; background: var(--gold);
-      margin-left: 4px; vertical-align: text-bottom;
-      animation: blink 0.8s step-end infinite;
-    }
-    @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
-
     /* Enhanced CTA section */
     section:last-of-type { position: relative; }
 
@@ -301,53 +301,11 @@ const diamondBuilds = [
       const btns = document.getElementById('hero-btns');
       const stats = document.getElementById('hero-stats');
 
-      // Typing effect for hero title
-      const text1 = 'The Gold Standard';
-      const text2 = 'in Custom PCs';
-      line1.textContent = '';
-      line2.textContent = '';
-      line1.style.opacity = '1';
-      line2.style.opacity = '1';
-
-      const cursor = document.createElement('span');
-      cursor.className = 'typing-cursor';
-
-      let i = 0;
-      function typeLine1() {
-        if (i < text1.length) {
-          line1.textContent = text1.slice(0, i + 1);
-          line1.appendChild(cursor);
-          i++;
-          setTimeout(typeLine1, 45 + Math.random() * 30);
-        } else {
-          cursor.remove();
-          setTimeout(typeLine2Start, 200);
-        }
-      }
-
-      let j = 0;
-      function typeLine2Start() {
-        j = 0;
-        typeLine2();
-      }
-      function typeLine2() {
-        if (j < text2.length) {
-          line2.textContent = text2.slice(0, j + 1);
-          line2.appendChild(cursor);
-          j++;
-          setTimeout(typeLine2, 45 + Math.random() * 30);
-        } else {
-          // Remove cursor after a beat
-          setTimeout(() => cursor.remove(), 2000);
-          // Reveal rest
-          setTimeout(() => desc.classList.add('show'), 200);
-          setTimeout(() => btns.classList.add('show'), 400);
-          setTimeout(() => stats.classList.add('show'), 600);
-        }
-      }
-
-      // Start typing after page loads
-      setTimeout(typeLine1, 400);
+      setTimeout(() => line1.classList.add('show'), 200);
+      setTimeout(() => line2.classList.add('show'), 420);
+      setTimeout(() => desc.classList.add('show'), 680);
+      setTimeout(() => btns.classList.add('show'), 880);
+      setTimeout(() => stats.classList.add('show'), 1080);
     })();
 
     import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
@@ -384,7 +342,10 @@ const diamondBuilds = [
       return `<div class="build-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;cursor:pointer;" onclick="openBuildModal(JSON.parse(this.dataset.build))" data-build="${modalData}">
         ${img}
         <div style="padding:24px;">
-          <div style="font-family:'Cinzel',serif;font-size:16px;letter-spacing:1px;margin-bottom:16px;">${name}</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px;">
+            <div style="font-family:'Cinzel',serif;font-size:16px;letter-spacing:1px;">${name}</div>
+            <span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(74,222,128,0.1);color:#4ade80;border:1px solid rgba(74,222,128,0.25);border-radius:100px;padding:3px 10px;white-space:nowrap;flex-shrink:0;">Same Day Pickup</span>
+          </div>
           <div class="gold-line" style="margin-bottom:16px;"></div>
           <div style="display:flex;justify-content:space-between;align-items:center;">
             <div style="font-family:'Cinzel',serif;font-size:20px;color:var(--gold);">${price ? '$'+Number(price).toLocaleString()+' CAD' : 'Contact Us'}</div>
@@ -397,15 +358,13 @@ const diamondBuilds = [
     onValue(ref(db, 'auritech_inventory_v2'), (snap) => {
       const data = snap.val();
 
-      // Count stats from all builds
-      let sold = 0, built = 0, inStock = 0;
+      // Count total builds ever created
+      let built = 0;
       if (data && data.builds) {
-        data.builds.forEach(b => {
-          if (!b) return;
-          if (b.status === 'sold') { sold++; built++; }
-          if (b.status === 'listed') { inStock++; built++; }
-          if (b.status === 'in-progress') built++;
-        });
+        data.builds.forEach(b => { if (b) built++; });
+      }
+      if (data && data.soldBuilds) {
+        built += data.soldBuilds.length;
       }
 
       // Smooth eased count up
@@ -422,9 +381,7 @@ const diamondBuilds = [
         requestAnimationFrame(tick);
       }
 
-      countUp(document.getElementById('stat-sold'), sold);
       countUp(document.getElementById('stat-built'), built);
-      countUp(document.getElementById('stat-stock'), inStock);
 
       const container = document.getElementById('home-inventory');
       if (!data) { container.innerHTML = '<div style="text-align:center;padding:60px;color:var(--text3);grid-column:1/-1;">No PCs in stock right now. Check back soon!</div>'; return; }
@@ -516,6 +473,7 @@ const diamondBuilds = [
         name: document.getElementById('modal-name').value,
         email: document.getElementById('modal-email').value,
         phone: document.getElementById('modal-phone').value,
+        is_local: document.getElementById('modal-local').value || 'Not specified',
         message: document.getElementById('modal-message').value,
         build_name: document.getElementById('modal-product-name').textContent,
         product_name: document.getElementById('modal-product-name').textContent,

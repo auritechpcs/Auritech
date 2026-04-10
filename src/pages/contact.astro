@@ -56,6 +56,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <div class="form-group"><label class="form-label">Name *</label><input type="text" class="form-input" id="c-name" required /></div>
           <div class="form-group"><label class="form-label">Email *</label><input type="email" class="form-input" id="c-email" required /></div>
           <div class="form-group"><label class="form-label">Phone</label><input type="tel" class="form-input" id="c-phone" placeholder="Optional" /></div>
+          <div class="form-group">
+            <label class="form-label">Are you local to Windsor, ON?</label>
+            <select class="form-input" id="c-local">
+              <option value="">Not sure / prefer not to say</option>
+              <option value="Yes — Windsor / LaSalle area">Yes — Windsor / LaSalle area</option>
+              <option value="Nearby but not Windsor">Nearby but not Windsor</option>
+              <option value="No — will need shipping">No — will need shipping</option>
+            </select>
+          </div>
           <div class="form-group"><label class="form-label">Message *</label><textarea class="form-textarea" id="c-message" rows="5" required placeholder="What can we help you with?"></textarea></div>
           <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;" id="c-submit">Send Message</button>
         </form>
@@ -80,6 +89,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         phone: document.getElementById('c-phone').value,
         product_name: 'General Inquiry',
         price: '',
+        is_local: document.getElementById('c-local').value || 'Not specified',
         message: document.getElementById('c-message').value,
       };
       btn.textContent = 'Sending...'; btn.disabled = true;

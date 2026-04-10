@@ -1,14 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="In-Stock PCs" description="Browse Auritech's ready-to-ship custom PCs. Available for same-day pickup in Windsor.">
+<BaseLayout title="Same Day Pickup Builds" description="Browse Auritech's ready-to-pickup custom PCs. Walk in and take it home same day — Windsor, Ontario.">
 
   <div style="padding:60px 24px 80px;max-width:1200px;margin:0 auto;">
     <div style="text-align:center;margin-bottom:64px;">
-      <div class="section-label">Ready to Ship</div>
-      <h1 class="section-title">In-Stock PCs</h1>
+      <div class="section-label">Built By Auritech</div>
+      <h1 class="section-title">Same Day Pickup Builds</h1>
       <p style="font-size:15px;color:var(--text2);max-width:520px;margin:0 auto;line-height:1.8;">
-        These are builds we have fully assembled and ready to go. Pick up same day in Windsor or ship anywhere in Canada.
+        Fully assembled and stress-tested. Walk in, take it home. No order wait, no shipping delay.
       </p>
     </div>
 
@@ -74,6 +74,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <div class="form-group"><label class="form-label">Your Name *</label><input type="text" class="form-input" id="modal-name" required /></div>
         <div class="form-group"><label class="form-label">Email *</label><input type="email" class="form-input" id="modal-email" required /></div>
         <div class="form-group"><label class="form-label">Phone</label><input type="tel" class="form-input" id="modal-phone" placeholder="Optional" /></div>
+        <div class="form-group">
+          <label class="form-label">Are you local to Windsor, ON?</label>
+          <select class="form-input" id="modal-local">
+            <option value="">Not sure / prefer not to say</option>
+            <option value="Yes — Windsor / LaSalle area">Yes — Windsor / LaSalle area</option>
+            <option value="Nearby but not Windsor">Nearby but not Windsor</option>
+            <option value="No — will need shipping">No — will need shipping</option>
+          </select>
+        </div>
         <div class="form-group"><label class="form-label">Message</label><textarea class="form-textarea" id="modal-message" placeholder="Any questions? Pick up or ship?"></textarea></div>
         <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;" id="modal-submit">Send Inquiry</button>
       </form>
@@ -137,7 +146,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       return `<div class="inv-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;" data-photos="${photosJson}" data-name="${name.replace(/"/g,'&quot;')}" data-parts='${JSON.stringify(partsArr).replace(/'/g,"&#39;")}' data-price="${price}">
         ${imgSection}
         <div style="padding:24px;">
-          <div style="font-family:'Cinzel',serif;font-size:17px;letter-spacing:1px;margin-bottom:16px;">${name}</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px;">
+            <div style="font-family:'Cinzel',serif;font-size:17px;letter-spacing:1px;">${name}</div>
+            <span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(74,222,128,0.1);color:#4ade80;border:1px solid rgba(74,222,128,0.25);border-radius:100px;padding:3px 10px;white-space:nowrap;flex-shrink:0;">Same Day Pickup</span>
+          </div>
           ${partsArr.length ? `<div style="margin-bottom:16px;">${partsHtml}</div>` : ''}
           ${b.description ? `<p style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:16px;">${b.description}</p>` : ''}
           <div class="gold-line" style="margin-bottom:16px;"></div>
@@ -255,6 +267,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         name: document.getElementById('modal-name').value,
         email: document.getElementById('modal-email').value,
         phone: document.getElementById('modal-phone').value,
+        is_local: document.getElementById('modal-local').value || 'Not specified',
         product_name: document.getElementById('modal-product-name').textContent,
         price: document.getElementById('modal-product-price').textContent,
         message: document.getElementById('modal-message').value,
