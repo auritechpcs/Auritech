@@ -106,7 +106,7 @@ const diamondBuilds = [
     <div style="text-align:center;margin-bottom:48px;">
       <div class="section-label">Built By Auritech</div>
       <h2 class="section-title">Same Day Pickup Builds</h2>
-      <p style="font-size:15px;color:var(--text2);margin-top:12px;">Fully assembled, tested, and ready. Walk in and take it home — no wait.</p>
+      <p style="font-size:15px;color:var(--text2);margin-top:12px;">Fully assembled, tested, and ready. Walk in and take it home. No wait.</p>
     </div>
     <div id="home-inventory" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,380px));gap:24px;justify-content:center;">
       <div style="text-align:center;padding:60px;color:var(--text3);font-size:14px;grid-column:1/-1;">Loading builds...</div>
@@ -253,11 +253,11 @@ const diamondBuilds = [
         </div>
         <div class="form-group">
           <label class="form-label">Are you local to Windsor, ON?</label>
-          <select class="form-input" id="modal-local">
-            <option value="">Not sure / prefer not to say</option>
-            <option value="Yes — Windsor / LaSalle area">Yes — Windsor / LaSalle area</option>
+          <select class="form-input" id="modal-local" required>
+            <option value="">Select one</option>
+            <option value="Yes, Windsor / LaSalle area">Yes, Windsor / LaSalle area</option>
             <option value="Nearby but not Windsor">Nearby but not Windsor</option>
-            <option value="No — will need shipping">No — will need shipping</option>
+            <option value="No, will need shipping">No, will need shipping</option>
           </select>
         </div>
         <div class="form-group">

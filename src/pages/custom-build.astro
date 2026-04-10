@@ -55,7 +55,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <div style="margin-bottom:40px;">
           <div class="section-label">Step 2 of 4</div>
           <h2 class="section-title" style="font-size:clamp(28px,4vw,42px);">Budget & priorities</h2>
-          <p style="font-size:15px;color:var(--text2);line-height:1.8;margin-top:8px;">Select your range — we'll maximize every dollar.</p>
+          <p style="font-size:15px;color:var(--text2);line-height:1.8;margin-top:8px;">Select your range. We'll maximize every dollar.</p>
         </div>
 
         <div style="margin-bottom:40px;">
@@ -157,7 +157,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             {[
               {v:"Tempered Glass Showcase", icon:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="10" y="6" width="28" height="36" rx="2"/><rect x="14" y="10" width="20" height="24" rx="1" stroke-dasharray="2 2" opacity="0.4"/><circle cx="24" cy="39" r="1.5" fill="currentColor"/></svg>`, desc:"Show off your hardware"},
               {v:"Mesh Airflow", icon:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="10" y="6" width="28" height="36" rx="2"/><line x1="14" y1="12" x2="34" y2="12"/><line x1="14" y1="16" x2="34" y2="16"/><line x1="14" y1="20" x2="34" y2="20"/><line x1="14" y1="24" x2="34" y2="24"/><line x1="14" y1="28" x2="34" y2="28"/><circle cx="24" cy="36" r="1.5" fill="currentColor"/></svg>`, desc:"Max cooling performance"},
-              {v:"Mid Tower", icon:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="12" y="6" width="24" height="36" rx="2"/><rect x="16" y="10" width="16" height="20" rx="1" stroke-dasharray="2 2" opacity="0.4"/><circle cx="24" cy="38" r="1.5" fill="currentColor"/><line x1="16" y1="34" x2="20" y2="34"/></svg>`, desc:"Most popular — great airflow"},
+              {v:"Mid Tower", icon:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="12" y="6" width="24" height="36" rx="2"/><rect x="16" y="10" width="16" height="20" rx="1" stroke-dasharray="2 2" opacity="0.4"/><circle cx="24" cy="38" r="1.5" fill="currentColor"/><line x1="16" y1="34" x2="20" y2="34"/></svg>`, desc:"Most popular, great airflow"},
               {v:"Micro ATX", icon:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="13" y="8" width="22" height="32" rx="2"/><rect x="17" y="12" width="14" height="18" rx="1" stroke-dasharray="2 2" opacity="0.4"/><circle cx="24" cy="36" r="1.5" fill="currentColor"/><line x1="17" y1="32" x2="21" y2="32"/></svg>`, desc:"Compact without sacrificing power"},
               {v:"No Preference", icon:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><circle cx="24" cy="24" r="14"/><path d="M18 20 Q24 14 30 20"/><circle cx="18" cy="26" r="1.5" fill="currentColor"/><circle cx="30" cy="26" r="1.5" fill="currentColor"/></svg>`, desc:"You pick for me"},
             ].map(c => (
@@ -203,11 +203,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             </div>
             <div class="form-group">
               <label class="form-label">Are you local to Windsor, ON?</label>
-              <select class="form-input" id="cb-local">
-                <option value="">Not sure / prefer not to say</option>
-                <option value="Yes — Windsor / LaSalle area">Yes — Windsor / LaSalle area</option>
+              <select class="form-input" id="cb-local" required>
+                <option value="">Select one</option>
+                <option value="Yes, Windsor / LaSalle area">Yes, Windsor / LaSalle area</option>
                 <option value="Nearby but not Windsor">Nearby but not Windsor</option>
-                <option value="No — will need shipping">No — will need shipping</option>
+                <option value="No, will need shipping">No, will need shipping</option>
               </select>
             </div>
             <div class="form-group">

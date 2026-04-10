@@ -58,11 +58,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <div class="form-group"><label class="form-label">Phone</label><input type="tel" class="form-input" id="c-phone" placeholder="Optional" /></div>
           <div class="form-group">
             <label class="form-label">Are you local to Windsor, ON?</label>
-            <select class="form-input" id="c-local">
-              <option value="">Not sure / prefer not to say</option>
-              <option value="Yes — Windsor / LaSalle area">Yes — Windsor / LaSalle area</option>
+            <select class="form-input" id="c-local" required>
+              <option value="">Select one</option>
+              <option value="Yes, Windsor / LaSalle area">Yes, Windsor / LaSalle area</option>
               <option value="Nearby but not Windsor">Nearby but not Windsor</option>
-              <option value="No — will need shipping">No — will need shipping</option>
+              <option value="No, will need shipping">No, will need shipping</option>
             </select>
           </div>
           <div class="form-group"><label class="form-label">Message *</label><textarea class="form-textarea" id="c-message" rows="5" required placeholder="What can we help you with?"></textarea></div>

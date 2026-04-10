@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="Same Day Pickup Builds" description="Browse Auritech's ready-to-pickup custom PCs. Walk in and take it home same day — Windsor, Ontario.">
+<BaseLayout title="Same Day Pickup Builds" description="Browse Auritech's ready-to-pickup custom PCs. Walk in and take it home same day. Windsor, Ontario.">
 
   <div style="padding:60px 24px 80px;max-width:1200px;margin:0 auto;">
     <div style="text-align:center;margin-bottom:64px;">
@@ -76,11 +76,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <div class="form-group"><label class="form-label">Phone</label><input type="tel" class="form-input" id="modal-phone" placeholder="Optional" /></div>
         <div class="form-group">
           <label class="form-label">Are you local to Windsor, ON?</label>
-          <select class="form-input" id="modal-local">
-            <option value="">Not sure / prefer not to say</option>
-            <option value="Yes — Windsor / LaSalle area">Yes — Windsor / LaSalle area</option>
+          <select class="form-input" id="modal-local" required>
+            <option value="">Select one</option>
+            <option value="Yes, Windsor / LaSalle area">Yes, Windsor / LaSalle area</option>
             <option value="Nearby but not Windsor">Nearby but not Windsor</option>
-            <option value="No — will need shipping">No — will need shipping</option>
+            <option value="No, will need shipping">No, will need shipping</option>
           </select>
         </div>
         <div class="form-group"><label class="form-label">Message</label><textarea class="form-textarea" id="modal-message" placeholder="Any questions? Pick up or ship?"></textarea></div>
