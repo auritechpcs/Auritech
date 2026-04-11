@@ -128,9 +128,9 @@ const diamondBuilds = [
       </div>
       <div class="stagger-children" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;">
         {diamondBuilds.map(b=>(
-          <div class="build-card" style="background:var(--surface2);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;cursor:pointer;"
+          <div class="build-card" style="background:var(--surface2);border:1px solid rgba(201,168,76,0.22);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;cursor:pointer;"
             onclick={`openBuildModal(${JSON.stringify({name:b.name,price:b.price,sale:b.sale,parts:b.parts,photos:b.photos,type:'preconfigured'})})`}>
-            <div style="position:relative;height:220px;background:#0a0a0a;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+            <div style="position:relative;height:220px;background:#0d0d0d;border-bottom:1px solid rgba(201,168,76,0.18);overflow:hidden;display:flex;align-items:center;justify-content:center;">
               <img src={b.photo} alt={b.name} loading="lazy" style="max-width:100%;max-height:100%;object-fit:contain;padding:16px;transition:transform 0.4s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'" />
               <div style={`position:absolute;top:12px;left:12px;display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);border:1px solid rgba(${b.color === '#e8d48a' ? '232,212,138' : b.color === '#C9A84C' ? '201,168,76' : '160,160,160'},0.25);border-radius:100px;padding:4px 12px;`}>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={b.color} stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -397,14 +397,14 @@ const diamondBuilds = [
       const partsArr = Array.isArray(b.parts) ? b.parts : [];
       const modalData = esc(JSON.stringify({name, price, photos, parts: partsArr, type:'product'}));
       const img = photoCount
-        ? `<div style="height:240px;background:#0a0a0a;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
+        ? `<div style="height:240px;background:#0d0d0d;border-bottom:1px solid rgba(201,168,76,0.18);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
             <img src="${safeImgSrc(photos[0])}" alt="${escapedName}" style="max-width:100%;max-height:100%;object-fit:contain;padding:12px;transition:transform 0.3s;" />
             ${photoCount > 1 ? `<div style="position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.7);border-radius:100px;font-size:11px;padding:3px 10px;color:var(--text2);backdrop-filter:blur(4px);">+${photoCount-1} photos</div>` : ''}
           </div>`
-        : `<div style="height:180px;background:var(--surface2);display:flex;align-items:center;justify-content:center;">
+        : `<div style="height:180px;background:var(--surface2);border-bottom:1px solid rgba(201,168,76,0.18);display:flex;align-items:center;justify-content:center;">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
           </div>`;
-      return `<div class="build-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;cursor:pointer;" onclick="openBuildModal(JSON.parse(this.dataset.build))" data-build="${modalData}">
+      return `<div class="build-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.22);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;cursor:pointer;" onclick="openBuildModal(JSON.parse(this.dataset.build))" data-build="${modalData}">
         ${img}
         <div style="padding:24px;">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px;">
