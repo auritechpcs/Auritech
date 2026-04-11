@@ -95,8 +95,27 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     #gallery-overlay { display:none; }
     #gallery-overlay.open { display:flex; }
     @media (max-width: 600px) {
-      #gallery-overlay > div > div:last-child { flex-direction: column; }
-      #gallery-overlay > div > div:last-child > div:last-child { width: 100%; border-left: none; border-top: 1px solid rgba(255,255,255,0.06); }
+      #gallery-overlay {
+        align-items: flex-start;
+        overflow-y: auto;
+        padding: 12px;
+      }
+      #gallery-overlay > div {
+        max-height: none;
+        overflow: visible;
+        margin: auto 0;
+        width: 100%;
+      }
+      #gallery-overlay > div > div:last-child {
+        flex-direction: column;
+        overflow: visible;
+      }
+      #gallery-overlay > div > div:last-child > div:last-child {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid rgba(255,255,255,0.06);
+        overflow: visible;
+      }
     }
   </style>
 
@@ -197,6 +216,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       galleryPhotoIdx = 0;
       renderGallery();
       document.getElementById('gallery-overlay').classList.add('open');
+      window.lockBodyScroll?.();
     };
 
     function renderGallery() {
@@ -252,7 +272,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       renderGallery();
     };
 
-    window.closeGallery = () => document.getElementById('gallery-overlay').classList.remove('open');
+    window.closeGallery = () => {
+      document.getElementById('gallery-overlay').classList.remove('open');
+      window.unlockBodyScroll?.();
+    };
     document.addEventListener('keydown', e => {
       if (document.getElementById('gallery-overlay').classList.contains('open')) {
         if (e.key === 'ArrowLeft') galleryNav(-1);
@@ -265,9 +288,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       document.getElementById('modal-product-name').textContent = btn.dataset.name;
       document.getElementById('modal-product-price').textContent = btn.dataset.price;
       document.getElementById('modal-overlay').classList.add('open');
+      window.lockBodyScroll?.();
       setTimeout(() => document.getElementById('modal-name').focus(), 100);
     };
-    window.closeModal = () => document.getElementById('modal-overlay').classList.remove('open');
+    window.closeModal = () => {
+      document.getElementById('modal-overlay').classList.remove('open');
+      window.unlockBodyScroll?.();
+    };
     document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
 
     document.getElementById('modal-form').addEventListener('submit', async (e) => {

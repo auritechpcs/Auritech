@@ -165,6 +165,7 @@ const currentPath = Astro.url.pathname;
     .toast.error { background: #2a0f0f; border: 1px solid #ef4444; color: #ef4444; }
 
     /* Modal */
+    body.modal-open { overflow: hidden; touch-action: none; }
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -178,6 +179,7 @@ const currentPath = Astro.url.pathname;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.2s;
+      overflow-y: auto;
     }
     .modal-overlay.open { opacity: 1; pointer-events: all; }
     .modal {
@@ -189,10 +191,15 @@ const currentPath = Astro.url.pathname;
       max-width: 520px;
       max-height: 90vh;
       overflow-y: auto;
+      overscroll-behavior: contain;
       transform: scale(0.95);
       transition: transform 0.2s;
     }
     .modal-overlay.open .modal { transform: scale(1); }
+    @media (max-width: 640px) {
+      .modal-overlay { align-items: flex-start; padding: 12px; }
+      .modal { padding: 24px; max-height: none; margin: auto 0; }
+    }
 
     /* Forms */
     .form-group { margin-bottom: 20px; }
@@ -502,6 +509,10 @@ const currentPath = Astro.url.pathname;
       const open = mobileMenu.style.display === 'flex';
       mobileMenu.style.display = open ? 'none' : 'flex';
     });
+
+    // Body scroll lock for modals
+    window.lockBodyScroll = () => document.body.classList.add('modal-open');
+    window.unlockBodyScroll = () => document.body.classList.remove('modal-open');
 
     // Toast utility
     window.showToast = (msg, type = 'success') => {
