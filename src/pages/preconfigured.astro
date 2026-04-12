@@ -181,14 +181,15 @@ const builds = [
     .build-card:hover .photo-alt { opacity: 1 !important; }
     .build-card:hover .dot-0 { opacity: 0.3; }
     .build-card:hover .dot-1 { opacity: 1 !important; background: var(--gold) !important; }
+  </style>
+
+  <style is:global>
     #build-detail-overlay.open { display: flex !important; }
     @media (max-width: 640px) {
-      /* Slide up as a bottom sheet */
       #build-detail-overlay {
         align-items: flex-end !important;
         padding: 0 !important;
       }
-      /* Modal box: scrollable, rounded top corners */
       #build-detail-overlay > div {
         max-height: 92vh !important;
         overflow-y: auto !important;
@@ -196,22 +197,40 @@ const builds = [
         overscroll-behavior: contain;
         border-radius: 16px 16px 0 0 !important;
         width: 100% !important;
-        display: block !important;
+        display: flex !important;
+        flex-direction: column !important;
+      }
+      /* Sticky header so close button is always reachable */
+      #build-detail-overlay > div > div:first-child {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 5 !important;
+        background: var(--surface) !important;
       }
       /* Body: stack photo above specs */
       #build-detail-overlay > div > div:nth-child(2) {
+        display: flex !important;
         flex-direction: column !important;
+        flex: none !important;
         height: auto !important;
         overflow: visible !important;
         min-height: unset !important;
       }
-      /* Photo column: fixed height, no flex stretch */
+      /* Photo column: auto height, image constrained */
       #build-detail-overlay > div > div:nth-child(2) > div:first-child {
+        flex: none !important;
+        height: auto !important;
+        min-width: 0 !important;
+        padding: 16px !important;
+      }
+      #build-detail-overlay > div > div:nth-child(2) > div:first-child > div:first-child {
         flex: none !important;
         height: 280px !important;
         min-height: unset !important;
       }
-      /* Specs column: full width below photos */
+      /* Hide thumbnail strip on mobile — use arrows instead */
+      #bd-thumbs { display: none !important; }
+      /* Specs column: full width below photo */
       #build-detail-overlay > div > div:nth-child(2) > div:last-child {
         width: 100% !important;
         border-left: none !important;
