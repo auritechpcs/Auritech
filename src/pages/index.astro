@@ -564,6 +564,7 @@ const diamondBuilds = [
 
     // Modal
     window.handleInquireClick = (btn) => {
+      closeBuildModal();
       document.getElementById('modal-product-name').textContent = btn.dataset.name;
       document.getElementById('modal-product-price').textContent = btn.dataset.price;
       document.getElementById('modal-type').value = btn.dataset.type;

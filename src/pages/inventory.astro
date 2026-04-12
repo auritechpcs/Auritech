@@ -314,6 +314,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     });
 
     window.handleInquireClick = (btn) => {
+      closeGallery();
       document.getElementById('modal-product-name').textContent = btn.dataset.name;
       document.getElementById('modal-product-price').textContent = btn.dataset.price;
       document.getElementById('modal-overlay').classList.add('open');
