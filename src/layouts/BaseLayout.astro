@@ -510,9 +510,26 @@ const currentPath = Astro.url.pathname;
       mobileMenu.style.display = open ? 'none' : 'flex';
     });
 
-    // Body scroll lock for modals
-    window.lockBodyScroll = () => document.body.classList.add('modal-open');
-    window.unlockBodyScroll = () => document.body.classList.remove('modal-open');
+    // Body scroll lock for modals — iOS Safari needs position:fixed trick
+    let __scrollLockY = 0;
+    window.lockBodyScroll = () => {
+      __scrollLockY = window.pageYOffset || document.documentElement.scrollTop || 0;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${__scrollLockY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.width = '100%';
+      document.body.classList.add('modal-open');
+    };
+    window.unlockBodyScroll = () => {
+      document.body.classList.remove('modal-open');
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
+      window.scrollTo(0, __scrollLockY);
+    };
 
     // Toast utility
     window.showToast = (msg, type = 'success') => {
