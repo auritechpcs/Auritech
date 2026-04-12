@@ -336,11 +336,47 @@ const diamondBuilds = [
     .build-card [data-photos]:hover .img-hover-overlay { background: rgba(0,0,0,0.35) !important; }
     .build-card [data-photos]:hover .view-label { opacity: 1 !important; }
 
-    /* Build detail modal */
-    #build-modal-overlay.open { display:flex !important; }
-    @media (max-width:640px) {
-      #build-modal-overlay > div > div:last-child { flex-direction:column; }
-      #build-modal-overlay > div > div:last-child > div:last-child { width:100%;border-left:none;border-top:1px solid rgba(255,255,255,0.06); }
+  </style>
+
+  <style is:global>
+    #build-modal-overlay.open { display: flex !important; }
+    @media (max-width: 640px) {
+      #build-modal-overlay { align-items: flex-end !important; padding: 0 !important; }
+      #build-modal-overlay > div {
+        max-height: 92vh !important;
+        width: 100% !important;
+        overflow-y: auto !important;
+        border-radius: 16px 16px 0 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+      }
+      #build-modal-overlay > div > div:first-child {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 5 !important;
+        background: var(--surface) !important;
+      }
+      #build-modal-overlay > div > div:nth-child(2) {
+        display: flex !important;
+        flex-direction: column !important;
+        flex: none !important;
+        overflow: visible !important;
+      }
+      #bm-photo-col {
+        flex: none !important;
+      }
+      #bm-photo-col > div:first-child {
+        flex: none !important;
+        height: 280px !important;
+        min-height: 0 !important;
+      }
+      #bm-thumbs { display: none !important; }
+      #build-modal-overlay > div > div:nth-child(2) > div:last-child {
+        width: 100% !important;
+        border-left: none !important;
+        border-top: 1px solid rgba(255,255,255,0.06) !important;
+        overflow: visible !important;
+      }
     }
   </style>
 
@@ -500,6 +536,7 @@ const diamondBuilds = [
         photoCol.style.display = 'none';
       }
       document.getElementById('build-modal-overlay').classList.add('open');
+      window.lockBodyScroll?.();
     };
     function renderBM() {
       document.getElementById('bm-main-img').src = bmPhotos[bmIdx] || '';
@@ -513,7 +550,10 @@ const diamondBuilds = [
     }
     window.bmNav = (d) => { bmIdx = (bmIdx + d + bmPhotos.length) % bmPhotos.length; renderBM(); };
     window.bmSet = (i) => { bmIdx = i; renderBM(); };
-    window.closeBuildModal = () => document.getElementById('build-modal-overlay').classList.remove('open');
+    window.closeBuildModal = () => {
+      document.getElementById('build-modal-overlay').classList.remove('open');
+      window.unlockBodyScroll?.();
+    };
     document.addEventListener('keydown', e => {
       if (document.getElementById('build-modal-overlay').classList.contains('open')) {
         if (e.key === 'ArrowLeft' && bmPhotos.length > 1) bmNav(-1);
@@ -528,9 +568,13 @@ const diamondBuilds = [
       document.getElementById('modal-product-price').textContent = btn.dataset.price;
       document.getElementById('modal-type').value = btn.dataset.type;
       document.getElementById('modal-overlay').classList.add('open');
+      window.lockBodyScroll?.();
       setTimeout(() => document.getElementById('modal-name').focus(), 100);
     };
-    window.closeModal = () => document.getElementById('modal-overlay').classList.remove('open');
+    window.closeModal = () => {
+      document.getElementById('modal-overlay').classList.remove('open');
+      window.unlockBodyScroll?.();
+    };
     document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
 
     document.getElementById('modal-form').addEventListener('submit', async (e) => {
