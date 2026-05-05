@@ -186,7 +186,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     function buildCard(b) {
       const photos = (b.photos || []).map(safeImgSrc).filter(Boolean);
-      const partsArr = Array.isArray(b.parts) ? b.parts : [];
+      const partsArr = Array.isArray(b.parts) ? b.parts.filter(p => !p.hidden) : [];
       const name = b.name || 'Custom Build';
       const price = b.listPrice || b.listingPrice || b.salePrice || '';
       const escapedName = esc(name);
@@ -251,7 +251,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     function renderGallery() {
       const b = listedBuilds[galleryIdx];
       const photos = b.photos || [];
-      const partsArr = Array.isArray(b.parts) ? b.parts : [];
+      const partsArr = Array.isArray(b.parts) ? b.parts.filter(p => !p.hidden) : [];
       const price = b.listPrice || b.listingPrice || b.salePrice || '';
 
       document.getElementById('gallery-build-name').textContent = b.name || 'Custom Build';
