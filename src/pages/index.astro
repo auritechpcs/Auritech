@@ -424,14 +424,29 @@ const diamondBuilds = [
       catch { return ''; }
     }
 
-    function buildCard(b) {
+    function partOrder(p) {
+      const t = (p.item || '').toLowerCase();
+      if (t.includes('cpu') && !t.includes('cooler')) return 0;
+      if (t.includes('gpu') || t.includes('graphic')) return 1;
+      if (t.includes('ram') || t.includes('memory')) return 2;
+      if (t.includes('storage') || t.includes('ssd') || t.includes('hdd') || t.includes('nvme')) return 3;
+      if (t.includes('mobo') || t.includes('motherboard')) return 4;
+      if (t.includes('cooler')) return 5;
+      if (t.includes('case') || t.includes('chassis')) return 6;
+      if (t.includes('power') || t.includes('psu')) return 7;
+      if (t.includes('extra') || t.includes('misc')) return 9;
+      return 8;
+    }
+
+    let homeListedBuilds = [];
+
+    function buildCard(b, idx) {
       const photos = (b.photos || []).map(safeImgSrc).filter(Boolean);
       const photoCount = photos.length;
       const price = b.listPrice || b.listingPrice || b.salePrice || '';
       const name = b.name || 'Custom Build';
       const escapedName = esc(name);
-      const partsArr = Array.isArray(b.parts) ? b.parts : [];
-      const modalData = esc(JSON.stringify({name, price, photos, parts: partsArr, type:'product'}));
+      const partsArr = Array.isArray(b.parts) ? b.parts.filter(p => !p.hidden).sort((a, b) => partOrder(a) - partOrder(b)) : [];
       const img = photoCount
         ? `<div style="height:240px;background:#0d0d0d;border-bottom:1px solid rgba(201,168,76,0.18);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
             <img src="${safeImgSrc(photos[0])}" alt="${escapedName}" style="max-width:100%;max-height:100%;object-fit:contain;padding:12px;transition:transform 0.3s;" />
@@ -440,7 +455,7 @@ const diamondBuilds = [
         : `<div style="height:180px;background:var(--surface2);border-bottom:1px solid rgba(201,168,76,0.18);display:flex;align-items:center;justify-content:center;">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
           </div>`;
-      return `<div class="build-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.22);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;cursor:pointer;" onclick="openBuildModal(JSON.parse(this.dataset.build))" data-build="${modalData}">
+      return `<div class="build-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.22);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;cursor:pointer;" onclick="openHomeInventoryModal(${idx})">
         ${img}
         <div style="padding:24px;">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px;">
@@ -496,8 +511,21 @@ const diamondBuilds = [
         container.innerHTML = '<div style="text-align:center;padding:60px;color:var(--text3);grid-column:1/-1;">No PCs in stock right now. Check back soon!</div>';
         return;
       }
-      container.innerHTML = listed.slice(0,3).map(buildCard).join('');
+      homeListedBuilds = listed.slice(0, 3);
+      container.innerHTML = homeListedBuilds.map((b, i) => buildCard(b, i)).join('');
     });
+
+    window.openHomeInventoryModal = (idx) => {
+      const b = homeListedBuilds[idx];
+      if (!b) return;
+      openBuildModal({
+        name: b.name,
+        price: b.listPrice || b.listingPrice || b.salePrice || '',
+        photos: (b.photos || []).map(safeImgSrc).filter(Boolean),
+        parts: Array.isArray(b.parts) ? b.parts.filter(p => !p.hidden).sort((a, bb) => partOrder(a) - partOrder(bb)) : [],
+        type: 'product'
+      });
+    };
 
     // ── BUILD DETAIL MODAL ──
     let bmPhotos = [], bmIdx = 0, bmCurrent = {};
