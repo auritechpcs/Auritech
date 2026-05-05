@@ -176,6 +176,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       catch { return ''; }
     }
 
+    function partOrder(p) {
+      const t = (p.item || '').toLowerCase();
+      if (t.includes('cpu') && !t.includes('cooler')) return 0;
+      if (t.includes('gpu') || t.includes('graphic')) return 1;
+      if (t.includes('ram') || t.includes('memory')) return 2;
+      if (t.includes('storage') || t.includes('ssd') || t.includes('hdd') || t.includes('nvme')) return 3;
+      if (t.includes('mobo') || t.includes('motherboard')) return 4;
+      if (t.includes('cooler')) return 5;
+      if (t.includes('case') || t.includes('chassis')) return 6;
+      if (t.includes('power') || t.includes('psu')) return 7;
+      if (t.includes('extra') || t.includes('misc')) return 9;
+      return 8;
+    }
+
     function specRow(label, value) {
       if (!value) return '';
       return `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
@@ -186,7 +200,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     function buildCard(b) {
       const photos = (b.photos || []).map(safeImgSrc).filter(Boolean);
-      const partsArr = Array.isArray(b.parts) ? b.parts.filter(p => !p.hidden) : [];
+      const partsArr = Array.isArray(b.parts) ? b.parts.filter(p => !p.hidden).sort((a, b) => partOrder(a) - partOrder(b)) : [];
       const name = b.name || 'Custom Build';
       const price = b.listPrice || b.listingPrice || b.salePrice || '';
       const escapedName = esc(name);
@@ -251,7 +265,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     function renderGallery() {
       const b = listedBuilds[galleryIdx];
       const photos = b.photos || [];
-      const partsArr = Array.isArray(b.parts) ? b.parts.filter(p => !p.hidden) : [];
+      const partsArr = Array.isArray(b.parts) ? b.parts.filter(p => !p.hidden).sort((a, b) => partOrder(a) - partOrder(b)) : [];
       const price = b.listPrice || b.listingPrice || b.salePrice || '';
 
       document.getElementById('gallery-build-name').textContent = b.name || 'Custom Build';
