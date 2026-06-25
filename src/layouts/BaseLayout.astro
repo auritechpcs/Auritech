@@ -510,7 +510,7 @@ const currentPath = Astro.url.pathname;
       mobileMenu.style.display = open ? 'none' : 'flex';
     });
 
-    // Body scroll lock for modals — iOS Safari needs position:fixed trick
+    // Body scroll lock for modals (iOS Safari needs position:fixed trick)
     let __scrollLockY = 0;
     window.lockBodyScroll = () => {
       __scrollLockY = window.pageYOffset || document.documentElement.scrollTop || 0;

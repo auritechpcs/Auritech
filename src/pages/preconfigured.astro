@@ -163,15 +163,51 @@ const builds = [
         <div id="modal-product-name" style="font-family:'Cinzel',serif;font-size:16px;"></div>
         <div id="modal-product-price" style="font-size:14px;color:var(--gold);margin-top:4px;"></div>
       </div>
+      <div style="background:var(--surface2);border-radius:8px;padding:14px 16px;margin-bottom:24px;border:1px solid rgba(201,168,76,0.15);">
+        <div style="font-size:10px;letter-spacing:2px;color:var(--gold);opacity:0.7;margin-bottom:8px;">PREFER TO REACH US DIRECTLY? TEXT OR CALL ANYTIME</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px;">
+          <span style="color:var(--text2);min-width:135px;">Motasem Klaibi</span>
+          <a href="tel:+15199994609" style="color:var(--gold);text-decoration:none;font-weight:600;">(519) 999-4609</a>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px;margin-top:4px;">
+          <span style="color:var(--text2);min-width:135px;">Ahmed Alasi (Hamoodi)</span>
+          <a href="tel:+15063122991" style="color:var(--gold);text-decoration:none;font-weight:600;">(506) 312-2991</a>
+        </div>
+      </div>
       <form id="modal-form">
         <input type="hidden" id="modal-type" value="preconfigured" />
         <div class="form-group"><label class="form-label">Your Name *</label><input type="text" class="form-input" id="modal-name" required /></div>
-        <div class="form-group"><label class="form-label">Email *</label><input type="email" class="form-input" id="modal-email" required /></div>
-        <div class="form-group"><label class="form-label">Phone</label><input type="tel" class="form-input" id="modal-phone" placeholder="Optional" /></div>
+        <div class="form-group">
+          <label class="form-label">Phone *</label>
+          <input type="tel" class="form-input" id="modal-phone" placeholder="(226) 555-0123" required />
+          <div style="font-size:11px;color:var(--gold);opacity:0.85;margin-top:6px;">⚡ We build this one to order. Drop your number for a same day text with your quote and timeline.</div>
+        </div>
+        <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="modal-email" placeholder="Optional, if you'd rather we email" /></div>
         <div class="form-group"><label class="form-label">Are you local to Windsor, Ontario? *</label><select class="form-input" id="modal-is-local" required><option value="" disabled selected>Select one</option><option>Yes, Windsor, Ontario</option><option>Yes, nearby (Essex County, Chatham, etc.)</option><option>No, I am ordering remotely</option></select></div>
         <div class="form-group"><label class="form-label">Message</label><textarea class="form-textarea" id="modal-message" placeholder="Any questions?"></textarea></div>
+        <label style="display:flex;gap:10px;align-items:flex-start;background:var(--surface2);border:1px solid rgba(201,168,76,0.25);border-radius:8px;padding:14px;margin-bottom:20px;cursor:pointer;">
+          <input type="checkbox" id="modal-deposit" style="margin-top:3px;accent-color:var(--gold);width:16px;height:16px;flex-shrink:0;" />
+          <span style="font-size:13px;color:var(--text);line-height:1.5;">Reserve your build slot with a <strong style="color:var(--gold);">$50 deposit</strong> that locks in your spot and price. Fully refundable until parts are ordered, and we'll text you the e-Transfer details to confirm.</span>
+        </label>
         <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;" id="modal-submit">Send Inquiry</button>
       </form>
+
+      <div id="modal-confirm" style="display:none;text-align:center;">
+        <div style="font-size:44px;margin-bottom:12px;">✅</div>
+        <h3 style="font-size:18px;margin-bottom:8px;">Inquiry sent!</h3>
+        <p style="color:var(--text2);font-size:14px;margin-bottom:24px;">We'll reach out by text shortly with your quote and timeline.</p>
+        <div id="modal-deposit-box" style="display:none;text-align:left;background:var(--surface2);border:1px solid rgba(201,168,76,0.3);border-radius:10px;padding:20px;">
+          <div style="font-size:11px;letter-spacing:2px;color:var(--gold);margin-bottom:12px;">🔒 RESERVE YOUR BUILD, $50 DEPOSIT</div>
+          <p style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:14px;">Send an Interac e-Transfer to reserve your build slot and lock today's price. We'll text you to confirm it landed and get started.</p>
+          <div style="background:var(--bg);border-radius:8px;padding:14px;font-size:14px;line-height:2;">
+            <div style="display:flex;justify-content:space-between;"><span style="color:var(--text2);">Send to</span><strong style="color:var(--gold);">AuritechPcs@gmail.com</strong></div>
+            <div style="display:flex;justify-content:space-between;"><span style="color:var(--text2);">Amount</span><strong>$50.00 CAD</strong></div>
+            <div style="display:flex;justify-content:space-between;"><span style="color:var(--text2);">Message</span><strong id="modal-deposit-ref">Deposit, your name</strong></div>
+          </div>
+          <p style="font-size:11px;color:var(--text2);opacity:0.7;margin-top:12px;line-height:1.5;">Fully refundable until parts are ordered, and credited toward your final total.</p>
+        </div>
+        <button onclick="closeModal()" class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:18px;">Done</button>
+      </div>
     </div>
   </div>
 
@@ -228,7 +264,7 @@ const builds = [
         height: 280px !important;
         min-height: unset !important;
       }
-      /* Hide thumbnail strip on mobile — use arrows instead */
+      /* Hide thumbnail strip on mobile, use arrows instead */
       #bd-thumbs { display: none !important; }
       /* Specs column: full width below photo */
       #build-detail-overlay > div > div:nth-child(2) > div:last-child {
@@ -331,12 +367,19 @@ const builds = [
     window.closeModal = () => {
       document.getElementById('modal-overlay').classList.remove('open');
       window.unlockBodyScroll?.();
+      const f = document.getElementById('modal-form');
+      const c = document.getElementById('modal-confirm');
+      const btn = document.getElementById('modal-submit');
+      if (c) c.style.display = 'none';
+      if (f) { f.style.display = 'block'; f.reset(); }
+      if (btn) { btn.textContent = 'Send Inquiry'; btn.disabled = false; }
     };
     document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
 
     document.getElementById('modal-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = document.getElementById('modal-submit');
+      const wantsDeposit = document.getElementById('modal-deposit').checked;
       const params = {
         name: document.getElementById('modal-name').value,
         email: document.getElementById('modal-email').value,
@@ -345,6 +388,7 @@ const builds = [
         build_name: document.getElementById('modal-product-name').textContent,
         price: document.getElementById('modal-product-price').textContent,
         message: document.getElementById('modal-message').value,
+        deposit_intent: wantsDeposit ? 'YES, wants to place $50 deposit' : 'No',
       };
       btn.textContent = 'Sending...'; btn.disabled = true;
       try {
@@ -354,11 +398,17 @@ const builds = [
           body: JSON.stringify({ type: 'preconfigured', honeypot: document.getElementById("_hp_")?.value || "", ...params }),
         });
         if (!res.ok) throw new Error();
-        closeModal(); e.target.reset();
-        window.showToast('Inquiry sent! We\'ll be in touch soon.', 'success');
+        document.getElementById('modal-form').style.display = 'none';
+        const dBox = document.getElementById('modal-deposit-box');
+        if (wantsDeposit) {
+          document.getElementById('modal-deposit-ref').textContent = 'Deposit ' + (params.name || 'your name');
+          dBox.style.display = 'block';
+        } else { dBox.style.display = 'none'; }
+        document.getElementById('modal-confirm').style.display = 'block';
       } catch {
         window.showToast('Failed. Email us at AuritechPcs@gmail.com', 'error');
-      } finally { btn.textContent = 'Send Inquiry'; btn.disabled = false; }
+        btn.textContent = 'Send Inquiry'; btn.disabled = false;
+      }
     });
   </script>
 </BaseLayout>

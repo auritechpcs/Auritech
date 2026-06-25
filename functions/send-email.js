@@ -28,7 +28,7 @@ function corsHeaders(origin) {
   };
 }
 
-// Handle CORS preflight — this is the fix
+// Handle CORS preflight (this is the fix)
 export async function onRequestOptions({ request }) {
   const origin = getAllowedOrigin(request);
   if (!origin) {
@@ -85,9 +85,19 @@ function respond(origin, data, status = 200) {
   });
 }
 
+// Highlighted banner in the notification email when a lead opted into a deposit.
+function depositBanner(p) {
+  if (!p.deposit_intent || !String(p.deposit_intent).startsWith('YES')) return '';
+  return `
+    <div style="background:#1a2e1a;border:1px solid #4ade80;padding:16px;border-radius:8px;margin:0 0 24px;">
+      <p style="color:#4ade80;font-size:13px;font-weight:700;letter-spacing:1px;margin:0 0 4px;">💰 WANTS TO PLACE A $50 DEPOSIT</p>
+      <p style="color:#9ae6b4;font-size:12px;margin:0;">Hot lead. Follow up fast to confirm the e-Transfer and lock the build.</p>
+    </div>`;
+}
+
 const templates = {
   custom_build: (p, plainName) => ({
-    subject: `🔧 CUSTOM BUILD | ${plainName} | ${sanitizePlain(p.budget)} | ${sanitizePlain(p.use_case)}`,
+    subject: `${p.deposit_intent && p.deposit_intent.startsWith('YES') ? '💰' : '🔧'} CUSTOM BUILD | ${plainName} | ${sanitizePlain(p.budget)} | ${sanitizePlain(p.use_case)}`,
     html: `
       <div style="background:#111;padding:32px;border-radius:12px;font-family:Inter,sans-serif;max-width:600px;">
         <h2 style="color:#C9A84C;font-family:serif;margin-bottom:8px;">Custom Build Request</h2>
@@ -95,6 +105,7 @@ const templates = {
         <hr style="border:none;border-top:1px solid #222;margin:24px 0;"/>
         <p style="color:#666;font-size:11px;letter-spacing:2px;margin-bottom:4px;">CUSTOMER NAME</p>
         <p style="color:#fff;font-size:16px;margin:0 0 16px;">${p.name}</p>
+        ${depositBanner(p)}
         <p style="color:#666;font-size:11px;letter-spacing:2px;margin-bottom:4px;">EMAIL</p>
         <p style="color:#C9A84C;font-size:16px;margin:0 0 16px;">${p.email}</p>
         <p style="color:#666;font-size:11px;letter-spacing:2px;margin-bottom:4px;">PHONE</p>
@@ -134,7 +145,7 @@ const templates = {
   }),
 
   preconfigured: (p, plainName) => ({
-    subject: `💎 PRECONFIGURED | ${plainName} | ${sanitizePlain(p.build_name)} (${sanitizePlain(p.price)})`,
+    subject: `${p.deposit_intent && p.deposit_intent.startsWith('YES') ? '💰' : '💎'} PRECONFIGURED | ${plainName} | ${sanitizePlain(p.build_name)} (${sanitizePlain(p.price)})`,
     html: `
       <div style="background:#111;padding:32px;border-radius:12px;font-family:Inter,sans-serif;max-width:600px;">
         <h2 style="color:#C9A84C;font-family:serif;margin-bottom:8px;">Preconfigured Build Inquiry</h2>
@@ -152,6 +163,7 @@ const templates = {
         <p style="color:#C9A84C;font-size:18px;font-weight:700;margin:0 0 16px;">${p.build_name}</p>
         <p style="color:#666;font-size:11px;letter-spacing:2px;margin-bottom:4px;">PRICE</p>
         <p style="color:#fff;font-size:16px;margin:0 0 24px;">${p.price}</p>
+        ${depositBanner(p)}
         <div style="background:#1a1a1a;border-left:3px solid #8b7530;padding:16px;border-radius:0 8px 8px 0;">
           <p style="color:#666;font-size:11px;letter-spacing:2px;margin:0 0 8px;">MESSAGE</p>
           <p style="color:#ccc;margin:0;">${p.message || 'No message provided'}</p>
@@ -177,6 +189,7 @@ const templates = {
         <p style="color:${p.is_local && p.is_local.startsWith('Yes') ? '#4ade80' : '#fff'};margin:0 0 24px;">${p.is_local || 'Not specified'}</p>
         <p style="color:#666;font-size:11px;letter-spacing:2px;margin-bottom:4px;">INTERESTED IN</p>
         <p style="color:#C9A84C;font-size:18px;font-weight:700;margin:0 0 24px;">${p.product_name}</p>
+        ${depositBanner(p)}
         <div style="background:#1a1a1a;border-left:3px solid #8b7530;padding:16px;border-radius:0 8px 8px 0;">
           <p style="color:#666;font-size:11px;letter-spacing:2px;margin:0 0 8px;">MESSAGE</p>
           <p style="color:#ccc;margin:0;">${p.message || 'No message provided'}</p>
@@ -243,10 +256,12 @@ export async function onRequestPost({ request, env }) {
     return respond(origin, { error: 'Invalid type' }, 400);
   }
 
-  if (!params.name || !params.email) {
-    return respond(origin, { error: 'Name and email required' }, 400);
+  // Phone-first: require a name plus at least one way to reach them (phone or email).
+  if (!params.name || (!params.email && !params.phone)) {
+    return respond(origin, { error: 'Name and a phone number or email are required' }, 400);
   }
-  if (!isValidEmail(params.email) || params.email.length > 254) {
+  // Email is optional now, so only validate it when one was actually provided.
+  if (params.email && (!isValidEmail(params.email) || params.email.length > 254)) {
     return respond(origin, { error: 'Invalid email address' }, 400);
   }
 
@@ -254,11 +269,15 @@ export async function onRequestPost({ request, env }) {
   for (const [k, v] of Object.entries(params)) {
     clean[k] = escapeHtml(String(v ?? ''));
   }
+  if (!clean.email) clean.email = 'Not provided';
 
   // Use plain-text sanitized values for the subject line and reply-to
   const plainName = sanitizePlain(String(params.name ?? ''));
   const rawEmail = String(params.email ?? '').trim().slice(0, 254);
   const { subject, html } = templates[type](clean, plainName);
+
+  // Only set reply-to when a valid email was provided (phone-only leads have none).
+  const replyTo = rawEmail && isValidEmail(rawEmail) ? rawEmail : undefined;
 
   try {
     const res = await fetch('https://api.resend.com/emails', {
@@ -270,7 +289,7 @@ export async function onRequestPost({ request, env }) {
       body: JSON.stringify({
         from: 'Auritech Website <onboarding@resend.dev>',
         to: ['auritechpcs@gmail.com'],
-        reply_to: rawEmail,
+        ...(replyTo ? { reply_to: replyTo } : {}),
         subject,
         html,
       }),

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="Custom Build" description="Get a custom gaming PC built to your exact budget and specs. Auritech PCs — Windsor, Ontario. Tell us your use case and we handle everything. Same-day pickup available.">
+<BaseLayout title="Custom Build" description="Get a custom gaming PC built to your exact budget and specs. Auritech PCs, Windsor, Ontario. Tell us your use case and we handle everything. Same day pickup available.">
 
   <!-- Progress bar -->
   <div id="wiz-progress-wrap" style="position:sticky;top:56px;z-index:50;background:var(--bg);border-bottom:1px solid rgba(255,255,255,0.04);padding:0 24px;">
@@ -185,6 +185,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
 
         <div style="background:var(--surface);border:1px solid rgba(201,168,76,0.12);border-radius:16px;padding:36px;">
+          <div style="background:var(--surface2);border-radius:8px;padding:14px 16px;margin-bottom:24px;border:1px solid rgba(201,168,76,0.15);">
+            <div style="font-size:10px;letter-spacing:2px;color:var(--gold);opacity:0.7;margin-bottom:8px;">PREFER TO REACH US DIRECTLY? TEXT OR CALL ANYTIME</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:14px;">
+              <span style="color:var(--text2);min-width:135px;">Motasem Klaibi</span>
+              <a href="tel:+15199994609" style="color:var(--gold);text-decoration:none;font-weight:600;">(519) 999-4609</a>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:14px;margin-top:4px;">
+              <span style="color:var(--text2);min-width:135px;">Ahmed Alasi (Hamoodi)</span>
+              <a href="tel:+15063122991" style="color:var(--gold);text-decoration:none;font-weight:600;">(506) 312-2991</a>
+            </div>
+          </div>
           <form id="custom-build-form">
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
               <div class="form-group">
@@ -192,13 +203,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                 <input type="text" class="form-input" id="cb-name" required placeholder="Marcus Chen" />
               </div>
               <div class="form-group">
-                <label class="form-label">Phone</label>
-                <input type="tel" class="form-input" id="cb-phone" placeholder="226-555-0374" />
+                <label class="form-label">Phone *</label>
+                <input type="tel" class="form-input" id="cb-phone" required placeholder="(226) 555-0374" />
               </div>
             </div>
+            <div style="font-size:11px;color:var(--gold);opacity:0.85;margin:-8px 0 18px;">⚡ Custom builds move fast over text. Drop your number for a same day reply with specs and pricing.</div>
             <div class="form-group">
-              <label class="form-label">Email Address *</label>
-              <input type="email" class="form-input" id="cb-email" required placeholder="you@email.com" />
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-input" id="cb-email" placeholder="Optional, if you'd rather we email" />
             </div>
             <div class="form-group">
               <label class="form-label">Are you local to Windsor, ON?</label>
@@ -213,11 +225,31 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <label class="form-label">Additional Notes</label>
               <textarea class="form-textarea" id="cb-notes" rows="4" placeholder="Anything else? Specific parts you want, games you play, deadline..."></textarea>
             </div>
+            <label style="display:flex;gap:10px;align-items:flex-start;background:var(--surface2);border:1px solid rgba(201,168,76,0.25);border-radius:8px;padding:14px;margin-bottom:20px;cursor:pointer;">
+              <input type="checkbox" id="cb-deposit" style="margin-top:3px;accent-color:var(--gold);width:16px;height:16px;flex-shrink:0;" />
+              <span style="font-size:13px;color:var(--text);line-height:1.5;">Ready to get started? Put down a <strong style="color:var(--gold);">$50 deposit</strong> to lock your spot in the build queue. Fully refundable until parts are ordered, and we'll text you the e-Transfer details to confirm.</span>
+            </label>
             <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;padding:16px;font-size:13px;" id="cb-submit">
               Send Build Request
             </button>
-            <p style="text-align:center;font-size:12px;color:var(--text3);margin-top:12px;">We reply within 24 hours with specs + pricing.</p>
+            <p style="text-align:center;font-size:12px;color:var(--text3);margin-top:12px;">We reply by text within 24 hours with specs and pricing.</p>
           </form>
+
+          <div id="cb-confirm" style="display:none;text-align:center;">
+            <div style="font-size:44px;margin-bottom:12px;">✅</div>
+            <h3 style="font-size:18px;margin-bottom:8px;">Build request sent!</h3>
+            <p style="color:var(--text2);font-size:14px;margin-bottom:24px;">We'll text you within 24 hours with specs and pricing.</p>
+            <div id="cb-deposit-box" style="display:none;text-align:left;background:var(--surface2);border:1px solid rgba(201,168,76,0.3);border-radius:10px;padding:20px;">
+              <div style="font-size:11px;letter-spacing:2px;color:var(--gold);margin-bottom:12px;">🔒 LOCK YOUR BUILD SLOT, $50 DEPOSIT</div>
+              <p style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:14px;">Send an Interac e-Transfer to claim your spot in the queue. We'll text you to confirm it landed and start speccing your build.</p>
+              <div style="background:var(--bg);border-radius:8px;padding:14px;font-size:14px;line-height:2;">
+                <div style="display:flex;justify-content:space-between;"><span style="color:var(--text2);">Send to</span><strong style="color:var(--gold);">AuritechPcs@gmail.com</strong></div>
+                <div style="display:flex;justify-content:space-between;"><span style="color:var(--text2);">Amount</span><strong>$50.00 CAD</strong></div>
+                <div style="display:flex;justify-content:space-between;"><span style="color:var(--text2);">Message</span><strong id="cb-deposit-ref">Deposit, your name</strong></div>
+              </div>
+              <p style="font-size:11px;color:var(--text2);opacity:0.7;margin-top:12px;line-height:1.5;">Fully refundable until parts are ordered, and credited toward your final total.</p>
+            </div>
+          </div>
         </div>
 
         <button type="button" id="back-3" class="btn" style="background:transparent;border:1px solid rgba(255,255,255,0.15);color:var(--text2);margin-top:16px;">← Back</button>
@@ -403,6 +435,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     document.getElementById('custom-build-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = document.getElementById('cb-submit');
+      const wantsDeposit = document.getElementById('cb-deposit').checked;
       const params = {
         name: document.getElementById('cb-name').value,
         email: document.getElementById('cb-email').value,
@@ -415,6 +448,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         case_style: wizData.caseStyle || 'No preference',
         is_local: document.getElementById('cb-local').value || 'Not specified',
         notes: document.getElementById('cb-notes').value || 'None',
+        deposit_intent: wantsDeposit ? 'YES, wants to place $50 deposit' : 'No',
       };
       btn.textContent = 'Sending...'; btn.disabled = true;
       try {
@@ -425,16 +459,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         });
         const data = await res.json().catch(() => ({}));
         if (!res.ok) throw new Error(data.detail || data.error || res.status);
-        window.showToast("Request sent! We'll email you within 24 hours.", 'success');
-        e.target.reset();
-        wizData = { useCase: '', budget: '', priorities: [], colorTheme: '', rgb: '', caseStyle: '' };
-        document.querySelectorAll('.use-case-card,.budget-card,.theme-card,.rgb-card,.case-card').forEach(c => c.classList.remove('selected'));
-        document.querySelectorAll('input[name="priorities"]').forEach(cb => cb.checked = false);
-        updateSidebar();
-        goToStep(1);
+        // Swap the form for the confirmation panel; reveal deposit details if opted in.
+        document.getElementById('custom-build-form').style.display = 'none';
+        const dBox = document.getElementById('cb-deposit-box');
+        if (wantsDeposit) {
+          document.getElementById('cb-deposit-ref').textContent = 'Deposit ' + (params.name || 'your name');
+          dBox.style.display = 'block';
+        } else { dBox.style.display = 'none'; }
+        document.getElementById('cb-confirm').style.display = 'block';
+        document.getElementById('cb-confirm').scrollIntoView({ behavior: 'smooth', block: 'center' });
       } catch {
         window.showToast('Failed to send. Email us at AuritechPcs@gmail.com', 'error');
-      } finally { btn.textContent = 'Send Build Request'; btn.disabled = false; }
+        btn.textContent = 'Send Build Request'; btn.disabled = false;
+      }
     });
 
     updateProgress(1);
