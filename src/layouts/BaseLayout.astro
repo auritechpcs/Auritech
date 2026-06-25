@@ -122,6 +122,24 @@ const currentPath = Astro.url.pathname;
       border: 1px solid rgba(201,168,76,0.4);
     }
     .btn-outline:hover { background: var(--gold-glow); border-color: var(--gold); }
+    /* Tappable phone-number pill used in inquiry contact cards */
+    .contact-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold-glow);
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 14px;
+      text-decoration: none;
+      padding: 7px 14px;
+      border-radius: 100px;
+      border: 1px solid rgba(201,168,76,0.45);
+      white-space: nowrap;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .contact-pill:hover { background: var(--gold); color: #000; transform: translateY(-1px); }
+    .contact-pill:active { transform: scale(0.97); }
 
     .gold-line {
       height: 1px;
