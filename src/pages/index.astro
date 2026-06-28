@@ -101,6 +101,30 @@ const diamondBuilds = [
     </div>
   </section>
 
+  <!-- Reviews / Social Proof -->
+  <section style="padding:80px 0;background:var(--surface);border-top:1px solid rgba(201,168,76,0.08);border-bottom:1px solid rgba(201,168,76,0.08);overflow:hidden;">
+    <div class="reveal" style="text-align:center;margin-bottom:48px;padding:0 24px;">
+      <div class="section-label">What Our Customers Say</div>
+      <h2 class="section-title">Trusted in Windsor</h2>
+      <!-- Aggregate rating badge -->
+      <div style="display:inline-flex;align-items:center;gap:12px;margin-top:18px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:100px;padding:10px 22px;">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0012 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 010-4.2V7.06H2.18a11 11 0 000 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15A11 11 0 0012 1a11 11 0 00-9.82 6.06l3.66 2.84C6.71 7.3 9.14 5.38 12 5.38z"/></svg>
+        <span style="font-size:18px;font-weight:700;color:var(--gold);" id="rev-avg">5.0</span>
+        <span style="color:var(--gold);letter-spacing:2px;font-size:15px;">★★★★★</span>
+        <span style="font-size:13px;color:var(--text2);" id="rev-count">Google Reviews</span>
+      </div>
+    </div>
+    <!-- Auto-scrolling marquee of review cards -->
+    <div class="review-marquee">
+      <div class="review-track" id="review-track">
+        <!-- cards injected by script (duplicated for seamless loop) -->
+      </div>
+    </div>
+    <div class="reveal" style="text-align:center;margin-top:40px;padding:0 24px;">
+      <a id="rev-google-link" href="https://www.google.com/maps" target="_blank" rel="noopener" class="btn btn-outline" style="padding:12px 28px;font-size:11px;">See all our reviews on Google</a>
+    </div>
+  </section>
+
   <!-- Auritech Builds — Same Day Pickup -->
   <section style="padding:80px 24px;max-width:1100px;margin:0 auto;">
     <div style="text-align:center;margin-bottom:48px;">
@@ -416,6 +440,42 @@ const diamondBuilds = [
   </style>
 
   <script type="module">
+    // ── GOOGLE REVIEWS (real, curated from our 5.0★ / 23-review listing) ──
+    (function renderReviews() {
+      const GOOGLE_URL = "https://maps.app.goo.gl/KqxVwUwQBKtFdm3d8";
+      const reviews = [
+        { name: "Danial Bajwa", when: "a month ago", stars: 5,
+          text: "I bought a PC from them, they were convenient with the delivery, with impressive customer service delivered to my home. Exactly the components I needed. Looking forward to continue purchasing along with their modest prices." },
+        { name: "Abubakr Sheltami", when: "2 months ago", stars: 5,
+          text: "The team was helpful, communication was good, and the PC came exactly how I wanted it. Build quality was solid and everything ran great right away. Definitely a company I'd recommend if you're looking for a custom PC." },
+        { name: "Win Htoo", when: "a month ago", stars: 5,
+          text: "I recently bought a gaming PC from them and the experience was great. They answered all my questions quickly and made the process easy. The PC runs perfectly, built with care, and worked right out of the box." },
+        { name: "Verified Customer", when: "recently", stars: 5,
+          text: "Service is great, prices are affordable, and got it delivered home." },
+        { name: "Verified Customer", when: "recently", stars: 5,
+          text: "Amazing quality PC, very kind and generous people." },
+        { name: "Verified Customer", when: "recently", stars: 5,
+          text: "Great pricing, high quality, and outstanding customer service." },
+      ];
+      const esc = (s) => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+      const card = (r) => `
+        <div class="review-card">
+          <div class="stars">${'★'.repeat(r.stars)}</div>
+          <div class="body">"${esc(r.text)}"</div>
+          <div class="who">
+            <div class="avatar">${esc(r.name.trim()[0] || 'A')}</div>
+            <div><div class="name">${esc(r.name)}</div><div class="when">${esc(r.when)} · Google</div></div>
+          </div>
+        </div>`;
+      const track = document.getElementById('review-track');
+      if (track) {
+        // duplicate the set so the marquee loops seamlessly
+        track.innerHTML = (reviews.map(card).join('') + reviews.map(card).join(''));
+      }
+      const cnt = document.getElementById('rev-count'); if (cnt) cnt.textContent = '5.0 · 23 Google reviews';
+      const link = document.getElementById('rev-google-link'); if (link) link.href = GOOGLE_URL;
+    })();
+
     // ── HERO ENTRANCE SEQUENCE ──
     (function heroEntrance() {
       const badge = document.getElementById('hero-badge');

@@ -353,6 +353,21 @@ const currentPath = Astro.url.pathname;
     .stagger-children.visible > *:nth-child(6) { transition-delay: 0.5s; }
     .stagger-children.visible > * { opacity: 1; transform: translateY(0); }
 
+    /* Reviews marquee (auto-scrolling social proof) */
+    .review-marquee { position: relative; width: 100%; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+    .review-track { display: flex; gap: 20px; width: max-content; animation: reviewScroll 60s linear infinite; padding: 8px 24px; }
+    .review-marquee:hover .review-track { animation-play-state: paused; }
+    @keyframes reviewScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .review-card { flex: 0 0 340px; background: var(--bg); border: 1px solid rgba(201,168,76,0.15); border-radius: var(--radius); padding: 24px; display: flex; flex-direction: column; gap: 12px; transition: border-color 0.2s, transform 0.2s; }
+    .review-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-3px); }
+    .review-card .stars { color: var(--gold); letter-spacing: 2px; font-size: 15px; }
+    .review-card .body { font-size: 14px; color: var(--text2); line-height: 1.65; flex: 1; }
+    .review-card .who { display: flex; align-items: center; gap: 10px; }
+    .review-card .avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--gold-dim), var(--gold)); color: #000; font-weight: 700; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+    .review-card .name { font-size: 13px; font-weight: 600; }
+    .review-card .when { font-size: 11px; color: var(--text3); }
+    @media (prefers-reduced-motion: reduce) { .review-track { animation: none; flex-wrap: wrap; justify-content: center; } }
+
     /* Magnetic button effect */
     .btn { transition: all 0.2s ease, transform 0.15s ease; }
 
