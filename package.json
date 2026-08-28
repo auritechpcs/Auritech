@@ -8,13 +8,22 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "preview": "npm run build && wrangler dev",
+    "astro": "astro",
+    "generate-types": "wrangler types",
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^13.3.1",
     "@emailjs/browser": "^4.4.1",
     "astro": "^6.1.4",
     "firebase": "^12.11.0",
     "nodemailer": "^8.0.5"
+  },
+  "devDependencies": {
+    "wrangler": "^4.87.0"
+  },
+  "overrides": {
+    "vite": "^7"
   }
 }
