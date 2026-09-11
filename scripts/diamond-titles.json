@@ -1,0 +1,11 @@
+{
+  "Diamond Core": "Diamond Core – Ryzen 5 5500 / RTX 5060 / 16GB RAM",
+  "Diamond Edge": "Diamond Edge – Ryzen 5 7600X3D / RTX 5060 / 16GB DDR5",
+  "Diamond Edge Plus": "Diamond Edge Plus – Ryzen 5 7600X3D / RX 9060 XT 16GB / 16GB DDR5",
+  "Diamond Edge Max": "Diamond Edge Max – Ryzen 7 9700X / RX 9060 XT 16GB / 32GB RAM",
+  "Diamond Apex": "Diamond Apex – Ryzen 7 9700X / RTX 5070 / 32GB DDR5",
+  "Diamond Apex Plus": "Diamond Apex Plus – Ryzen 7 7800X3D / RTX 5070 / 32GB DDR5",
+  "Diamond Elite": "Diamond Elite – Ryzen 7 9800X3D / RX 9070 XT / 32GB DDR5",
+  "Diamond Elite RTX": "Diamond Elite RTX – Ryzen 7 9800X3D / RTX 5080 / 32GB DDR5",
+  "Diamond Pro Workstation RTX": "Diamond Pro Workstation RTX – Ryzen 9 9900X / RTX 5080 / 32GB DDR5"
+}
