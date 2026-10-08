@@ -1,18 +1,19 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 const diamondBuilds = [
-  { name: "Diamond Core", tier: "Entry", price: 1369, sale: 1499, color: "#a0a0a0",
-    photo: "https://diamondpcs.ca/cdn/shop/files/core_1.png?v=1768243275",
-    photos: ["https://diamondpcs.ca/cdn/shop/files/core_1.png?v=1768243275","https://diamondpcs.ca/cdn/shop/files/core_2.png?v=1768243287"],
-    parts: [{item:"CPU",part:"Ryzen 5 5500"},{item:"GPU",part:"RTX 5060"},{item:"RAM",part:"16GB DDR4"},{item:"Storage",part:"1TB NVMe SSD"},{item:"Shipping",part:"$99 Flat Canada Wide"}] },
-  { name: "Diamond Apex Plus", tier: "Mid-Range", price: 2849, sale: 3000, color: "#C9A84C",
+  // Featured from the Diamond PCs 2026 lineup. List price only (no compare-at in source).
+  { name: "Core Ultra 7 265KF + RX 9060 XT", tier: "Best Value", price: 2399, sale: null, color: "#a0a0a0",
+    photo: "https://diamondpcs.ca/cdn/shop/files/9060xt_white_sp_case.png?v=1768322923",
+    photos: ["https://diamondpcs.ca/cdn/shop/files/9060xt_white_sp_case.png?v=1768322923","https://diamondpcs.ca/cdn/shop/files/906xtwhite.png?v=1768322923"],
+    parts: [{item:"CPU",part:"Core Ultra 7 265KF"},{item:"GPU",part:"RX 9060 XT 16GB"},{item:"RAM",part:"32GB DDR5-6000"},{item:"Cooling",part:"Thermalright 360mm AIO"},{item:"Storage",part:"512GB NVMe SSD"},{item:"Shipping",part:"$99 Flat Canada Wide"}] },
+  { name: "Ryzen 7 7800X3D + RTX 5070", tier: "High-FPS", price: 3199, sale: null, color: "#C9A84C",
     photo: "https://diamondpcs.ca/cdn/shop/files/infinit3.0.png?v=1768411876",
     photos: ["https://diamondpcs.ca/cdn/shop/files/infinit3.0.png?v=1768411876","https://diamondpcs.ca/cdn/shop/files/infiniti2.0.png?v=1768411876"],
-    parts: [{item:"CPU",part:"Ryzen 7 7800X3D"},{item:"GPU",part:"RTX 5070"},{item:"RAM",part:"32GB DDR5"},{item:"Storage",part:"1TB NVMe SSD"},{item:"Shipping",part:"$99 Flat Canada Wide"}] },
-  { name: "Diamond Elite RTX", tier: "Flagship", price: 4899, sale: 4999.99, color: "#e8d48a",
+    parts: [{item:"CPU",part:"Ryzen 7 7800X3D"},{item:"GPU",part:"RTX 5070 12GB"},{item:"RAM",part:"32GB DDR5-6000"},{item:"Cooling",part:"Thermalright 360mm AIO"},{item:"Storage",part:"512GB NVMe SSD"},{item:"Shipping",part:"$99 Flat Canada Wide"}] },
+  { name: "Ryzen 7 7800X3D + RTX 5080", tier: "Flagship", price: 4299, sale: null, color: "#e8d48a",
     photo: "https://diamondpcs.ca/cdn/shop/files/whte_corsair_3500x_d379b833-cf0a-43b0-ad4a-849fb54e45d6.png?v=1769716735",
     photos: ["https://diamondpcs.ca/cdn/shop/files/whte_corsair_3500x_d379b833-cf0a-43b0-ad4a-849fb54e45d6.png?v=1769716735","https://diamondpcs.ca/cdn/shop/files/updates_white_3500x_05691067-4a19-4111-a08c-0cd57c1f44fb.png?v=1769716719"],
-    parts: [{item:"CPU",part:"Ryzen 7 9800X3D"},{item:"GPU",part:"RTX 5080"},{item:"RAM",part:"32GB DDR5"},{item:"Storage",part:"2TB NVMe SSD"},{item:"Shipping",part:"$99 Flat Canada Wide"}] },
+    parts: [{item:"CPU",part:"Ryzen 7 7800X3D"},{item:"GPU",part:"RTX 5080 16GB"},{item:"RAM",part:"32GB DDR5-6000"},{item:"Cooling",part:"Thermalright 360mm AIO"},{item:"Storage",part:"512GB NVMe SSD"},{item:"Shipping",part:"$99 Flat Canada Wide"}] },
 ];
 ---
 <BaseLayout title="Home" description="Auritech PCs, custom PC builder in Windsor, Ontario. Same day local pickup, Canada wide shipping. Gaming PCs, custom builds, and preconfigured computers. Every build stress tested.">
@@ -167,7 +168,7 @@ const diamondBuilds = [
               <div class="gold-line" style="margin-bottom:16px;"></div>
               <div style="display:flex;justify-content:space-between;align-items:flex-end;">
                 <div>
-                  <div style="font-size:11px;color:var(--text3);text-decoration:line-through;">${b.sale.toLocaleString()} CAD</div>
+                  {b.sale && <div style="font-size:11px;color:var(--text3);text-decoration:line-through;">${b.sale.toLocaleString()} CAD</div>}
                   <div style="font-family:'Cinzel',serif;font-size:20px;color:var(--gold);">${b.price.toLocaleString()} CAD</div>
                 </div>
                 <span style="font-size:10px;color:var(--text3);letter-spacing:1px;">View details →</span>
