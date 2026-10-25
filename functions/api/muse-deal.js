@@ -45,6 +45,27 @@ export const STEAL_SAVINGS = 0.35;
 // Shown in the app as "good" (no buzz) at this much under resale.
 export const GOOD_SAVINGS = 0.15;
 
+// Where a deal may buzz: Windsor out to Chatham, Ontario side only. A circle big
+// enough to reach Chatham also covers Detroit, so the area is a town list, not a
+// radius. Unrecognized towns are still stored (no buzz); add hamlets here as needed.
+export const AREA_TOWNS = [
+  'windsor', 'lasalle', 'tecumseh', 'st. clair beach', 'st clair beach', 'oldcastle',
+  'lakeshore', 'belle river', 'emeryville', 'maidstone', 'puce', 'stoney point', 'pointe-aux-roches',
+  'comber', 'woodslee', 'lighthouse cove', 'tilbury',
+  'amherstburg', 'essex', 'harrow', 'mcgregor', 'colchester', 'cottam',
+  'kingsville', 'ruthven', 'leamington', 'wheatley',
+  'merlin', 'charing cross', 'chatham',
+];
+// Michigan / US listings are dropped entirely (not stored, never buzz).
+const US_MARKERS = /\b(michigan|detroit|dearborn|wyandotte|taylor|livonia|southfield|warren|sterling heights|troy|ann arbor|monroe|toledo|ohio|usa|united states|mi|oh)\b/i;
+
+export function areaCheck(location) {
+  const s = String(location || '').toLowerCase().trim();
+  if (!s) return 'unknown';
+  if (US_MARKERS.test(s)) return 'outside';
+  return AREA_TOWNS.some((t) => s.includes(t)) ? 'inside' : 'unknown';
+}
+
 const json = (body, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
 
@@ -66,18 +87,22 @@ export function scoreDeal(d) {
   const savings = d.estimated_resale > 0 ? (d.estimated_resale - d.price) / d.estimated_resale : null;
   const underCap = cap !== undefined && d.price <= cap;
   const bigSavings = savings !== null && savings >= STEAL_SAVINGS;
-  const hot = !d.suspicious && d.price > 0 && (underCap || bigSavings);
+  const area = areaCheck(d.location);
+  const steal = !d.suspicious && d.price > 0 && (underCap || bigSavings);
+  const hot = steal && area === 'inside';
   let quality = 'mid';
   if (hot) quality = 'hot';
-  else if (!d.suspicious && ((savings !== null && savings >= GOOD_SAVINGS) || (cap !== undefined && d.price <= cap / 0.85))) quality = 'good';
+  else if (!d.suspicious && (steal || (savings !== null && savings >= GOOD_SAVINGS) || (cap !== undefined && d.price <= cap / 0.85))) quality = 'good';
   const reason = hot
     ? underCap
       ? `$${d.price} is at or under your $${cap} buy cap for a ${model}`
       : `${Math.round(savings * 100)}% under est. resale $${d.estimated_resale}`
     : d.suspicious
       ? 'flagged suspicious'
-      : 'not a steal';
-  return { model, cap: cap ?? null, savings, hot, quality, reason };
+      : steal
+        ? `steal price, but "${d.location || 'no location'}" isn't on the area list`
+        : 'not a steal';
+  return { model, cap: cap ?? null, savings, area, hot, quality, reason };
 }
 
 // ------------------------------------------------------------------ validation
@@ -258,7 +283,10 @@ export async function onRequestPost({ request, env }) {
 
   const score = scoreDeal(deal);
   if (body.test === true) {
-    return json({ ok: true, test: true, stored: false, notified: 0, quality: score.quality, would_buzz: score.hot, reason: score.reason });
+    return json({ ok: true, test: true, stored: false, notified: 0, area: score.area, quality: score.quality, would_buzz: score.hot, reason: score.reason });
+  }
+  if (score.area === 'outside') {
+    return json({ ok: true, skipped: 'outside area (Michigan/US)', stored: false, notified: 0 });
   }
 
   const savingsPercent = score.savings !== null ? Math.round(score.savings * 100) : 0;
