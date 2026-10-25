@@ -50,6 +50,9 @@ export const RAM_STEAL_CAP = {
 // Anything (GPU, RAM, full PC, part) buzzes if it's this far under Muse's estimated
 // resale. Auritech's median build margin is 33%, so 35% under is a true steal.
 export const STEAL_SAVINGS = 0.35;
+// Full PCs are the top priority (a ready build that just needs cleaning), so they buzz
+// a bit earlier.
+export const PC_STEAL_SAVINGS = 0.30;
 // Shown in the app as "good" (no buzz) at this much under resale.
 export const GOOD_SAVINGS = 0.15;
 
@@ -106,7 +109,7 @@ export function scoreDeal(d) {
   const cap = model ? (d.category === 'ram' ? RAM_STEAL_CAP : GPU_STEAL_CAP)[model] : undefined;
   const savings = d.estimated_resale > 0 ? (d.estimated_resale - d.price) / d.estimated_resale : null;
   const underCap = cap !== undefined && d.price <= cap;
-  const bigSavings = savings !== null && savings >= STEAL_SAVINGS;
+  const bigSavings = savings !== null && savings >= (d.category === 'pc' ? PC_STEAL_SAVINGS : STEAL_SAVINGS);
   const area = areaCheck(d.location);
   const steal = !d.suspicious && d.price > 0 && (underCap || bigSavings);
   const hot = steal && area === 'inside';
