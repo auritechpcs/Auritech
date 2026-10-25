@@ -39,7 +39,15 @@ export const GPU_STEAL_CAP = {
   '5060': 240,
   '6800 XT': 255,
 };
-// Anything (GPU, full PC, part) buzzes if it's this far under Muse's estimated
+// Same idea for RAM kits (total capacity + generation), ~85% of median paid. History is
+// thin and RAM prices have moved, so the percentage rule below (live comps) matters most.
+export const RAM_STEAL_CAP = {
+  '16GB DDR4': 35,
+  '32GB DDR4': 55,
+  '16GB DDR5': 85,
+  '32GB DDR5': 130,
+};
+// Anything (GPU, RAM, full PC, part) buzzes if it's this far under Muse's estimated
 // resale. Auritech's median build margin is 33%, so 35% under is a true steal.
 export const STEAL_SAVINGS = 0.35;
 // Shown in the app as "good" (no buzz) at this much under resale.
@@ -81,9 +89,21 @@ export function gpuModel(text) {
   return [m[1], m[2]].filter(Boolean).join(' ');
 }
 
+// "2x16GB DDR5 6000" -> "32GB DDR5". Capacity is the kit total.
+export function ramKey(text) {
+  const s = String(text || '').toLowerCase();
+  const gen = s.match(/ddr\s?([45])/);
+  const kit = s.match(/(\d)\s?x\s?(\d{1,2})\s?gb/);
+  const one = s.match(/(\d{1,3})\s?gb/);
+  const cap = kit ? Number(kit[1]) * Number(kit[2]) : one ? Number(one[1]) : null;
+  if (!cap || !gen || cap > 256) return null;
+  return `${cap}GB DDR${gen[1]}`;
+}
+
 export function scoreDeal(d) {
-  const model = d.category === 'gpu' ? gpuModel(d.gpu_model || d.title) : null;
-  const cap = model ? GPU_STEAL_CAP[model] : undefined;
+  const model =
+    d.category === 'gpu' ? gpuModel(d.gpu_model || d.title) : d.category === 'ram' ? ramKey(d.ram_spec || d.title) : null;
+  const cap = model ? (d.category === 'ram' ? RAM_STEAL_CAP : GPU_STEAL_CAP)[model] : undefined;
   const savings = d.estimated_resale > 0 ? (d.estimated_resale - d.price) / d.estimated_resale : null;
   const underCap = cap !== undefined && d.price <= cap;
   const bigSavings = savings !== null && savings >= STEAL_SAVINGS;
@@ -126,7 +146,7 @@ export function validateDeal(b) {
   } catch {
     errors.push('url must be an https facebook.com link');
   }
-  const category = ['gpu', 'pc', 'part'].includes(b.category) ? b.category : 'part';
+  const category = ['gpu', 'ram', 'pc', 'part'].includes(b.category) ? b.category : 'part';
   const est = b.estimated_resale === undefined || b.estimated_resale === null ? null : Number(b.estimated_resale);
   if (est !== null && (!Number.isFinite(est) || est < 0 || est > 50000)) errors.push('estimated_resale must be a number in CAD');
   if (errors.length) return { errors };
@@ -139,6 +159,7 @@ export function validateDeal(b) {
       location: str(b.location, 100),
       category,
       gpu_model: str(b.gpu_model, 40),
+      ram_spec: str(b.ram_spec, 40),
       estimated_resale: est,
       notes: str(b.notes, 500),
       listed_at: str(b.listed_at, 40),
@@ -304,7 +325,7 @@ export async function onRequestPost({ request, env }) {
     type: deal.category === 'pc' ? 'full-pc' : 'part',
     quality: score.quality,
     tier: score.hot ? 'insane' : score.quality === 'good' ? 'good' : 'normal',
-    matchedKeyword: deal.gpu_model || score.model || (deal.category === 'pc' ? 'Gaming PC' : deal.category),
+    matchedKeyword: deal.gpu_model || score.model || deal.ram_spec || (deal.category === 'pc' ? 'Full PC' : deal.category),
     description: deal.notes,
     listedAt: deal.listed_at,
     suspicious: deal.suspicious,
