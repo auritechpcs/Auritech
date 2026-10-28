@@ -9,7 +9,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "node --test tests/security.test.mjs"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",

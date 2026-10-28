@@ -142,8 +142,10 @@ export function validateDeal(b) {
   let url = '';
   try {
     const u = new URL(String(b.url || ''));
-    const host = u.hostname.toLowerCase();
-    if (u.protocol !== 'https:' || !(host === 'facebook.com' || host.endsWith('.facebook.com') || host === 'fb.com' || host.endsWith('.fb.com'))) {
+    // Exact Facebook web hosts only: link-shim hosts (l./lm.facebook.com) redirect
+    // off Facebook, and credentials or ports in the URL are never legitimate here.
+    const FB_HOSTS = ['facebook.com', 'www.facebook.com', 'm.facebook.com', 'web.facebook.com'];
+    if (u.protocol !== 'https:' || !FB_HOSTS.includes(u.hostname.toLowerCase()) || u.username || u.password || u.port) {
       errors.push('url must be an https facebook.com link');
     } else url = u.toString();
   } catch {
@@ -314,8 +316,11 @@ export async function onRequestPost({ request, env }) {
   }
 
   const savingsPercent = score.savings !== null ? Math.round(score.savings * 100) : 0;
+  // Dedupe on the item number in the link when there is one, so the same
+  // listing can't be stored (and buzzed) again under a new listing_id.
+  const itemId = (deal.url.match(/\/marketplace\/item\/(\d+)/) || [])[1];
   const appDeal = {
-    id: `fb-${deal.listing_id}`,
+    id: `fb-${itemId || deal.listing_id}`,
     listingId: deal.listing_id,
     title: deal.title,
     price: deal.price,
@@ -343,7 +348,9 @@ export async function onRequestPost({ request, env }) {
     if (score.hot) push = await notifyPhones(appDeal, score, token);
     return json({ ok: true, id: appDeal.id, quality: score.quality, buzzed: score.hot, notified: push.sent, reason: score.reason }, 201);
   } catch (err) {
-    return json({ error: 'upstream failure', detail: String(err.message || err).slice(0, 200) }, 502);
+    // Details stay in the server log; the caller only needs to know to retry.
+    console.error('muse-deal upstream failure:', err);
+    return json({ error: 'upstream failure' }, 502);
   }
 }
 

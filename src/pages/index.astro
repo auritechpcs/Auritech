@@ -508,13 +508,14 @@ const diamondBuilds = [
     const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
+    // Escapes for text AND quoted attributes (quotes included), since database
+    // values land inside attributes like src="..." and alt="...".
     function esc(s) {
-      const d = document.createElement('div');
-      d.textContent = s || '';
-      return d.innerHTML;
+      return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     }
+    // Returns the normalized https URL (or ''); still esc() it when interpolating.
     function safeImgSrc(url) {
-      try { return new URL(url).protocol === 'https:' ? url : ''; }
+      try { const u = new URL(url); return u.protocol === 'https:' ? u.href : ''; }
       catch { return ''; }
     }
 
@@ -543,7 +544,7 @@ const diamondBuilds = [
       const partsArr = Array.isArray(b.parts) ? b.parts.filter(p => !p.hidden).sort((a, b) => partOrder(a) - partOrder(b)) : [];
       const img = photoCount
         ? `<div style="height:240px;background:#0d0d0d;border-bottom:1px solid rgba(201,168,76,0.18);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
-            <img src="${safeImgSrc(photos[0])}" alt="${escapedName}" style="max-width:100%;max-height:100%;object-fit:contain;padding:12px;transition:transform 0.3s;" />
+            <img src="${esc(photos[0])}" alt="${escapedName}" style="max-width:100%;max-height:100%;object-fit:contain;padding:12px;transition:transform 0.3s;" />
             ${photoCount > 1 ? `<div style="position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.7);border-radius:100px;font-size:11px;padding:3px 10px;color:var(--text2);backdrop-filter:blur(4px);">+${photoCount-1} photos</div>` : ''}
           </div>`
         : `<div style="height:180px;background:var(--surface2);border-bottom:1px solid rgba(201,168,76,0.18);display:flex;align-items:center;justify-content:center;">
@@ -667,7 +668,7 @@ const diamondBuilds = [
       document.getElementById('bm-next').style.display = multi ? 'flex' : 'none';
       document.getElementById('bm-counter').textContent = multi ? `${bmIdx+1} / ${bmPhotos.length}` : '';
       document.getElementById('bm-thumbs').innerHTML = bmPhotos.map((p,i) =>
-        `<img src="${safeImgSrc(p)}" onclick="bmSet(${i})" style="width:64px;height:64px;object-fit:contain;padding:4px;border-radius:6px;cursor:pointer;border:2px solid ${i===bmIdx?'var(--gold)':'rgba(255,255,255,0.08)'};background:#0a0a0a;transition:border 0.15s;">`
+        `<img src="${esc(safeImgSrc(p))}" onclick="bmSet(${i})" style="width:64px;height:64px;object-fit:contain;padding:4px;border-radius:6px;cursor:pointer;border:2px solid ${i===bmIdx?'var(--gold)':'rgba(255,255,255,0.08)'};background:#0a0a0a;transition:border 0.15s;">`
       ).join('');
     }
     window.bmNav = (d) => { bmIdx = (bmIdx + d + bmPhotos.length) % bmPhotos.length; renderBM(); };

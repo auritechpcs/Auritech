@@ -12,19 +12,29 @@ const ALLOWED_ORIGINS = [
   'https://www.auritech.ca',
 ];
 
+// Only this project's own Pages hostnames (production alias and preview
+// deployments like <hash>.auritech.pages.dev), not every *.pages.dev site.
+const PAGES_HOST = 'auritech.pages.dev';
+
 function getAllowedOrigin(request) {
   const origin = request.headers.get('origin') || '';
   if (ALLOWED_ORIGINS.includes(origin)) return origin;
-  if (origin.endsWith('.pages.dev')) return origin;
+  try {
+    const { protocol, hostname } = new URL(origin);
+    if (protocol === 'https:' && (hostname === PAGES_HOST || hostname.endsWith('.' + PAGES_HOST))) return origin;
+  } catch {
+    // Missing or malformed Origin header: not an allowed origin.
+  }
   return null;
 }
 
 function corsHeaders(origin) {
   return {
-    'Access-Control-Allow-Origin': origin || '*',
+    'Access-Control-Allow-Origin': origin,
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Max-Age': '86400',
+    'Vary': 'Origin',
   };
 }
 
@@ -252,7 +262,9 @@ export async function onRequestPost({ request, env }) {
     return respond(origin, { success: true });
   }
 
-  if (!templates[type]) {
+  // Own keys only: a plain-object lookup would also accept inherited keys like
+  // 'constructor', which hands the caller the email subject and body.
+  if (typeof type !== 'string' || !Object.hasOwn(templates, type)) {
     return respond(origin, { error: 'Invalid type' }, 400);
   }
 
@@ -261,7 +273,7 @@ export async function onRequestPost({ request, env }) {
     return respond(origin, { error: 'Name and a phone number or email are required' }, 400);
   }
   // Email is optional now, so only validate it when one was actually provided.
-  if (params.email && (!isValidEmail(params.email) || params.email.length > 254)) {
+  if (params.email && (String(params.email).length > 254 || !isValidEmail(params.email))) {
     return respond(origin, { error: 'Invalid email address' }, 400);
   }
 

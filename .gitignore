@@ -13,9 +13,13 @@ yarn-error.log*
 pnpm-debug.log*
 
 
-# environment variables
+# environment variables (Astro/Vite also load .env.local, .env.development, ...)
 .env
-.env.production
+.env.*
+!.env.example
+
+# per-user Claude Code settings (machine paths, personal permissions)
+.claude/settings.local.json
 
 # macOS-specific files
 .DS_Store
