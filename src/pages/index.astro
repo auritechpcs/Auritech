@@ -22,43 +22,35 @@ const diamondBuilds = [
   <section id="hero" style="min-height:92vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 24px;position:relative;overflow:hidden;">
     <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 30%,rgba(201,168,76,0.06) 0%,transparent 70%);pointer-events:none;"></div>
     <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.3;"></div>
-    <!-- Floating gold orbs -->
-    <div class="hero-orb" style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.04) 0%,transparent 70%);top:-100px;right:-100px;animation:float1 8s ease-in-out infinite;pointer-events:none;"></div>
-    <div class="hero-orb" style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.03) 0%,transparent 70%);bottom:-50px;left:-80px;animation:float2 10s ease-in-out infinite;pointer-events:none;"></div>
-    <div class="hero-orb" style="position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.05) 0%,transparent 70%);top:30%;left:10%;animation:float3 6s ease-in-out infinite;pointer-events:none;"></div>
 
-    <div class="fade-up" style="max-width:800px;position:relative;z-index:1;">
-      <div id="hero-badge" style="display:inline-flex;align-items:center;gap:10px;background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.22);border-radius:100px;padding:7px 20px;margin-bottom:28px;opacity:0;">
-        <span style="width:7px;height:7px;border-radius:50%;background:var(--gold);display:inline-block;box-shadow:0 0 8px rgba(201,168,76,0.6);animation:badgePulse 2s ease-in-out infinite;flex-shrink:0;"></span>
-        <span style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;">Windsor, Ontario &nbsp;·&nbsp; Est. 2021</span>
-      </div>
+    <div style="max-width:960px;position:relative;z-index:1;">
       <h1 style="font-size:clamp(2.5rem,7vw,5rem);line-height:1.1;margin-bottom:24px;">
-        <span id="hero-line1" style="display:block;opacity:0;">The Gold Standard</span>
-        <span id="hero-line2" style="display:block;color:var(--gold);opacity:0;">in Custom PCs</span>
+        <span class="hero-in" style="display:block;">The Gold Standard</span>
+        <span class="hero-in" style="display:block;color:var(--gold);">in Custom PCs</span>
       </h1>
-      <p id="hero-desc" style="font-size:clamp(15px,2vw,18px);color:var(--text2);max-width:560px;margin:0 auto 40px;line-height:1.8;opacity:0;">
-        Every build crafted to dominate. We spec, build, and deliver performance machines, custom or prebuilt, shipped across Canada or ready for local pickup.
+      <p class="hero-in" style="font-size:clamp(15px,2vw,18px);color:var(--text2);max-width:580px;margin:0 auto 40px;line-height:1.8;">
+        A gaming PC that runs your games right, priced so you can check it against Marketplace, from two Windsor builders who've done this since 2021 and still answer their own phones. Pick it up locally or get it shipped anywhere in Canada.
       </p>
-      <div id="hero-btns" style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;opacity:0;">
+      <div class="hero-in" style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
         <a href="/custom-build" class="btn btn-gold">Build Your PC</a>
-        <a href="/preconfigured" class="btn btn-outline">Browse Builds</a>
+        <a href="sms:+15199994609" class="btn btn-outline">Text (519) 999-4609</a>
       </div>
-      <div id="hero-stats" style="display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-top:72px;padding-top:40px;border-top:1px solid rgba(201,168,76,0.12);opacity:0;">
+      <div class="hero-in" style="display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-top:72px;padding-top:40px;border-top:1px solid rgba(201,168,76,0.12);">
         <div style="text-align:center;">
-          <div style="font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);font-weight:700;">100%</div>
-          <div style="font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:4px;">Stress Tested</div>
+          <div class="hero-stat">100%</div>
+          <div class="hero-stat-label">Stress Tested</div>
         </div>
         <div style="text-align:center;">
-          <div style="font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);font-weight:700;">48hr</div>
-          <div style="font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:4px;">Avg Build Time</div>
+          <div class="hero-stat">48hr</div>
+          <div class="hero-stat-label">Avg Build Time</div>
         </div>
         <div style="text-align:center;">
-          <div id="stat-built" style="font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);font-weight:700;">0</div>
-          <div style="font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:4px;">Builds Completed</div>
+          <div class="hero-stat" id="stat-sold">110+</div>
+          <div class="hero-stat-label">Builds Sold</div>
         </div>
         <div style="text-align:center;">
-          <div style="font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);font-weight:700;">Canada</div>
-          <div style="font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:4px;">Wide Delivery</div>
+          <div class="hero-stat">Canada</div>
+          <div class="hero-stat-label">Wide Delivery</div>
         </div>
       </div>
     </div>
@@ -67,33 +59,32 @@ const diamondBuilds = [
   <!-- Why Auritech -->
   <section style="padding:80px 24px;max-width:1100px;margin:0 auto;">
     <div style="text-align:center;margin-bottom:60px;">
-      <div class="section-label">Why Choose Us</div>
       <h2 class="section-title">Built Different</h2>
     </div>
-    <div class="stagger-children" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px;">
+    <div class="stagger-children" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;">
       <div class="feature-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.1);border-radius:var(--radius);padding:32px;transition:border-color 0.2s,transform 0.2s;">
-        <div style="width:48px;height:48px;background:rgba(201,168,76,0.08);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
+        <div style="width:48px;height:48px;background:rgba(201,168,76,0.08);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
         </div>
         <h3 style="font-size:16px;letter-spacing:1px;margin-bottom:10px;">Performance First</h3>
         <p style="font-size:14px;color:var(--text2);line-height:1.7;">Every component chosen for max FPS, thermals, and longevity. No filler parts, no shortcuts.</p>
       </div>
       <div class="feature-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.1);border-radius:var(--radius);padding:32px;transition:border-color 0.2s,transform 0.2s;">
-        <div style="width:48px;height:48px;background:rgba(201,168,76,0.08);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
+        <div style="width:48px;height:48px;background:rgba(201,168,76,0.08);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
         </div>
         <h3 style="font-size:16px;letter-spacing:1px;margin-bottom:10px;">Custom or Pre-Built</h3>
         <p style="font-size:14px;color:var(--text2);line-height:1.7;">Tell us your use case and budget and we build it. Or grab one of our ready-to-ship machines.</p>
       </div>
       <div class="feature-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.1);border-radius:var(--radius);padding:32px;transition:border-color 0.2s,transform 0.2s;">
-        <div style="width:48px;height:48px;background:rgba(201,168,76,0.08);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
+        <div style="width:48px;height:48px;background:rgba(201,168,76,0.08);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
         </div>
         <h3 style="font-size:16px;letter-spacing:1px;margin-bottom:10px;">Local to Windsor</h3>
         <p style="font-size:14px;color:var(--text2);line-height:1.7;">Come pick it up same day. No waiting weeks for shipping. Real people, real builds.</p>
       </div>
       <div class="feature-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.1);border-radius:var(--radius);padding:32px;transition:border-color 0.2s,transform 0.2s;">
-        <div style="width:48px;height:48px;background:rgba(201,168,76,0.08);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
+        <div style="width:48px;height:48px;background:rgba(201,168,76,0.08);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
         </div>
         <h3 style="font-size:16px;letter-spacing:1px;margin-bottom:10px;">Transparent Pricing</h3>
@@ -105,7 +96,6 @@ const diamondBuilds = [
   <!-- Reviews / Social Proof -->
   <section style="padding:80px 0;background:var(--surface);border-top:1px solid rgba(201,168,76,0.08);border-bottom:1px solid rgba(201,168,76,0.08);overflow:hidden;">
     <div class="reveal" style="text-align:center;margin-bottom:48px;padding:0 24px;">
-      <div class="section-label">What Our Customers Say</div>
       <h2 class="section-title">Trusted in Windsor</h2>
       <!-- Aggregate rating badge -->
       <div style="display:inline-flex;align-items:center;gap:12px;margin-top:18px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:100px;padding:10px 22px;">
@@ -129,14 +119,13 @@ const diamondBuilds = [
   <!-- Auritech Builds — Same Day Pickup -->
   <section style="padding:80px 24px;max-width:1100px;margin:0 auto;">
     <div style="text-align:center;margin-bottom:48px;">
-      <div class="section-label">Built By Auritech</div>
       <h2 class="section-title">Same Day Pickup Builds</h2>
       <p style="font-size:15px;color:var(--text2);margin-top:12px;">Fully assembled, tested, and ready. Walk in and take it home. No wait.</p>
     </div>
-    <div id="home-inventory" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,380px));gap:24px;justify-content:center;">
-      <div style="text-align:center;padding:60px;color:var(--text3);font-size:14px;grid-column:1/-1;">Loading builds...</div>
+    <div id="home-inventory" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),380px));gap:24px;justify-content:center;">
+      <div style="text-align:center;padding:60px 0;color:var(--text2);font-size:14px;grid-column:1/-1;">Loading builds...</div>
     </div>
-    <div style="text-align:center;margin-top:40px;">
+    <div id="home-inventory-all" style="text-align:center;margin-top:40px;" hidden>
       <a href="/inventory" class="btn btn-outline">View All Same Day Pickup →</a>
     </div>
   </section>
@@ -146,14 +135,14 @@ const diamondBuilds = [
     <div style="max-width:1100px;margin:0 auto;">
       <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;flex-wrap:wrap;gap:16px;">
         <div>
-          <div style="font-family:'Cinzel',serif;font-size:16px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;">Auritech × Diamond PCs</div>
           <h2 class="section-title">Featured Builds</h2>
+          <p style="font-size:15px;color:var(--text2);">Our DiamondPC line, assembled to order. Every part listed, every price shown.</p>
         </div>
         <a href="/preconfigured" class="btn btn-outline" style="font-size:11px;">View All →</a>
       </div>
       <div class="stagger-children" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;">
         {diamondBuilds.map(b=>(
-          <div class="build-card" style="background:var(--surface2);border:1px solid rgba(201,168,76,0.22);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;cursor:pointer;"
+          <div class="build-card" tabindex="0" role="button" aria-label={`View ${b.name}`} style="background:var(--surface2);border:1px solid rgba(201,168,76,0.22);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;cursor:pointer;"
             onclick={`openBuildModal(${JSON.stringify({name:b.name,price:b.price,sale:b.sale,parts:b.parts,photos:b.photos,type:'preconfigured'})})`}>
             <div style="position:relative;height:220px;background:#0d0d0d;border-bottom:1px solid rgba(201,168,76,0.18);overflow:hidden;display:flex;align-items:center;justify-content:center;">
               <img src={b.photo} alt={b.name} loading="lazy" style="max-width:100%;max-height:100%;object-fit:contain;padding:16px;transition:transform 0.4s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'" />
@@ -171,7 +160,7 @@ const diamondBuilds = [
                   {b.sale && <div style="font-size:11px;color:var(--text3);text-decoration:line-through;">${b.sale.toLocaleString()} CAD</div>}
                   <div style="font-family:'Cinzel',serif;font-size:20px;color:var(--gold);">${b.price.toLocaleString()} CAD</div>
                 </div>
-                <span style="font-size:10px;color:var(--text3);letter-spacing:1px;">View details →</span>
+                <span style="font-size:11px;color:var(--text2);letter-spacing:1px;">View details →</span>
               </div>
             </div>
           </div>
@@ -180,85 +169,81 @@ const diamondBuilds = [
     </div>
   </section>
 
-  <!-- CTA -->
-  <section style="padding:0 24px 0;position:relative;overflow:hidden;">
-    <!-- Top border line -->
+  <!-- CTA: the two people behind every build -->
+  <section style="padding:0 24px;">
     <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.3),transparent);"></div>
 
-    <div style="position:relative;max-width:1100px;margin:0 auto;padding:80px 0 80px;">
-      <!-- Background grid pattern -->
-      <div style="position:absolute;inset:0;opacity:0.03;background-image:linear-gradient(rgba(201,168,76,1) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,1) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;"></div>
-      <!-- Glow orb -->
-      <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.07) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;"></div>
+    <div class="cta-grid" style="max-width:1100px;margin:0 auto;padding:80px 0;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;">
+      <div>
+        <h2 style="font-size:clamp(2rem,4vw,3.2rem);line-height:1.15;margin-bottom:20px;">Text Us.<br><span style="color:var(--gold);">We Actually Answer.</span></h2>
+        <p style="font-size:15px;color:var(--text2);line-height:1.9;margin-bottom:36px;max-width:440px;">Tell us your budget and the games you play. We'll spec it, build it, stress test it for 24 hours, and have it ready for pickup in Windsor or shipped for $99 anywhere in Canada.</p>
+        <a href="/custom-build" class="btn btn-gold" style="padding:14px 32px;">Start Your Custom Build</a>
+      </div>
 
-      <div style="position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;" class="cta-grid">
-        <!-- Left: copy -->
-        <div>
-          <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);border-radius:100px;padding:6px 16px;margin-bottom:24px;">
-            <span style="width:6px;height:6px;background:var(--gold);border-radius:50%;display:inline-block;box-shadow:0 0 8px rgba(201,168,76,0.8);"></span>
-            <span style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;">Ready to Build?</span>
+      <div style="background:var(--surface);border:1px solid rgba(201,168,76,0.2);border-radius:var(--radius);padding:28px;">
+        <div class="person">
+          <div class="person-avatar" aria-hidden="true">M</div>
+          <div class="person-who">
+            <div class="person-name">Motasem Klaibi</div>
+            <div class="person-num">(519) 999-4609</div>
           </div>
-          <h2 style="font-size:clamp(2rem,4vw,3.2rem);line-height:1.15;margin-bottom:20px;">Your Dream PC<br><span style="color:var(--gold);">Starts Here</span></h2>
-          <p style="font-size:15px;color:var(--text2);line-height:1.9;margin-bottom:36px;max-width:420px;">Tell us your budget, use case, and priorities. We spec it, build it, stress test it, and get it to you. Custom or ready to pick up same day.</p>
-          <div style="display:flex;gap:14px;flex-wrap:wrap;">
-            <a href="/custom-build" class="btn btn-gold" style="padding:14px 32px;font-size:11px;">Start Your Custom Build</a>
-            <a href="/contact" class="btn btn-outline" style="padding:14px 28px;font-size:11px;">Contact Us</a>
+          <div class="person-actions">
+            <a href="sms:+15199994609" class="contact-pill" aria-label="Text Motasem">Text</a>
+            <a href="tel:+15199994609" class="contact-pill" aria-label="Call Motasem">Call</a>
           </div>
         </div>
-
-        <!-- Right: feature cards -->
-        <div style="display:flex;flex-direction:column;gap:16px;">
-          <div style="background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.12);border-radius:14px;padding:20px 24px;display:flex;align-items:flex-start;gap:16px;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.12)'">
-            <div style="width:40px;height:40px;background:rgba(201,168,76,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-            </div>
-            <div>
-              <div style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:1px;margin-bottom:4px;">Free Consultation</div>
-              <div style="font-size:12px;color:var(--text2);line-height:1.6;">Tell us what you need and we'll spec the perfect build at no cost.</div>
-            </div>
+        <div class="person">
+          <div class="person-avatar" aria-hidden="true">A</div>
+          <div class="person-who">
+            <div class="person-name">Ahmed Alasi</div>
+            <div class="person-num">(506) 312-2991</div>
           </div>
-          <div style="background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.12);border-radius:14px;padding:20px 24px;display:flex;align-items:flex-start;gap:16px;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.12)'">
-            <div style="width:40px;height:40px;background:rgba(201,168,76,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-            </div>
-            <div>
-              <div style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:1px;margin-bottom:4px;">$99 Flat Canada Wide</div>
-              <div style="font-size:12px;color:var(--text2);line-height:1.6;">One flat shipping rate no matter where you are in Canada.</div>
-            </div>
-          </div>
-          <div style="background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.12);border-radius:14px;padding:20px 24px;display:flex;align-items:flex-start;gap:16px;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.3)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.12)'">
-            <div style="width:40px;height:40px;background:rgba(201,168,76,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            </div>
-            <div>
-              <div style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:1px;margin-bottom:4px;">Stress Tested Before Delivery</div>
-              <div style="font-size:12px;color:var(--text2);line-height:1.6;">Every build runs a full 24hr stress test before it leaves our hands.</div>
-            </div>
+          <div class="person-actions">
+            <a href="sms:+15063122991" class="contact-pill" aria-label="Text Ahmed">Text</a>
+            <a href="tel:+15063122991" class="contact-pill" aria-label="Call Ahmed">Call</a>
           </div>
         </div>
+        <ul class="promise-list">
+          <li>Free consultation on your build</li>
+          <li>Every build stress tested for 24 hours</li>
+          <li>Satisfaction guarantee on every build</li>
+          <li>A $50 deposit holds your build, fully refundable until parts are ordered</li>
+        </ul>
       </div>
     </div>
 
-    <!-- Bottom border line -->
     <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.15),transparent);"></div>
 
     <style>
       @media (max-width: 768px) {
         .cta-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
       }
+      .person { display:flex; align-items:center; gap:14px; padding:14px 0; border-bottom:1px solid rgba(201,168,76,0.1); }
+      .person-avatar { width:44px; height:44px; flex-shrink:0; border-radius:50%; background:linear-gradient(135deg,var(--gold-dim),var(--gold)); color:#000; font-family:'Cinzel',serif; font-weight:700; font-size:17px; display:flex; align-items:center; justify-content:center; }
+      .person-who { flex:1; min-width:0; }
+      .person-name { font-family:'Cinzel',serif; font-size:15px; letter-spacing:1px; color:var(--text); }
+      .person-num { font-size:13px; color:var(--text2); margin-top:2px; font-variant-numeric:tabular-nums; }
+      .person-actions { display:flex; gap:8px; flex-shrink:0; }
+      .promise-list { list-style:none; margin-top:20px; display:flex; flex-direction:column; gap:10px; }
+      .promise-list li { position:relative; padding-left:24px; font-size:13px; color:var(--text2); line-height:1.6; }
+      .promise-list li::before { content:''; position:absolute; left:2px; top:5px; width:12px; height:6px; border-left:2px solid var(--gold); border-bottom:2px solid var(--gold); transform:rotate(-45deg); }
+      @media (max-width: 400px) {
+        .person { flex-wrap:wrap; }
+        .person-actions { width:100%; padding-left:58px; }
+      }
     </style>
   </section>
 
   <!-- Build Detail Modal -->
   <div id="build-modal-overlay" onclick="if(event.target===this)closeBuildModal()" style="position:fixed;inset:0;background:rgba(0,0,0,0.88);backdrop-filter:blur(12px);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;">
-    <div style="background:var(--surface);border:1px solid rgba(201,168,76,0.15);border-radius:16px;width:min(960px,96vw);max-height:90vh;overflow:hidden;display:flex;flex-direction:column;">
+    <div role="dialog" aria-modal="true" aria-labelledby="bm-name" style="background:var(--surface);border:1px solid rgba(201,168,76,0.15);border-radius:6px;width:min(960px,96vw);max-height:90vh;overflow:hidden;display:flex;flex-direction:column;">
       <!-- Header -->
       <div style="display:flex;justify-content:space-between;align-items:center;padding:20px 28px;border-bottom:1px solid rgba(255,255,255,0.06);">
         <div>
           <div id="bm-name" style="font-family:'Cinzel',serif;font-size:19px;letter-spacing:1px;"></div>
           <div id="bm-price" style="font-size:15px;color:var(--gold);margin-top:3px;font-family:'Cinzel',serif;"></div>
         </div>
-        <button onclick="closeBuildModal()" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:28px;line-height:1;padding:4px;">×</button>
+        <button onclick="closeBuildModal()" class="modal-close" aria-label="Close">×</button>
       </div>
       <!-- Body -->
       <div style="display:flex;flex:1;overflow:hidden;min-height:0;">
@@ -289,10 +274,10 @@ const diamondBuilds = [
 
   <!-- Inquiry Modal -->
   <div id="modal-overlay" class="modal-overlay" onclick="if(event.target===this)closeModal()">
-    <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;">
-        <h3 style="font-size:18px;letter-spacing:1px;">Inquire About Build</h3>
-        <button onclick="closeModal()" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:24px;line-height:1;">×</button>
+        <h3 id="modal-title" style="font-size:18px;letter-spacing:1px;">Inquire About Build</h3>
+        <button onclick="closeModal()" class="modal-close" aria-label="Close">×</button>
       </div>
       <div style="background:var(--surface2);border-radius:8px;padding:16px;margin-bottom:16px;border:1px solid rgba(201,168,76,0.15);">
         <div style="font-size:10px;letter-spacing:2px;color:var(--gold);opacity:0.7;margin-bottom:4px;">SELECTED BUILD</div>
@@ -300,34 +285,33 @@ const diamondBuilds = [
         <div id="modal-product-price" style="font-size:14px;color:var(--gold);margin-top:4px;"></div>
       </div>
       <div style="background:var(--surface2);border-radius:8px;padding:14px 16px;margin-bottom:24px;border:1px solid rgba(201,168,76,0.15);">
-        <div style="font-size:10px;letter-spacing:2px;color:var(--gold);opacity:0.7;margin-bottom:10px;">PREFER TO REACH US DIRECTLY? TAP TO CALL OR TEXT</div>
+        <div style="font-size:10px;letter-spacing:2px;color:var(--gold);opacity:0.7;margin-bottom:10px;">RATHER TEXT US YOURSELF?</div>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;">
-          <span style="color:var(--text2);font-size:14px;">Motasem Klaibi</span>
-          <a href="tel:+15199994609" class="contact-pill">📞 (519) 999-4609</a>
+          <span style="color:var(--text2);font-size:14px;">Motasem <span style="opacity:.7;">(519) 999-4609</span></span>
+          <span style="display:flex;gap:8px;"><a href="sms:+15199994609" class="contact-pill" aria-label="Text Motasem">Text</a><a href="tel:+15199994609" class="contact-pill" aria-label="Call Motasem">Call</a></span>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
-          <span style="color:var(--text2);font-size:14px;">Ahmed Alasi</span>
-          <a href="tel:+15063122991" class="contact-pill">📞 (506) 312-2991</a>
+          <span style="color:var(--text2);font-size:14px;">Ahmed <span style="opacity:.7;">(506) 312-2991</span></span>
+          <span style="display:flex;gap:8px;"><a href="sms:+15063122991" class="contact-pill" aria-label="Text Ahmed">Text</a><a href="tel:+15063122991" class="contact-pill" aria-label="Call Ahmed">Call</a></span>
         </div>
-        <div style="font-size:11px;color:var(--text2);opacity:0.7;margin-top:10px;text-align:center;">👆 Tap a number to call, or hold to copy &amp; text</div>
       </div>
       <form id="modal-form">
         <input type="hidden" id="modal-type" />
         <div class="form-group">
-          <label class="form-label">Your Name *</label>
-          <input type="text" class="form-input" id="modal-name" required />
+          <label class="form-label" for="modal-name">Your Name *</label>
+          <input type="text" class="form-input" id="modal-name" autocomplete="name" required />
         </div>
         <div class="form-group">
-          <label class="form-label">Phone *</label>
-          <input type="tel" class="form-input" id="modal-phone" placeholder="(226) 555-0123" required />
-          <div id="modal-incentive" style="font-size:11px;color:var(--gold);opacity:0.85;margin-top:6px;display:flex;align-items:center;gap:5px;">⚡ Drop your number for a same day text reply. Fastest way to get a quote.</div>
+          <label class="form-label" for="modal-phone">Phone *</label>
+          <input type="tel" class="form-input" id="modal-phone" placeholder="(226) 555-0123" autocomplete="tel" required />
+          <div id="modal-incentive" style="font-size:11px;color:var(--gold);opacity:0.85;margin-top:6px;">Drop your number for a same day text reply. Fastest way to get a quote.</div>
         </div>
         <div class="form-group">
-          <label class="form-label">Email</label>
-          <input type="email" class="form-input" id="modal-email" placeholder="Optional, if you'd rather we email" />
+          <label class="form-label" for="modal-email">Email</label>
+          <input type="email" class="form-input" id="modal-email" autocomplete="email" placeholder="Optional, if you'd rather we email" />
         </div>
         <div class="form-group">
-          <label class="form-label">Are you local to Windsor, ON?</label>
+          <label class="form-label" for="modal-local">Are you local to Windsor, ON? *</label>
           <select class="form-input" id="modal-local" required>
             <option value="">Select one</option>
             <option value="Yes, Windsor / LaSalle area">Yes, Windsor / LaSalle area</option>
@@ -336,23 +320,23 @@ const diamondBuilds = [
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">Message</label>
+          <label class="form-label" for="modal-message">Message</label>
           <textarea class="form-textarea" id="modal-message" placeholder="Any questions or notes..."></textarea>
         </div>
         <label style="display:flex;gap:10px;align-items:flex-start;background:var(--surface2);border:1px solid rgba(201,168,76,0.25);border-radius:8px;padding:14px;margin-bottom:20px;cursor:pointer;">
           <input type="checkbox" id="modal-deposit" style="margin-top:3px;accent-color:var(--gold);width:16px;height:16px;flex-shrink:0;" />
-          <span id="modal-deposit-label" style="font-size:13px;color:var(--text);line-height:1.5;">Reserve this build with a <strong style="color:var(--gold);">$50 deposit</strong> that locks in your spot and price. Fully refundable until parts are ordered. We'll text you the e-Transfer details to confirm.</span>
+          <span id="modal-deposit-label" style="font-size:13px;color:var(--text);line-height:1.5;">Reserve this build with a <strong style="color:var(--gold);">$50 deposit</strong> that locks in your spot and price. Fully refundable until parts are ordered. You'll see the e-Transfer details as soon as you send this.</span>
         </label>
         <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;" id="modal-submit">Send Inquiry</button>
       </form>
 
       <!-- Post-submit confirmation (hidden until submit) -->
       <div id="modal-confirm" style="display:none;text-align:center;">
-        <div style="font-size:44px;margin-bottom:12px;">✅</div>
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" style="margin-bottom:12px;" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>
         <h3 style="font-size:18px;margin-bottom:8px;">Inquiry sent!</h3>
-        <p style="color:var(--text2);font-size:14px;margin-bottom:24px;">We'll reach out by text shortly to get you a quote.</p>
+        <p id="modal-confirm-text" style="color:var(--text2);font-size:14px;margin-bottom:24px;">We'll text you back the same day.</p>
         <div id="modal-deposit-box" style="display:none;text-align:left;background:var(--surface2);border:1px solid rgba(201,168,76,0.3);border-radius:10px;padding:20px;">
-          <div id="modal-deposit-title" style="font-size:11px;letter-spacing:2px;color:var(--gold);margin-bottom:12px;">🔒 LOCK IN YOUR BUILD, $50 DEPOSIT</div>
+          <div id="modal-deposit-title" style="font-size:11px;letter-spacing:2px;color:var(--gold);margin-bottom:12px;">LOCK IN YOUR BUILD, $50 DEPOSIT</div>
           <p id="modal-deposit-blurb" style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:14px;">Send an Interac e-Transfer to reserve your spot and price. We'll text you to confirm it landed and get started.</p>
           <div style="background:var(--bg);border-radius:8px;padding:14px;font-size:14px;line-height:2;">
             <div style="display:flex;justify-content:space-between;"><span style="color:var(--text2);">Send to</span><strong style="color:var(--gold);">AuritechPcs@gmail.com</strong></div>
@@ -370,26 +354,17 @@ const diamondBuilds = [
     .feature-card:hover { border-color: rgba(201,168,76,0.35) !important; }
     .build-card:hover { border-color: rgba(201,168,76,0.4) !important; }
 
-    /* Hero entrance sequence */
-    @keyframes fadeSlideDown { from { opacity:0; transform:translateY(-10px); } to { opacity:0.7; transform:translateY(0); } }
-    @keyframes fadeSlideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-    @keyframes heroGlow { 0%,100% { text-shadow: 0 0 30px rgba(201,168,76,0); } 50% { text-shadow: 0 0 40px rgba(201,168,76,0.15); } }
-
-    @keyframes badgePulse { 0%,100% { box-shadow:0 0 6px rgba(201,168,76,0.5); } 50% { box-shadow:0 0 14px rgba(201,168,76,0.9); } }
-    #hero-badge.show { animation: fadeSlideUp 0.6s ease forwards; }
-    #hero-line1.show { animation: fadeSlideUp 0.7s ease forwards; }
-    #hero-line2.show { animation: fadeSlideUp 0.7s 0.15s ease forwards, heroGlow 4s 1.5s ease-in-out infinite; }
-    #hero-desc.show { animation: fadeSlideUp 0.6s ease forwards; }
-    #hero-btns.show { animation: fadeSlideUp 0.6s ease forwards; }
-    #hero-stats.show { animation: fadeSlideUp 0.6s ease forwards; }
-
-    /* Floating orbs */
-    @keyframes float1 { 0%,100% { transform:translate(0,0) scale(1); } 50% { transform:translate(-30px,20px) scale(1.1); } }
-    @keyframes float2 { 0%,100% { transform:translate(0,0) scale(1); } 50% { transform:translate(20px,-30px) scale(1.05); } }
-    @keyframes float3 { 0%,100% { transform:translate(0,0); } 50% { transform:translate(15px,25px); } }
-
-    /* Enhanced CTA section */
-    section:last-of-type { position: relative; }
+    /* Hero entrance: CSS only, so it never waits on scripts; skipped for reduced motion */
+    @media (prefers-reduced-motion: no-preference) {
+      @keyframes heroIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+      .hero-in { animation: heroIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+      .hero-in:nth-child(2) { animation-delay: 0.08s; }
+      p.hero-in { animation-delay: 0.16s; }
+      div.hero-in { animation-delay: 0.24s; }
+      div.hero-in + div.hero-in { animation-delay: 0.32s; }
+    }
+    .hero-stat { font-family:'Cinzel',serif; font-size:clamp(1.2rem,3vw,1.8rem); color:var(--gold); font-weight:700; font-variant-numeric:tabular-nums; }
+    .hero-stat-label { font-size:11px; letter-spacing:2px; color:var(--text2); text-transform:uppercase; margin-top:4px; }
 
     /* In-stock card image hover */
     .build-card [data-photos]:hover img { transform: scale(1.03); }
@@ -400,13 +375,28 @@ const diamondBuilds = [
 
   <style is:global>
     #build-modal-overlay.open { display: flex !important; }
+    .modal-close {
+      width: 44px; height: 44px; flex-shrink: 0; margin: -8px -10px -8px 0;
+      display: flex; align-items: center; justify-content: center;
+      background: none; border: none; border-radius: var(--radius);
+      color: var(--text2); font-size: 28px; line-height: 1; cursor: pointer;
+      transition: color 0.15s, background 0.15s;
+    }
+    .modal-close:hover { color: var(--gold); background: var(--gold-glow); }
+    .build-card:focus-visible, .modal-close:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 3px; }
+    .shelf-empty {
+      grid-column: 1 / -1; text-align: center; padding: 48px 24px;
+      background: var(--surface); border: 1px solid rgba(201,168,76,0.15); border-radius: var(--radius);
+    }
+    .shelf-empty-title { font-family: 'Cinzel', serif; font-size: 18px; letter-spacing: 1px; color: var(--text); margin-bottom: 10px; }
+    .shelf-empty p { font-size: 14px; color: var(--text2); line-height: 1.7; max-width: 460px; margin: 0 auto 24px; }
     @media (max-width: 640px) {
       #build-modal-overlay { align-items: flex-end !important; padding: 0 !important; }
       #build-modal-overlay > div {
         max-height: 92vh !important;
         width: 100% !important;
         overflow-y: auto !important;
-        border-radius: 16px 16px 0 0 !important;
+        border-radius: 6px 6px 0 0 !important;
         display: flex !important;
         flex-direction: column !important;
       }
@@ -475,26 +465,6 @@ const diamondBuilds = [
       const link = document.getElementById('rev-google-link'); if (link) link.href = GOOGLE_URL;
     })();
 
-    // ── HERO ENTRANCE SEQUENCE ──
-    (function heroEntrance() {
-      const badge = document.getElementById('hero-badge');
-      const line1 = document.getElementById('hero-line1');
-      const line2 = document.getElementById('hero-line2');
-      const desc = document.getElementById('hero-desc');
-      const btns = document.getElementById('hero-btns');
-      const stats = document.getElementById('hero-stats');
-
-      setTimeout(() => badge.classList.add('show'), 80);
-      setTimeout(() => line1.classList.add('show'), 280);
-      setTimeout(() => line2.classList.add('show'), 500);
-      setTimeout(() => desc.classList.add('show'), 760);
-      setTimeout(() => btns.classList.add('show'), 960);
-      setTimeout(() => stats.classList.add('show'), 1160);
-    })();
-
-    import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-    import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
-
     const firebaseConfig = {
       apiKey: "AIzaSyDA5XLxDqjzQb3toHkKpSxEVH9NW1GeD68",
       authDomain: "open-claw-b7e92.firebaseapp.com",
@@ -505,8 +475,21 @@ const diamondBuilds = [
       appId: "1:733756283803:web:0e9c75cd1c0afe94bb1f3e"
     };
 
-    const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+    // Firebase loads on its own, so a slow or blocked gstatic never holds up the
+    // hero, the reviews or the build modals.
+    (async () => {
+      try {
+        const [{ initializeApp, getApps }, { getDatabase, ref, onValue }] = await Promise.all([
+          import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'),
+          import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js'),
+        ]);
+        const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+        onValue(ref(getDatabase(app), 'auritech_inventory_v2'), (snap) => renderShelf(snap.val()),
+          () => renderShelf(null, true));
+      } catch {
+        renderShelf(null, true);
+      }
+    })();
 
     // Escapes for text AND quoted attributes (quotes included), since database
     // values land inside attributes like src="..." and alt="...".
@@ -550,65 +533,53 @@ const diamondBuilds = [
         : `<div style="height:180px;background:var(--surface2);border-bottom:1px solid rgba(201,168,76,0.18);display:flex;align-items:center;justify-content:center;">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
           </div>`;
-      return `<div class="build-card" style="background:var(--surface);border:1px solid rgba(201,168,76,0.22);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;cursor:pointer;" onclick="openHomeInventoryModal(${idx})">
+      return `<div class="build-card" tabindex="0" role="button" aria-label="View ${escapedName}" style="background:var(--surface);border:1px solid rgba(201,168,76,0.22);border-radius:var(--radius);overflow:hidden;transition:all 0.2s;cursor:pointer;" onclick="openHomeInventoryModal(${idx})">
         ${img}
         <div style="padding:24px;">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px;">
             <div style="font-family:'Cinzel',serif;font-size:16px;letter-spacing:1px;">${escapedName}</div>
-            <span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(74,222,128,0.1);color:#4ade80;border:1px solid rgba(74,222,128,0.25);border-radius:100px;padding:3px 10px;white-space:nowrap;flex-shrink:0;">Same Day Pickup</span>
+            <span style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:var(--gold-glow);color:var(--gold);border:1px solid rgba(201,168,76,0.35);border-radius:100px;padding:3px 10px;white-space:nowrap;flex-shrink:0;">Same Day Pickup</span>
           </div>
           <div class="gold-line" style="margin-bottom:16px;"></div>
           <div style="display:flex;justify-content:space-between;align-items:center;">
             <div style="font-family:'Cinzel',serif;font-size:20px;color:var(--gold);">${price ? '$'+Number(price).toLocaleString()+' CAD' : 'Contact Us'}</div>
-            <span style="font-size:10px;color:var(--text3);letter-spacing:1px;">View details →</span>
+            <span style="font-size:11px;color:var(--text2);letter-spacing:1px;">View details →</span>
           </div>
         </div>
       </div>`;
     }
 
-    onValue(ref(db, 'auritech_inventory_v2'), (snap) => {
-      const data = snap.val();
+    // Shown when nothing is listed: points at the bench and the phone instead of a dead end.
+    function emptyShelf(inProgress, failed) {
+      const line = failed
+        ? "We couldn't load the shelf just now. Text us and we'll tell you what's ready today."
+        : inProgress > 0
+          ? `${inProgress} build${inProgress === 1 ? ' is' : 's are'} on our bench right now. Text Motasem to hear about ${inProgress === 1 ? 'it' : 'them'} before ${inProgress === 1 ? "it's" : "they're"} listed.`
+          : "Text us what you're after and we'll tell you what's coming next.";
+      return `<div class="shelf-empty">
+          <div class="shelf-empty-title">${failed ? 'Shelf unavailable' : 'Nothing on the shelf right now'}</div>
+          <p>${line}</p>
+          <a href="sms:+15199994609" class="btn btn-outline">Text Motasem</a>
+        </div>`;
+    }
 
-      // Count total builds ever created, then pad + round for social proof
-      let built = 0;
-      if (data && data.builds) {
-        data.builds.forEach(b => { if (b) built++; });
-      }
-      if (data && data.soldBuilds) {
-        built += data.soldBuilds.length;
-      }
-      // Always look impressive: add buffer, floor at 50, round up to nearest 25
-      const padded = Math.ceil(Math.max(built + 25, 50) / 25) * 25;
-
-      // Smooth eased count up, appends "+" at the end
-      function countUp(el, target) {
-        if (!el) return;
-        const duration = 1800;
-        const start = performance.now();
-        function ease(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
-        function tick(now) {
-          const elapsed = Math.min((now - start) / duration, 1);
-          const current = Math.round(ease(elapsed) * target);
-          el.textContent = elapsed < 1 ? current : `${target}+`;
-          if (elapsed < 1) requestAnimationFrame(tick);
-        }
-        requestAnimationFrame(tick);
-      }
-
-      countUp(document.getElementById('stat-built'), padded);
+    function renderShelf(data, failed = false) {
+      // Live count of builds actually sold, rounded down to the nearest 10.
+      const sold = (data?.soldBuilds || []).filter(Boolean).length;
+      if (sold >= 10) document.getElementById('stat-sold').textContent = `${Math.floor(sold / 10) * 10}+`;
 
       const container = document.getElementById('home-inventory');
-      if (!data) { container.innerHTML = '<div style="text-align:center;padding:60px;color:var(--text3);grid-column:1/-1;">No PCs in stock right now. Check back soon!</div>'; return; }
-
-      const listed = (data.builds || []).filter(b => b && b.status === 'listed');
-
+      const viewAll = document.getElementById('home-inventory-all');
+      const builds = (data?.builds || []).filter(Boolean);
+      const listed = builds.filter(b => b.status === 'listed');
+      viewAll.hidden = !listed.length;
       if (!listed.length) {
-        container.innerHTML = '<div style="text-align:center;padding:60px;color:var(--text3);grid-column:1/-1;">No PCs in stock right now. Check back soon!</div>';
+        container.innerHTML = emptyShelf(builds.filter(b => b.status === 'in-progress').length, failed);
         return;
       }
       homeListedBuilds = listed.slice(0, 3);
       container.innerHTML = homeListedBuilds.map((b, i) => buildCard(b, i)).join('');
-    });
+    }
 
     window.openHomeInventoryModal = (idx) => {
       const b = homeListedBuilds[idx];
@@ -623,9 +594,10 @@ const diamondBuilds = [
     };
 
     // ── BUILD DETAIL MODAL ──
-    let bmPhotos = [], bmIdx = 0, bmCurrent = {};
+    let bmPhotos = [], bmIdx = 0, bmCurrent = {}, bmOpener = null;
     window.openBuildModal = (data) => {
       bmCurrent = data;
+      bmOpener = document.activeElement;
       bmPhotos = data.photos || [];
       bmIdx = 0;
       const price = data.price;
@@ -660,6 +632,7 @@ const diamondBuilds = [
       }
       document.getElementById('build-modal-overlay').classList.add('open');
       window.lockBodyScroll?.();
+      document.querySelector('#build-modal-overlay .modal-close')?.focus();
     };
     function renderBM() {
       document.getElementById('bm-main-img').src = bmPhotos[bmIdx] || '';
@@ -674,9 +647,19 @@ const diamondBuilds = [
     window.bmNav = (d) => { bmIdx = (bmIdx + d + bmPhotos.length) % bmPhotos.length; renderBM(); };
     window.bmSet = (i) => { bmIdx = i; renderBM(); };
     window.closeBuildModal = () => {
-      document.getElementById('build-modal-overlay').classList.remove('open');
+      const overlay = document.getElementById('build-modal-overlay');
+      if (!overlay.classList.contains('open')) return;
+      overlay.classList.remove('open');
       window.unlockBodyScroll?.();
+      bmOpener?.focus?.();
     };
+    // Enter or Space opens a focused build card, same as a click.
+    document.addEventListener('keydown', e => {
+      if ((e.key === 'Enter' || e.key === ' ') && e.target.classList?.contains('build-card')) {
+        e.preventDefault();
+        e.target.click();
+      }
+    });
     document.addEventListener('keydown', e => {
       if (document.getElementById('build-modal-overlay').classList.contains('open')) {
         if (e.key === 'ArrowLeft' && bmPhotos.length > 1) bmNav(-1);
@@ -690,15 +673,17 @@ const diamondBuilds = [
     //   preconfigured = DiamondPC builds we still assemble to order
     const INQUIRY_COPY = {
       product: {
-        incentive: "⚡ This one is built and ready. Drop your number for a same day text to arrange pickup.",
-        depositLabel: 'Hold this PC with a <strong style="color:var(--gold);">$50 deposit</strong> so it is not sold to someone else. Fully refundable, and we\'ll text you the e-Transfer details to confirm.',
-        depositTitle: "🔒 HOLD THIS PC, $50 DEPOSIT",
+        incentive: "This one is built and ready. Drop your number for a same day text to arrange pickup.",
+        confirm: "We'll text you back the same day to set up pickup.",
+        depositLabel: 'Hold this PC with a <strong style="color:var(--gold);">$50 deposit</strong> so it is not sold to someone else. Fully refundable. You\'ll see the e-Transfer details as soon as you send this.',
+        depositTitle: "HOLD THIS PC, $50 DEPOSIT",
         depositBlurb: "Send an Interac e-Transfer to hold this exact unit for you. We'll text you to confirm it landed and lock in your pickup.",
       },
       preconfigured: {
-        incentive: "⚡ We build this one to order. Drop your number for a same day text with your quote and timeline.",
-        depositLabel: 'Reserve your build slot with a <strong style="color:var(--gold);">$50 deposit</strong> that locks in your spot and price. Fully refundable until parts are ordered, and we\'ll text you the e-Transfer details to confirm.',
-        depositTitle: "🔒 RESERVE YOUR BUILD, $50 DEPOSIT",
+        incentive: "We build this one to order. Drop your number for a same day text with your quote and timeline.",
+        confirm: "We'll text you back the same day with your quote and timeline.",
+        depositLabel: 'Reserve your build slot with a <strong style="color:var(--gold);">$50 deposit</strong> that locks in your spot and price. Fully refundable until parts are ordered. You\'ll see the e-Transfer details as soon as you send this.',
+        depositTitle: "RESERVE YOUR BUILD, $50 DEPOSIT",
         depositBlurb: "Send an Interac e-Transfer to reserve your build slot and lock today's price. We'll text you to confirm it landed and get started.",
       },
     };
@@ -709,6 +694,7 @@ const diamondBuilds = [
       document.getElementById('modal-deposit-label').innerHTML = c.depositLabel;
       document.getElementById('modal-deposit-title').textContent = c.depositTitle;
       document.getElementById('modal-deposit-blurb').textContent = c.depositBlurb;
+      document.getElementById('modal-confirm-text').textContent = c.confirm;
     }
 
     // Modal
@@ -772,7 +758,7 @@ const diamondBuilds = [
         }
         document.getElementById('modal-confirm').style.display = 'block';
       } catch {
-        window.showToast('Failed to send. Email us at AuritechPcs@gmail.com', 'error');
+        window.showToast("That didn't send. Text us at (519) 999-4609 and we'll take it from there. Your details are still in the form.", 'error');
         btn.textContent = 'Send Inquiry'; btn.disabled = false;
       }
     });
